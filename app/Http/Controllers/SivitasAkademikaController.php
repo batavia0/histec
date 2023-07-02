@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 
+
+
 // use App\Http\Requests\CreateTicketRequest;
 
 class SivitasAkademikaController extends Controller
@@ -192,15 +194,18 @@ class SivitasAkademikaController extends Controller
         // if($validator->fails()){
         //     return response()->json(['errors' => $validator->errors()->toArray()],400);
         // }
-        // dd($request);
-        $ticket_no = $request->input('id_ticket');
-        $query = $this->Tickets->getQueryByIdTiket($ticket_no);
-        if ($query != null) {
+
+        $ticket_no = !empty($request->id_tiket); //Pake !empty() muncul semua data walau request masih kosong
+        $query = $this->Tickets->getQueryByIdTiket($ticket_no)->get();
+        // $jsonResult = $query->toJson();
+
+        if (!empty($query)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Found',
-                'data' => ['ticket_number' => $query->toArray()],
+                'data' => ['ticket_no' => $query],
             ],201);
+
         } else {
             return response()->json([
                 'status' => 'fail',

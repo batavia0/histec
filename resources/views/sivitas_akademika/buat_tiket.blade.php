@@ -136,7 +136,6 @@
                             <button type="submit" onclick="store(event)" class="btn btn-primary" id="btnSubmit">Submit</button>
                             <button type="reset" class="btn btn-danger">Reset</button>
                         </form> <!-- End form -->
-                        <button class="btn btn-warning" id="b1">Click me</button>
                     </div>
                 </div>
             </div>
@@ -149,12 +148,6 @@
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
-
-    <script>
-        document.getElementById('b1').onclick = function(){
-	swal("Here's a message!");
-};
-    </script>
     <script>
         // let imageCount = 0;
 

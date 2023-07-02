@@ -56,17 +56,17 @@
                                     <h5 class="card-title">Cek Status ID Tiket</h5>
                                    {{-- Alert Message Error --}}
                     <div class="alert alert-danger alert-dismissible fade" role="alert" style="display: none; ">
-                        <strong>Gagal</strong> <span id="ticket_id"></span> silakan coba kembali .
+                        <strong>Gagal</strong> <span id="ticket_no"></span> silakan coba kembali .
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     {{-- Alert Message success --}}
                     <div class="alert alert-success alert-dismissible fade" role="alert" style="display: none; ">
-                        <strong>Berhasil</strong> <span id="ticket_id"></span>.
+                        <strong>Berhasil</strong> <span id="ticket_no"></span>.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                                        <div class="row row-mb-3">
+                                        <div class="row mb-3">
                                             <form action="#" action="get" id="formIdTiket">
-                                                @csrf
+                                                
                                             <label for="id-tiket" class="form-label">ID Tiket</label>
                                             <input type="text" class="form-control" name="id_ticket" id="id_ticket" placeholder="Masukkan ID Tiket">
                                             <span class="text-error text-danger id_ticket_error"></span>
@@ -197,11 +197,15 @@
     <!-- JS Libraies -->
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ asset('js/scripts.js') }}"></script>
 
     <script>
         function read(event){
-            event.preventDefault()
+            $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+            event.preventDefault();
 
             var formData = new FormData($('#formIdTiket')[0]);
             $.ajax({
@@ -215,9 +219,10 @@
                     $('#formTiket').find("span.text-error").text("");
                 },
                 success: function(response) {
-                    const { data, message, url } = response
-                    console.log(response);
-                    const {ticket_number} = data
+                    // const { data, message, url } = response
+                    // console.log(response);
+                    console.log(response.data.ticket_no);
+                    // const {ticket_number} = data
                     $('#formIdTiket')[0].reset();
                     // console.log(data, message, url)
                     swal({
@@ -228,7 +233,7 @@
                     }).then((result) => {
                         if (result) {
                             // Send alert
-                            $("#ticket_id").text(ticket_number);
+                            $("#ticket_id").text(ticket_no);
                             $("div.alert.alert.alert-success").addClass('show').show();
                             // window.location.href = "{{ url('tickets') }}";
                         }

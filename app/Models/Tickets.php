@@ -21,7 +21,7 @@ class Tickets extends Model
         'description',
         'image',
         'created_at'
-    ];
+    ];    
         /**
          * Get the user that owns the Tickets
          *
@@ -59,6 +59,6 @@ class Tickets extends Model
 
         public function getQueryByIdTiket($ticket_no)
         {
-            return Tickets::with('category','locations','ticket_status')->where('ticket_no',$ticket_no)->get();
+            return Tickets::with('category','locations','ticket_status')->where('ticket_no',$ticket_no);
         }
 }
