@@ -31,11 +31,17 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
 
 ## Setup
 Run composer install
+
 Run php artisan migrate
+
 Run php artisan key:generate
+
 Run php artisan db:seed --class=categorySeeder
+
 Run php artisan db:seed --class=usersAndRolesSeeder
+
 Run php artisan db:seed --class=statusSeeder
+
 Run php artisan db:seed --class=locationSeeder
 
 Run npm run dev
