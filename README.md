@@ -44,6 +44,8 @@ Run php artisan db:seed --class=statusSeeder
 
 Run php artisan db:seed --class=locationSeeder
 
+Run npm install
+
 Run npm run dev
 
 
