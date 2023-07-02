@@ -29,6 +29,19 @@ You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you
 
 If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
+## Setup
+Run composer install
+Run php artisan migrate
+Run php artisan key:generate
+Run php artisan db:seed --class=categorySeeder
+Run php artisan db:seed --class=usersAndRolesSeeder
+Run php artisan db:seed --class=statusSeeder
+Run php artisan db:seed --class=locationSeeder
+
+Run npm run dev
+
+
+
 ## Laravel Sponsors
 
 We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('ticket_no');
             $table->string('name');
             $table->string('email');
-            $table->string('title');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('category_id')->on('category');
             $table->unsignedBigInteger('ticket_status_id');
