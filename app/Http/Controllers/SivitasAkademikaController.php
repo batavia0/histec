@@ -183,15 +183,23 @@ class SivitasAkademikaController extends Controller
      */
     public function findTicketsByTicketNumber($ticket_no)
     {
-        $data = $this->Tickets->getQueryByIdTiket($ticket_no)->get();
-        if ($data) {
-
+        $query = $this->Tickets->getQueryByIdTiket($ticket_no)->get();
+        if ($query) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'found',
-                'data' => ['data' => $data]
+                'data' => ['data' => $query]
             ],201);
+        } if($query = null) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'not found'
+            ],404);
         }
+        // else return response()->json([
+        //     'status' => 'fail',
+        //     'message' => 'not found',
+        // ],404);
         // $validator = Validator::make($request->all(), [
         //     'id_ticket'       => 'required|string',
         // ],[

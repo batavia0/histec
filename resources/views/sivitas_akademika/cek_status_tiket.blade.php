@@ -67,7 +67,7 @@
                                         <div class="row mb-3">
                                             @csrf
                                             <label for="id-tiket" class="form-label">ID Tiket</label>
-                                            <input onkeyup="stringSearch()" type="search" class="form-control" name="id_ticket" id="id_ticket" placeholder="Masukkan ID Tiket">
+                                            <input type="search" class="form-control" name="id_ticket" id="id_ticket" placeholder="Masukkan ID Tiket">
                                             <span class="text-error text-danger id_ticket_error"></span>
                                         {{-- <button type="submit" onkeyup=read(event) id="btnFindTickets" class="btn btn-primary">Submit</button> --}}
                                         </div>
@@ -138,14 +138,14 @@
 
 
                         </div> -->
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 ticket_res">
                             <div class="portfolio-info">
                                 <ul>
-                                    <li id="li_email"><strong>Klien</strong>:</li>
-                                    <li id="li_ticket_no"><strong>ID Tiket</strong>: 168301289320909401</li>
-                                    <li id="li_created_at"><strong>Tiket Dibuat</strong>: 01 Juni, 2023 23:59</li>
-                                    <li id="li_ticket_status"><strong>Status</strong>: Closed</li>
-                                    <li id="li_ticket_finish"><strong>Tiket Selesai</strong>: 02 Juni, 2023 00:00</li>
+                                    {{-- <li id="li_email"><strong>Klien</strong>: </li>
+                                    <li id="li_ticket_no"><strong>ID Tiket</strong>: </li>
+                                    <li id="li_created_at"><strong>Tiket Dibuat</strong>: </li>
+                                    <li id="li_ticket_status"><strong>Status</strong>: </li>
+                                    <li id="li_ticket_finish"><strong>Tiket Selesai</strong>: </li> --}}
                                 </ul>
                             </div>
                           <!-- <div class="portfolio-description">
@@ -247,7 +247,7 @@
 
     </script> --}}
 
-    <script>
+    {{-- <script>
         function stringSearch()
         {
             var input = $('#id_tiket').val();
@@ -256,6 +256,37 @@
                 console.log(data);
             });
         }
-    </script>
+    </script> --}}
     
+    <script>
+$(document).ready(function() {
+    $('#id_ticket').on('keyup', function() {
+        var query = $(this).val();
+        $.ajax({
+            url: "{{ url('cek_status_tiket/find_tickets') }}/" + query,
+            type: 'get',
+            data: { query: query },
+            dataType: 'json',
+            success: function(data, status) {
+                console.log(data);
+                var ticketData = data[0];
+                var result = '';
+                if (data && data.length > 0) {
+                    $.each(data, function(index, data) {
+                        result += '<li id="li_ticket_no"><strong>ID Tiket</strong>: ' + (ticketData.ticket_no ? ticketData.ticket_no : '') + '</li>';
+                        result += '<li id="li_ticket_status"><strong>Status</strong>: ' + (ticketData.ticket_status ? ticketData.ticket_status : '') + '</li>';
+                    });
+                } else {
+                    result = '<li>Data tidak ditemukan</li>';
+                }
+                $('.ticket_res .portfolio-info ul').html(result);
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+                // Tindakan yang perlu dilakukan jika terjadi kesalahan
+            }
+        });
+    });
+});
+    </script>
 @endpush
