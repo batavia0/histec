@@ -188,9 +188,9 @@ class SivitasAkademikaController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'found',
-                'data' => ['data' => $query]
+                'data' => $query
             ],201);
-        } if($query = null) {
+        } if($query == null || $ticket_no != $query) {
             return response()->json([
                 'status' => 'fail',
                 'message' => 'not found'

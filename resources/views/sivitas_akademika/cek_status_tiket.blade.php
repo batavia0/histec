@@ -141,11 +141,12 @@
                         <div class="col-lg-4 ticket_res">
                             <div class="portfolio-info">
                                 <ul>
-                                    {{-- <li id="li_email"><strong>Klien</strong>: </li>
-                                    <li id="li_ticket_no"><strong>ID Tiket</strong>: </li>
-                                    <li id="li_created_at"><strong>Tiket Dibuat</strong>: </li>
-                                    <li id="li_ticket_status"><strong>Status</strong>: </li>
-                                    <li id="li_ticket_finish"><strong>Tiket Selesai</strong>: </li> --}}
+                                    <li><strong>Klien</strong>: <span class="email"></span></li>
+                                    <li><strong>ID Tiket</strong>: <span class="id_ticket"></span></li>
+                                    <li><strong>Keluhan</strong>: <span class="ticket_name"></span></li>
+                                    <li><strong>Status Tiket</strong>: <span class="ticket_status"></span></li>
+                                    <li><strong>Lokasi</strong>: <span class="locations"></span></li>
+                                    <li><strong>Tiket Dibuat</strong>: <span class="created_at"></span></li>
                                 </ul>
                             </div>
                           <!-- <div class="portfolio-description">
@@ -258,32 +259,39 @@
         }
     </script> --}}
     
-    <script>
+<script>
 $(document).ready(function() {
     $('#id_ticket').on('keyup', function() {
         var query = $(this).val();
         $.ajax({
-            url: "{{ url('cek_status_tiket/find_tickets') }}/" + query,
+            url: "{{ url('cek_status_tiket/find_tickets') }}/"+query,
             type: 'get',
             data: { query: query },
             dataType: 'json',
             success: function(data, status) {
-                console.log(data);
-                var ticketData = data[0];
+                console.log(JSON.stringify(data)); //Console log pertama
                 var result = '';
+            
                 if (data && data.length > 0) {
                     $.each(data, function(index, data) {
-                        result += '<li id="li_ticket_no"><strong>ID Tiket</strong>: ' + (ticketData.ticket_no ? ticketData.ticket_no : '') + '</li>';
-                        result += '<li id="li_ticket_status"><strong>Status</strong>: ' + (ticketData.ticket_status ? ticketData.ticket_status : '') + '</li>';
+                        
+                        // data.data[0].locations.name
+                        result +=('.ticket_res .portfolio-info ul .email').text(data.data[0].email ? data.data[0].email : '');
+                        result +=$('.ticket_res .portfolio-info ul .ticket_name').text(data.name ? data.name : '');
+                        result +=$('.ticket_res .portfolio-info ul .id_ticket').text(data ? data.id_ticket : '');
+                        result +=$('.ticket_res .portfolio-info ul .ticket_status').text(data.ticket_status ? data.ticket_status : '');
+                        result +=$('.ticket_res .portfolio-info ul .created_at').text(data.created_at ? data.created_at : '');
+                        // result += '<li id="li_ticket_no"><strong>ID Tiket</strong>: ' + (ticketData.ticket_no ? ticketData.ticket_no : '') + '</li>';    
+                        // result += '<li id="li_ticket_status"><strong>Status</strong>: ' + (ticketData.ticket_status ? ticketData.ticket_status : '') + '</li>';
                     });
                 } else {
-                    result = '<li>Data tidak ditemukan</li>';
+                    // result = '<li>Data tidak ditemukan</li>'+JSON.stringify(data);
+                    console.log(result); //Console log kedua
                 }
                 $('.ticket_res .portfolio-info ul').html(result);
             },
             error: function(xhr, status, error) {
                 console.log(xhr.responseText);
-                // Tindakan yang perlu dilakukan jika terjadi kesalahan
             }
         });
     });
