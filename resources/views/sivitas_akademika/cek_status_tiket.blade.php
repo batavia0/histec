@@ -55,17 +55,16 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Cek Status ID Tiket</h5>
                                    {{-- Alert Message Error --}}
-                    <div class="alert alert-danger alert-dismissible fade" role="alert" style="display: none; ">
+                    {{-- <div class="alert alert-danger alert-dismissible fade" role="alert" style="display: none; ">
                         <strong>Gagal</strong> <span id="ticket_no"></span> silakan coba kembali .
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    </div> --}}
                     {{-- Alert Message success --}}
-                    <div class="alert alert-success alert-dismissible fade" role="alert" style="display: none; ">
+                    {{-- <div class="alert alert-success alert-dismissible fade" role="alert" style="display: none; ">
                         <strong>Berhasil</strong> <span id="ticket_no"></span>.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    </div> --}}
                                         <div class="row mb-3">
-                                            @csrf
                                             <label for="id-tiket" class="form-label">ID Tiket</label>
                                             <input type="search" class="form-control" name="id_ticket" id="id_ticket" placeholder="Masukkan ID Tiket">
                                             <span class="text-error text-danger id_ticket_error"></span>
@@ -140,13 +139,7 @@
                         </div> -->
                         <div class="col-lg-4 ticket_res">
                             <div class="portfolio-info">
-                                <ul>
-                                    <li><strong>Klien</strong>: <span class="email"></span></li>
-                                    <li><strong>ID Tiket</strong>: <span class="id_ticket"></span></li>
-                                    <li><strong>Keluhan</strong>: <span class="ticket_name"></span></li>
-                                    <li><strong>Status Tiket</strong>: <span class="ticket_status"></span></li>
-                                    <li><strong>Lokasi</strong>: <span class="locations"></span></li>
-                                    <li><strong>Tiket Dibuat</strong>: <span class="created_at"></span></li>
+                                <ul id="ul_list">
                                 </ul>
                             </div>
                           <!-- <div class="portfolio-description">
@@ -189,6 +182,7 @@
     <!-- JS Libraies -->
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 
     {{-- <script>
         function read(){
@@ -263,38 +257,41 @@
 $(document).ready(function() {
     $('#id_ticket').on('keyup', function() {
         var query = $(this).val();
-        $.ajax({
-            url: "{{ url('cek_status_tiket/find_tickets') }}/"+query,
-            type: 'get',
-            data: { query: query },
-            dataType: 'json',
-            success: function(data, status) {
-                console.log(JSON.stringify(data)); //Console log pertama
-                var result = '';
-            
-                if (data && data.length > 0) {
-                    $.each(data, function(index, data) {
-                        
-                        // data.data[0].locations.name
-                        result +=('.ticket_res .portfolio-info ul .email').text(data.data[0].email ? data.data[0].email : '');
-                        result +=$('.ticket_res .portfolio-info ul .ticket_name').text(data.name ? data.name : '');
-                        result +=$('.ticket_res .portfolio-info ul .id_ticket').text(data ? data.id_ticket : '');
-                        result +=$('.ticket_res .portfolio-info ul .ticket_status').text(data.ticket_status ? data.ticket_status : '');
-                        result +=$('.ticket_res .portfolio-info ul .created_at').text(data.created_at ? data.created_at : '');
-                        // result += '<li id="li_ticket_no"><strong>ID Tiket</strong>: ' + (ticketData.ticket_no ? ticketData.ticket_no : '') + '</li>';    
-                        // result += '<li id="li_ticket_status"><strong>Status</strong>: ' + (ticketData.ticket_status ? ticketData.ticket_status : '') + '</li>';
-                    });
-                } else {
-                    // result = '<li>Data tidak ditemukan</li>'+JSON.stringify(data);
-                    console.log(result); //Console log kedua
-                }
-                $('.ticket_res .portfolio-info ul').html(result);
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText);
+        var url = "{{ url('cek_status_tiket/find_tickets') }}/" + query;
+        
+        $.get(url, function(data) {
+            console.log(query);
+            console.log(data);
+
+            countData = data.length; //Hitung jumlah data
+            var result = ''; // Variabel sementara untuk generasi <li>
+            for(i = 0; i < countData; i++) {
+                // Cetak baris baru
+                // For loop untuk menayangkan data
+                result += "<li><strong>Klien</strong>: " + data[i]['email'] + "</li>"
+                + "<li><strong>Keluhan</strong>: " + data[i]['name'] + "</li>"
+                + "<li><strong>Kategori</strong>: " + data[i]['category']['name'] + "</li>"
+                + "<li><strong>Lokasi</strong>: " + data[i]['locations']['name'] + "</li>"
+                + "<li><strong>Status Tiket</strong>: " + data[i]['ticket_status']['name'] + "</li>";
             }
+            
+            // Menayangkan data
+            document.getElementById("ul_list")[0].innerHTML+=result;
+            // var ul_list = document.getElementById("ul_list");
+            // if (ul_list) {
+            //     var li = document.createElement("li"); //Buat elemen <li>
+            //     var dataEmail = data[i]['email']; 
+            //     li.innerHTML = "<strong>Keluhan</strong>: " +dataEmail;
+            //     // li.innerHTML += result;
+            //     ul_list.appendChild(li);
+            // }
+            console.log(result);
+        })
+        .fail(function(xhr, status, error) {
+            console.log(xhr.responseText);
         });
     });
 });
+
     </script>
 @endpush
