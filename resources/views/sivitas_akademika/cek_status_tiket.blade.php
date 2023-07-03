@@ -104,8 +104,6 @@
                                                     Isi dari Detail Penanganan 2
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- Tambahkan accordion-item lain sesuai kebutuhan -->
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +135,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Tambahkan accordion-item lain sesuai kebutuhan -->
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +180,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Tambahkan accordion-item lain sesuai kebutuhan -->
                                 </div>
                             </div>
                         </div>

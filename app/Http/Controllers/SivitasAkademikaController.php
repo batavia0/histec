@@ -184,16 +184,16 @@ class SivitasAkademikaController extends Controller
     public function findTicketsByTicketNumber(Request $request)
     {
 
-        // $validator = Validator::make($request->all(), [
-        //     'id_ticket'       => 'required|string',
-        // ],[
-        //     '*.required' => 'Kolom wajib diisi',
-        //     '*.string' => 'Kolom harus bertipe text',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'id_ticket'       => 'required|string',
+        ],[
+            '*.required' => 'Kolom wajib diisi',
+            '*.string' => 'Kolom harus bertipe text',
+        ]);
 
-        // if($validator->fails()){
-        //     return response()->json(['errors' => $validator->errors()->toArray()],400);
-        // }
+        if($validator->fails()){
+            return response()->json(['errors' => $validator->errors()->toArray()],400);
+        }
 
         $ticket_no = !empty($request->id_tiket); //Pake !empty() muncul semua data walau request masih kosong
         $query = $this->Tickets->getQueryByIdTiket($ticket_no)->get();
