@@ -181,37 +181,45 @@ class SivitasAkademikaController extends Controller
     /**
      * @return Tickets
      */
-    public function findTicketsByTicketNumber(Request $request)
+    public function findTicketsByTicketNumber($ticket_no)
     {
+        $data = $this->Tickets->getQueryByIdTiket($ticket_no)->get();
+        if ($data) {
 
-        $validator = Validator::make($request->all(), [
-            'id_ticket'       => 'required|string',
-        ],[
-            '*.required' => 'Kolom wajib diisi',
-            '*.string' => 'Kolom harus bertipe text',
-        ]);
-
-        if($validator->fails()){
-            return response()->json(['errors' => $validator->errors()->toArray()],400);
-        }
-
-        $ticket_no = !empty($request->id_tiket); //Pake !empty() muncul semua data walau request masih kosong
-        $query = $this->Tickets->getQueryByIdTiket($ticket_no)->get();
-        // $jsonResult = $query->toJson();
-
-        if (!empty($query)) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Found',
-                'data' => ['ticket_no' => $query],
+                'message' => 'found',
+                'data' => ['data' => $data]
             ],201);
-
-        } else {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Not Found',
-            ],404);
         }
+        // $validator = Validator::make($request->all(), [
+        //     'id_ticket'       => 'required|string',
+        // ],[
+        //     '*.required' => 'Kolom wajib diisi',
+        //     '*.string' => 'Kolom harus bertipe text',
+        // ]);
+
+        // if($validator->fails()){
+        //     return response()->json(['errors' => $validator->errors()->toArray()],400);
+        // }
+
+        // $ticket_no = !empty($request->id_tiket); //Pake !empty() muncul semua data walau request masih kosong
+        // $query = $this->Tickets->getQueryByIdTiket($ticket_no)->get();
+        // // $jsonResult = $query->toJson();
+
+        // if (!empty($query)) {
+        //     return response()->json([
+        //         'status' => 'success',
+        //         'message' => 'Found',
+        //         'data' => ['ticket_no' => $query],
+        //     ],201);
+
+        // } else {
+        //     return response()->json([
+        //         'status' => 'fail',
+        //         'message' => 'Not Found',
+        //     ],404);
+        // }
         
     }
 }

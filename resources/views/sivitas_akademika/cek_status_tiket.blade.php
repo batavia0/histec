@@ -65,18 +65,15 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                                         <div class="row mb-3">
-                                            <form action="#" action="get" id="formIdTiket">
-                                                
+                                            @csrf
                                             <label for="id-tiket" class="form-label">ID Tiket</label>
-                                            <input type="text" class="form-control" name="id_ticket" id="id_ticket" placeholder="Masukkan ID Tiket">
+                                            <input onkeyup="stringSearch()" type="search" class="form-control" name="id_ticket" id="id_ticket" placeholder="Masukkan ID Tiket">
                                             <span class="text-error text-danger id_ticket_error"></span>
-
-                                        <button type="submit" onclick="read(event)" class="btn btn-primary">Submit</button>
-                                            </form>
+                                        {{-- <button type="submit" onkeyup=read(event) id="btnFindTickets" class="btn btn-primary">Submit</button> --}}
                                         </div>
                                 </div>
                             </div>
-
+<!--
                             <div class="card mt-4">
                                 <div class="card-body">
                                     <h5 class="card-title">Riwayat Penanganan</h5>
@@ -106,8 +103,8 @@
                                             </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card mt-4">
+                            </div> -->
+<!--                            <div class="card mt-4">
                                 <div class="card-body">
                                     <h5 class="card-title">FAQ</h5>
                                     <div class="accordion" id="faq-accordion">
@@ -140,20 +137,18 @@
                             </div>
 
 
-                        </div>
-
+                        </div> -->
                         <div class="col-lg-4">
                             <div class="portfolio-info">
-                                <h3>Informasi Tiket</h3>
                                 <ul>
-                                    <li><strong>Klien</strong>: bramas*****.com</li>
-                                    <li><strong>ID Tiket</strong>: 168301289320909401</li>
-                                    <li><strong>Tiket Dibuat</strong>: 01 Juni, 2023 23:59</li>
-                                    <li><strong>Status</strong>: Closed</li>
-                                    <li><strong>Tiket Selesai</strong>: 02 Juni, 2023 00:00</li>
+                                    <li id="li_email"><strong>Klien</strong>:</li>
+                                    <li id="li_ticket_no"><strong>ID Tiket</strong>: 168301289320909401</li>
+                                    <li id="li_created_at"><strong>Tiket Dibuat</strong>: 01 Juni, 2023 23:59</li>
+                                    <li id="li_ticket_status"><strong>Status</strong>: Closed</li>
+                                    <li id="li_ticket_finish"><strong>Tiket Selesai</strong>: 02 Juni, 2023 00:00</li>
                                 </ul>
                             </div>
-                            <div class="portfolio-description">
+                          <!-- <div class="portfolio-description">
                                 <h2>Riwayat Penanganan</h2>
                                 <div class="accordion" id="riwayat-penanganan-accordion">
                                     <div class="accordion-item">
@@ -181,7 +176,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>
@@ -194,14 +189,9 @@
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-        function read(event){
-            $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-            event.preventDefault();
+    {{-- <script>
+        function read(){
+            // event.preventDefault();
 
             var formData = new FormData($('#formIdTiket')[0]);
             $.ajax({
@@ -236,16 +226,13 @@
                     });
                 },
                 error: function(xhr, status, error) {
+                    console.log("Error: " + error);
+                    console.log("Status: " + status);
+                    console.log("XHR: " + xhr);
                     $.each(xhr.responseJSON.errors,(prefix,val) => {
                         console.log(prefix,val);
                         // console.log(data);
                         $("span."+prefix+"_error").text(val[0]);
-                    })
-                    swal({
-                        icon: "error",
-                        title: "Gagal",
-                        text: "Terjadi kesalahan saat mengirim data: " + error,
-                        button: true
                     }).then((result) => {
                         if (result) {
                             $("#ticket_id").text('Tidak ditemukan');
@@ -258,5 +245,17 @@
             });
         }
 
+    </script> --}}
+
+    <script>
+        function stringSearch()
+        {
+            var input = $('#id_tiket').val();
+            $.get("{{ url('cek_status_tiket/find_tickets') }}/" + input, {}, function(data,status) {
+                // $('#data_tiket').html(data);
+                console.log(data);
+            });
+        }
     </script>
+    
 @endpush
