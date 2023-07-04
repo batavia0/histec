@@ -181,53 +181,32 @@ class SivitasAkademikaController extends Controller
     /**
      * @return Tickets
      */
-    public function findTicketsByTicketNumber($ticket_no)
+    public function findTicketsByTicketNumber(Request $request)
     {
-        $query = $this->Tickets->getQueryByIdTiket($ticket_no)->get();
-        if ($query) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'found',
-                'data' => $query->toArray()
-            ],201);
-        } if($query == null || $ticket_no != $query) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'not found'
-            ],404);
+        // Check if request is Ajax
+        if($request->ajax()){
+            $output = '';
+
+            $query = $this->Tickets->getQueryByIdTiket($request->search_id_tiket)->get();
+            // start search
+            if ($query) {
+                foreach ($query as $data) {                
+                    $output .=
+                    '<ul>
+                        <li><strong>Klien</strong>: '.$data->email.' </li>
+                        <li><strong>ID Tiket</strong>: '.$data->ticket_no.'</li>
+                        <li><strong>Keluhan</strong>: '.$data->name.'</li>
+                        <li><strong>Kategori</strong>: '.$data->category->name.'</li>
+                        <li><strong>Status Tiket</strong>: '.$data->ticket_status->name.' </li>
+                        <li><strong>Lokasi</strong>: '.$data->locations->name.'</li>
+                        <li><strong>Tiket Dibuat</strong>: '.$data->created_at.'</li>
+                        <li><strong>Tiket Selesai</strong>: '.$data->ticket_finished_at.'</li>
+                    </ul>';
+                }
+                return response()->json($output);
+            }
         }
-        // else return response()->json([
-        //     'status' => 'fail',
-        //     'message' => 'not found',
-        // ],404);
-        // $validator = Validator::make($request->all(), [
-        //     'id_ticket'       => 'required|string',
-        // ],[
-        //     '*.required' => 'Kolom wajib diisi',
-        //     '*.string' => 'Kolom harus bertipe text',
-        // ]);
-
-        // if($validator->fails()){
-        //     return response()->json(['errors' => $validator->errors()->toArray()],400);
-        // }
-
-        // $ticket_no = !empty($request->id_tiket); //Pake !empty() muncul semua data walau request masih kosong
-        // $query = $this->Tickets->getQueryByIdTiket($ticket_no)->get();
-        // // $jsonResult = $query->toJson();
-
-        // if (!empty($query)) {
-        //     return response()->json([
-        //         'status' => 'success',
-        //         'message' => 'Found',
-        //         'data' => ['ticket_no' => $query],
-        //     ],201);
-
-        // } else {
-        //     return response()->json([
-        //         'status' => 'fail',
-        //         'message' => 'Not Found',
-        //     ],404);
-        // }
+        return view('sivitas_akademika.cek_status_tiket');
         
     }
 }

@@ -20,7 +20,8 @@ class Tickets extends Model
         'ticket_location_id',
         'description',
         'image',
-        'created_at'
+        'created_at',
+        'ticket_finished_at'
     ];    
         /**
          * Get the user that owns the Tickets

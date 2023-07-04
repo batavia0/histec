@@ -26,7 +26,7 @@ Auth::routes();
 //Routes for Sivitas Akademika
 Route::resource('tickets', SivitasAkademikaController::class);
 Route::controller(SivitasAkademikaController::class)->group(function () {
-     Route::get('/cek_status_tiket/find_tickets/{ticket_no}', 'findTicketsByTicketNumber');
+     Route::get('/cek_status_tiket/find_tickets', 'findTicketsByTicketNumber');
     Route::get('/cek_status_tiket', 'indexCekStatusTiket')->name('indexCekStatusTiket');
     Route::post('/tickets/store', 'store')->name('tickets.store');
 });

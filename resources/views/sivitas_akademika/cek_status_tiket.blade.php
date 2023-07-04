@@ -66,8 +66,7 @@
                     </div> --}}
                                         <div class="row mb-3">
                                             <label for="id-tiket" class="form-label">ID Tiket</label>
-                                            <input type="search" class="form-control" name="id_ticket" id="id_ticket" placeholder="Masukkan ID Tiket">
-                                            <span class="text-error text-danger id_ticket_error"></span>
+                                            <input type="search" class="form-control" name="search_id_tiket" id="id_ticket" placeholder="Masukkan ID Tiket">
                                         {{-- <button type="submit" onkeyup=read(event) id="btnFindTickets" class="btn btn-primary">Submit</button> --}}
                                         </div>
                                 </div>
@@ -137,10 +136,8 @@
 
 
                         </div> -->
-                        <div class="col-lg-4 ticket_res">
-                            <div class="portfolio-info">
-                                <ul id="ul_list">
-                                </ul>
+                        <div class="col-lg-4">
+                            <div class="portfolio-info ticket-searchbar">
                             </div>
                           <!-- <div class="portfolio-description">
                                 <h2>Riwayat Penanganan</h2>
@@ -177,121 +174,34 @@
 
                 </div>
             </section><!-- End Portfolio Details Section -->
+            
 @endsection
+
 @push('scripts')
     <!-- JS Libraies -->
-    <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
-
-    {{-- <script>
-        function read(){
-            // event.preventDefault();
-
-            var formData = new FormData($('#formIdTiket')[0]);
-            $.ajax({
-                url: "{{ url('cek_status_tiket/find_tickets') }}",
-                type: 'get',
-                data: formData,
-                datatype: 'json',
-                processData: false,
-                contentType: false,
-                beforeSend: function(){
-                    $('#formTiket').find("span.text-error").text("");
-                },
-                success: function(response) {
-                    // const { data, message, url } = response
-                    // console.log(response);
-                    console.log(response.data.ticket_no);
-                    // const {ticket_number} = data
-                    $('#formIdTiket')[0].reset();
-                    // console.log(data, message, url)
-                    swal({
-                        icon: "success",
-                        title: "Berhasil",
-                        text: "Data berhasil dikirim",
-                        button: true
-                    }).then((result) => {
-                        if (result) {
-                            // Send alert
-                            $("#ticket_id").text(ticket_no);
-                            $("div.alert.alert.alert-success").addClass('show').show();
-                            // window.location.href = "{{ url('tickets') }}";
-                        }
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.log("Error: " + error);
-                    console.log("Status: " + status);
-                    console.log("XHR: " + xhr);
-                    $.each(xhr.responseJSON.errors,(prefix,val) => {
-                        console.log(prefix,val);
-                        // console.log(data);
-                        $("span."+prefix+"_error").text(val[0]);
-                    }).then((result) => {
-                        if (result) {
-                            $("#ticket_id").text('Tidak ditemukan');
-                            $("div.alert.alert.alert-danger").addClass('show').show();
-                            //     window.location.href = "{{ url('tickets') }}";
-
-                        }
-                    });
-                }
-            });
-        }
-
+    {{-- <script type="text/javascript">
+        $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
     </script> --}}
-
-    {{-- <script>
-        function stringSearch()
-        {
-            var input = $('#id_tiket').val();
-            $.get("{{ url('cek_status_tiket/find_tickets') }}/" + input, {}, function(data,status) {
-                // $('#data_tiket').html(data);
-                console.log(data);
-            });
-        }
-    </script> --}}
-    
-<script>
-$(document).ready(function() {
-    $('#id_ticket').on('keyup', function() {
-        var query = $(this).val();
-        var url = "{{ url('cek_status_tiket/find_tickets') }}/" + query;
-        
-        $.get(url, function(data) {
-            console.log(query);
-            console.log(data);
-
-            countData = data.length; //Hitung jumlah data
-            var result = ''; // Variabel sementara untuk generasi <li>
-            for(i = 0; i < countData; i++) {
-                // Cetak baris baru
-                // For loop untuk menayangkan data
-                result += "<li><strong>Klien</strong>: " + data[i]['email'] + "</li>"
-                + "<li><strong>Keluhan</strong>: " + data[i]['name'] + "</li>"
-                + "<li><strong>Kategori</strong>: " + data[i]['category']['name'] + "</li>"
-                + "<li><strong>Lokasi</strong>: " + data[i]['locations']['name'] + "</li>"
-                + "<li><strong>Status Tiket</strong>: " + data[i]['ticket_status']['name'] + "</li>";
-            }
-            
-            // Menayangkan data
-            document.getElementById("ul_list")[0].innerHTML+=result;
-            // var ul_list = document.getElementById("ul_list");
-            // if (ul_list) {
-            //     var li = document.createElement("li"); //Buat elemen <li>
-            //     var dataEmail = data[i]['email']; 
-            //     li.innerHTML = "<strong>Keluhan</strong>: " +dataEmail;
-            //     // li.innerHTML += result;
-            //     ul_list.appendChild(li);
-            // }
-            console.log(result);
-        })
-        .fail(function(xhr, status, error) {
-            console.log(xhr.responseText);
+    <script>
+        $(document).ready(function(){
+            console.log('hello');
+            $('#id_tiket').on('keyup',function(){
+                var value = $($this).val();
+                console.log(value);
+                // $.ajax({
+                //     type:"get",
+                //     url: "{{ url('cek_status_tiket/find_tickets') }}",
+                //     data: {'search':value},
+                //     success: function (data) {
+                //         console.log(data);
+                //     // $('.ticket-searchbar').html(data);
+                //     },
+                //     error: function(xhr){
+                //         console.log(xhr);
+                //     }
+                // });
+            })
         });
-    });
-});
-
     </script>
 @endpush
