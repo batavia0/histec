@@ -53,7 +53,7 @@
                         <div class="col-lg-8">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Cek Status ID Tiket</h5>
+                                    <h5 class="card-title">Cek Status Tiket</h5>
                                    {{-- Alert Message Error --}}
                     {{-- <div class="alert alert-danger alert-dismissible fade" role="alert" style="display: none; ">
                         <strong>Gagal</strong> <span id="ticket_no"></span> silakan coba kembali .
@@ -67,7 +67,6 @@
                                         <div class="row mb-3">
                                             <label for="id-tiket" class="form-label">ID Tiket</label>
                                             <input type="search" class="form-control" name="search_id_tiket" id="id_ticket" placeholder="Masukkan ID Tiket">
-                                        {{-- <button type="submit" onkeyup=read(event) id="btnFindTickets" class="btn btn-primary">Submit</button> --}}
                                         </div>
                                 </div>
                             </div>
@@ -180,27 +179,26 @@
 @push('scripts')
     <!-- JS Libraies -->
     
-    {{-- <script type="text/javascript">
+    <script type="text/javascript">
         $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-    </script> --}}
+    </script>
+
     <script>
         $(document).ready(function(){
-            console.log('hello');
-            $('#id_tiket').on('keyup',function(){
-                var value = $($this).val();
-                console.log(value);
-                // $.ajax({
-                //     type:"get",
-                //     url: "{{ url('cek_status_tiket/find_tickets') }}",
-                //     data: {'search':value},
-                //     success: function (data) {
-                //         console.log(data);
-                //     // $('.ticket-searchbar').html(data);
-                //     },
-                //     error: function(xhr){
-                //         console.log(xhr);
-                //     }
-                // });
+            $('#id_ticket').on('keyup',function(){
+                var value = $(this).val();
+                $.ajax({
+                    type:"get",
+                    url: "{{ url('cek_status_tiket/find_tickets') }}",
+                    data: {'search_id_tiket':value},
+                    success: function (data) {
+                        console.log(data);
+                    $('.ticket-searchbar').html(data);
+                    },
+                    error: function(xhr){
+                        console.log(xhr);
+                    }
+                });
             })
         });
     </script>

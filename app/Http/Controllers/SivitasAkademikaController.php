@@ -203,9 +203,9 @@ class SivitasAkademikaController extends Controller
                         <li><strong>Tiket Selesai</strong>: '.$data->ticket_finished_at.'</li>
                     </ul>';
                 }
-                return response()->json($output);
             }
         }
+        return response()->json($output);
         return view('sivitas_akademika.cek_status_tiket');
         
     }
