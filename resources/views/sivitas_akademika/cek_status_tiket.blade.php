@@ -54,19 +54,11 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Cek Status Tiket</h5>
-                                   {{-- Alert Message Error --}}
-                    {{-- <div class="alert alert-danger alert-dismissible fade" role="alert" style="display: none; ">
-                        <strong>Gagal</strong> <span id="ticket_no"></span> silakan coba kembali .
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div> --}}
-                    {{-- Alert Message success --}}
-                    {{-- <div class="alert alert-success alert-dismissible fade" role="alert" style="display: none; ">
-                        <strong>Berhasil</strong> <span id="ticket_no"></span>.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div> --}}
-                                        <div class="row mb-3">
-                                            <label for="id-tiket" class="form-label">ID Tiket</label>
-                                            <input type="search" class="form-control" name="search_id_tiket" id="id_ticket" placeholder="Masukkan ID Tiket">
+                                        <div class="col mb-3 mt-3">
+                                            <div class="input-group">
+                                                <div class="input-group-text"><i class="fas fa-search"></i></div>
+                                                <input type="search" class="form-control" name="search_id_tiket" id="id_ticket" placeholder="Masukkan ID Tiket">
+                                            </div>
                                         </div>
                                 </div>
                             </div>
@@ -135,9 +127,6 @@
 
 
                         </div> -->
-                        <div class="col-lg-4">
-                            <div class="portfolio-info ticket-searchbar">
-                            </div>
                           <!-- <div class="portfolio-description">
                                 <h2>Riwayat Penanganan</h2>
                                 <div class="accordion" id="riwayat-penanganan-accordion">
@@ -169,6 +158,12 @@
                             </div> -->
                         </div>
 
+                        <div class="col-lg-4">
+                            <div class="card">
+                                
+                            </div>
+                            <div class="portfolio-info ticket-searchbar">
+                            </div>
                     </div>
 
                 </div>

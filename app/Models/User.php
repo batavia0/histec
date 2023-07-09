@@ -62,4 +62,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(TicketUpdates::class, 'foreign_key', 'local_key');
     }
+    public static function countAdmin()
+    {
+        return self::count('role_id');
+    }
 }

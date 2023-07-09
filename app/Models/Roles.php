@@ -16,10 +16,10 @@ class Roles extends Model
     /**
      * Get all of the comments for the Roles
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function users(): HasMany
+    public function users(): HasOne
     {
-        return $this->hasMany(User::class);
+        return $this->hasOne(User::class);
     }
 }

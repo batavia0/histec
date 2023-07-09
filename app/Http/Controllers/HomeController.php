@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tickets;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard',['type_menu' => 'dashboard']);
+        $auth_id = Auth::user()->role_id;
+        $data['countTickets'] = Tickets::countTickets();
+        $data['countNewTicket'] = Tickets::countNewTicket($auth_id);
+        $data['countAdmin'] = User::countAdmin();
+        return view('dashboard',$data,['type_menu' => 'dashboard']);
     }
 }

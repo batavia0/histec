@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\SivitasAkademikaController;
 // use App\Http\Controllers\TicketController;
 
@@ -29,6 +30,21 @@ Route::controller(SivitasAkademikaController::class)->group(function () {
      Route::get('/cek_status_tiket/find_tickets', 'findTicketsByTicketNumber');
     Route::get('/cek_status_tiket', 'indexCekStatusTiket')->name('indexCekStatusTiket');
     Route::post('/tickets/store', 'store')->name('tickets.store');
+});
+//Routes for Tiket
+Route::middleware('auth')->group(function () {
+    Route::controller(TicketController::class)->group(function () {
+        Route::get('tiket/semua_tiket', 'indexSemuaTiket')->name('indexSemuaTiket');
+        Route::get('tiket/tiket_ditugaskan', 'indexTiketDitugaskan')->name('indexTiketDitugaskan');
+        Route::get('tiket/mutasi_tiket', 'indexMutasiTiket')->name('indexMutasiTiket');
+        Route::get('tiket/tiket_selesai', 'indexTiketSelesai')->name('indexTiketSelesai');
+        Route::get('tiket/status_tiket', 'indexStatusTiket')->name('indexStatusTiket');
+        Route::get('tiket/edit_tiket/{id}', 'edit')->name('editTiket');
+        Route::post('tiket/update_tiket/{id}', 'updates')->name('updateTiket');
+        Route::get('tiket/read_tiket/{id}', 'show')->name('readTiket');
+        Route::post('tiket/delete_tiket/{id}', 'destroy')->name('deleteTiket');
+    });
+    
 });
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');

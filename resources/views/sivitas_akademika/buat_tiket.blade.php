@@ -30,7 +30,7 @@
                             @csrf
                             <div class="row mb-3">
                                 <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-                                <div class="col-sm-8"> Cek Status Tiket Anda
+                                <div class="col-sm-8">
                                     <input type="email" name="email" class="form-control" id="inputEmail3">
                                     {{-- Error message --}}
                                     {{-- <span id="inputEmail3" class="error-message"></span> --}}

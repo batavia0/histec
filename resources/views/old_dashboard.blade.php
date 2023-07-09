@@ -27,7 +27,7 @@
                                 <h4>Total Admin</h4>
                             </div>
                             <div class="card-body">
-                                {{ isset($countAdmin) ? $countAdmin : '0' }}
+                                0
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                 <h4>Semua Tiket</h4>
                             </div>
                             <div class="card-body">
-                                {{ isset($countTickets) ? $countTickets : '0' }}
+                                0
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                                 <h4>Tiket Baru</h4>
                             </div>
                             <div class="card-body">
-                                {{ isset($countNewTicket) ? $countNewTicket : '0' }}
+                                0
                             </div>
                         </div>
                     </div>

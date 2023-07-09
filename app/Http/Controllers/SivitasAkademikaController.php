@@ -155,7 +155,7 @@ class SivitasAkademikaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -191,16 +191,15 @@ class SivitasAkademikaController extends Controller
             // start search
             if ($query) {
                 foreach ($query as $data) {                
-                    $output .=
-                    '<ul>
+                    $output .='<ul>
                         <li><strong>Klien</strong>: '.$data->email.' </li>
                         <li><strong>ID Tiket</strong>: '.$data->ticket_no.'</li>
                         <li><strong>Keluhan</strong>: '.$data->name.'</li>
                         <li><strong>Kategori</strong>: '.$data->category->name.'</li>
-                        <li><strong>Status Tiket</strong>: '.$data->ticket_status->name.' </li>
+                        <li><strong>Status Tiket</strong>: <span class="badge bg-info">'.$data->ticket_status->name.'</span></li>
                         <li><strong>Lokasi</strong>: '.$data->locations->name.'</li>
-                        <li><strong>Tiket Dibuat</strong>: '.$data->created_at.'</li>
-                        <li><strong>Tiket Selesai</strong>: '.$data->ticket_finished_at.'</li>
+                        <li><strong>Tiket Dibuat</strong>: <div class="mx-auto">'.$data->created_at.'</div></li>
+                        <li><strong>Tiket Selesai</strong>: '.(isset($data->ticket_finished_at) ? $data->ticket_finished_at : "--|--").'</li>
                     </ul>';
                 }
             }
