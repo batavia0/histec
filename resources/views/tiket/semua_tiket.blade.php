@@ -59,6 +59,7 @@
                                         <th>Judul</th>
                                         <th>Deskripsi</th>
                                         <th>ID Tiket</th>
+                                        <th>Email</th>
                                         <th>Dari Tanggal</th>
                                         <th>Tanggal Selesai</th>
                                         <th>Status</th>
@@ -75,8 +76,8 @@
                                                 <input type="checkbox"
                                                     data-checkboxes="mygroup"
                                                     class="custom-control-input"
-                                                    id="checkbox-1">
-                                                <label for="checkbox-1"
+                                                    id="checkbox-{{ $row->ticket_id }}">
+                                                <label for="checkbox-{{ $row->ticket_id }}"
                                                     class="custom-control-label">&nbsp;</label>
                                             </div>
                                         </td>
@@ -84,6 +85,7 @@
                                         <td>{{ trim($row->name) }}</td>
                                         <td>{{ trim($row->description) }}</td>
                                         <td>{{ $row->ticket_no }}</td>
+                                        <td>{{ $row->email }}</td>
                                         <td>{{ $row->created_at }}</td>
                                         <td>{{ isset($row->ticket_finished_at)?($row->ticket_finished_at): '--|--' }}</td>
                                         <td>

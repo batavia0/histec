@@ -8,6 +8,10 @@
             <input type="text" id="ticket_name" class="form-control" value="{{ isset($detail_tiket->name) ? $detail_tiket->name : '' }}" readonly>
         </div>
         <div class="form-group">
+            <label for="form-label">Status Tiket</label>
+            <input type="text" id="status_tiket" class="form-control" value="{{ isset($detail_tiket->ticket_status_id) ? $detail_tiket->ticket_status->name : '' }}" readonly>
+        </div>
+        <div class="form-group">
             <label for="form-label">Dari Tanggal</label>
         <input type="text" id="ticket_date" class="form-control" value="{{ isset($detail_tiket->created_at) ? $detail_tiket->created_at : '' }}" readonly>
         </div>

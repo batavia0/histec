@@ -13,17 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ticket_process', function (Blueprint $table) {
-            $table->id('ticket_process_id');
+        Schema::create('ticket_mutasi', function (Blueprint $table) {
+            $table->id('ticket_mutasi_id');
             $table->unsignedBigInteger('ticket_id');
             $table->foreign('ticket_id')->references('ticket_id')->on('tickets');
-            $table->unsignedBigInteger('ticket_process_status_id');
-            $table->foreign('ticket_process_status_id')->references('status_id')->on('ticket_status');
             $table->unsignedBigInteger('technician_id');
             $table->foreign('technician_id')->references('id')->on('users');
-            $table->string('name');
-            $table->text('description')->nullable();
-            
             $table->timestamps();
         });
     }
@@ -35,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticket_process');
+        Schema::dropIfExists('ticket_mutasi');
     }
 };

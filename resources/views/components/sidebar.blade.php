@@ -130,40 +130,7 @@
                     </li>
                 </ul>
             </li> --}}
-            <li class="nav-item dropdown {{ $type_menu === 'features' ? 'active' : '' }}">
-                <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-bicycle"></i> <span>Features</span></a>
-                <ul class="dropdown-menu">
-                    <li class="{{ Request::is('features-activities') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('features-activities') }}">Activities</a>
-                    </li>
-                    <li class="{{ Request::is('features-post-create') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('features-post-create') }}">Post Create</a>
-                    </li>
-                    <li class="{{ Request::is('features-post') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('features-post') }}">Posts</a>
-                    </li>
-                    <li class="{{ Request::is('features-profile') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('features-profile') }}">Profile</a>
-                    </li>
-                    <li class="{{ Request::is('features-settings') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('features-settings') }}">Settings</a>
-                    </li>
-                    <li class="{{ Request::is('features-setting-detail') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('features-setting-detail') }}">Setting Detail</a>
-                    </li>
-                    <li class="{{ Request::is('features-tickets') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('features-tickets') }}">Tickets</a>
-                    </li>
-                </ul>
-            </li>
+            <li class="menu-header">Laporan</li>
             <li class="nav-item dropdown {{ $type_menu === 'utilities' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-ellipsis-h"></i>
@@ -171,13 +138,6 @@
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is('utilities-contact') ? 'active' : '' }}">
                         <a href="{{ url('utilities-contact') }}">Contact</a>
-                    </li>
-                    <li class="{{ Request::is('utilities-invoice') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('utilities-invoice') }}">Invoice</a>
-                    </li>
-                    <li class="{{ Request::is('utilities-subscribe') ? 'active' : '' }}">
-                        <a href="{{ url('utilities-subscribe') }}">Subscribe</a>
                     </li>
                 </ul>
             </li>

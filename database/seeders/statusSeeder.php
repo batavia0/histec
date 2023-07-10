@@ -19,6 +19,7 @@ class statusSeeder extends Seeder
          DB::table('ticket_status')->insert([
             ['name' => 'Open'],
             ['name' => 'Closed'],
+            ['name' => 'Proses'],
             ['name' => 'Updated']
         ]);
     }

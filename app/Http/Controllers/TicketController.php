@@ -98,6 +98,11 @@ class TicketController extends Controller
         $data['detail_tiket'] = $this->Tickets->getTicketById($id);
         return view('tiket.read_tiket',$data);
     }
+    public function showTiketDitugaskan($id)
+    {
+        $data['detail_tiket'] = $this->Tickets->getTicketById($id);
+        return view('tiket.read_tiket_ditugaskan',$data);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -110,6 +115,13 @@ class TicketController extends Controller
         $data['tiket_status'] = $this->TicketStatus->getAllTicketStatus();
         $data['detail_id'] = $this->Tickets->getDetailByticket_id($id); 
         return view('tiket.edit_tiket',$data);
+    }
+
+    public function editTiketDitugaskan($id)
+    {
+        $data['tiket_status'] = $this->TicketStatus->getAllTicketStatus();
+        $data['detail_id'] = $this->Tickets->getDetailByticket_id($id); 
+        return view('tiket.proses_tiket',$data);
     }
 
     /**

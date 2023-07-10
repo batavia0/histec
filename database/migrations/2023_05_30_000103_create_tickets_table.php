@@ -24,11 +24,12 @@ return new class extends Migration
             $table->foreign('ticket_status_id')->references('status_id')->on('ticket_status');
             $table->unsignedBigInteger('ticket_location_id');
             $table->foreign('ticket_location_id')->references('location_id')->on('locations');
-            $table->text('description');
-            $table->binary('image');
+            $table->datetime('ticket_finished_at')->nullable();
+            $table->text('description')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
-        DB::statement('ALTER TABLE tickets MODIFY image MEDIUMBLOB;');
+        // DB::statement('ALTER TABLE tickets MODIFY image MEDIUMBLOB;');
     }
 
     /**
