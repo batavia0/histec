@@ -63,7 +63,7 @@
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is('tiket/semua_tiket') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ route('indexSemuaTiket') }}">Semua Kategori</a>
+                            href="{{ route('indexSemuaTiket') }}">Kategori</a>
                     </li>
                 </ul>
             <li class="menu-header">User</li>
@@ -79,16 +79,6 @@
                     </li>
                     <li class="{{ Request::is('auth-forgot-password') ? 'active' : '' }}">
                         <a href="{{ url('auth-forgot-password') }}">Hapus User</a>
-                    </li>
-                    <li class="{{ Request::is('auth-forgot-password') ? 'active' : '' }}">
-                        <a href="{{ url('auth-forgot-password') }}">Forgot Password</a>
-                    </li>
-                    <li class="{{ Request::is('auth-login') ? 'active' : '' }}">
-                        <a href="{{ url('auth-login') }}">Login</a>
-                    </li>
-                    <li class="{{ Request::is('auth-login2') ? 'active' : '' }}">
-                        <a class="beep beep-sidebar"
-                            href="{{ url('auth-login2') }}">Login 2</a>
                     </li>
                     <li class="{{ Request::is('auth-reset-password') ? 'active' : '' }}">
                         <a href="{{ url('auth-reset-password') }}">Reset Password</a>
@@ -107,37 +97,14 @@
                     </li>
                 </ul>
             </li>
-            {{-- <li class="nav-item dropdown {{ $type_menu === 'error' ? 'active' : '' }}">
-                <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-exclamation"></i>
-                    <span>Errors</span></a>
-                <ul class="dropdown-menu">
-                    <li class="{{ Request::is('error-403') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('error-403') }}">403</a>
-                    </li>
-                    <li class="{{ Request::is('error-404') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('error-404') }}">404</a>
-                    </li>
-                    <li class="{{ Request::is('error-500') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('error-500') }}">500</a>
-                    </li>
-                    <li class="{{ Request::is('error-503') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('error-503') }}">503</a>
-                    </li>
-                </ul>
-            </li> --}}
             <li class="menu-header">Laporan</li>
-            <li class="nav-item dropdown {{ $type_menu === 'utilities' ? 'active' : '' }}">
+            <li class="nav-item dropdown {{ $type_menu === 'laporan' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-ellipsis-h"></i>
-                    <span>Utilities</span></a>
+                    <span>Laporan</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is('utilities-contact') ? 'active' : '' }}">
-                        <a href="{{ url('utilities-contact') }}">Contact</a>
+                        <a href="{{ url('utilities-contact') }}">Laporan</a>
                     </li>
                 </ul>
             </li>
@@ -157,3 +124,4 @@
         </div>
     </aside>
 </div>
+

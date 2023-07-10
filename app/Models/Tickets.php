@@ -59,6 +59,16 @@ class Tickets extends Model
             return $this->belongsTo(TicketStatus::class,'ticket_status_id','status_id');
         }
 
+        public function ticket_process()
+        {
+            return $this->hasMany(TicketProcess::class, 'ticket_id', 'ticket_id');
+        }
+
+        public function ticket_mutasi()
+        {
+            return $this->hasMany(TicketMutasi::class, 'ticket_id', 'ticket_id');
+        }
+
         public function getQueryByIdTiket($ticket_no)
         {
             return Tickets::with('category','locations','ticket_status')->where('ticket_no',$ticket_no);
@@ -79,9 +89,25 @@ class Tickets extends Model
             return Tickets::with('category','locations','ticket_status')->where('ticket_id',$id)->first();
         }
 
-        public function getAllTicketsByRoleId($auth_id)
+        public function getClosedTicketById($id)
         {
-            return Tickets::with('category','locations','ticket_status')->where('category_id',$auth_id)->orderBy('created_at','desc');
+            return Tickets::with('category','locations','ticket_status')->where('ticket_id',$id)->first();
+        }
+
+        public function getHistoryTicketById($id)
+        {
+            return Tickets::with('ticket_process')->where('ticket_id',$id)->get();
+        }
+
+        public function getAllTicketsByRoleIdNotFinished($auth_id)
+        {
+            return Tickets::with('category','locations','ticket_status')->where('category_id',$auth_id)->whereNot('ticket_status_id','2')->orderBy('created_at','desc');
+        }
+
+        public function getAllTicketsFinishedByRoleId($auth_id)
+        {
+            return Tickets::with('category','locations','ticket_status')->where(['category_id' => $auth_id,'ticket_status_id' => '2',
+            ])->orderBy('created_at','desc');
         }
 
         public static function countTickets()
@@ -96,6 +122,9 @@ class Tickets extends Model
 
         public static function countFinishedTickets($auth_id)
         {
-        return self::where('ticket_status_id',2)->where('category_id',$auth_id)->count('ticket_id');
+            return self::where([ 
+            'ticket_status_id' => '2',
+            'category_id' => $auth_id,
+            ])->count('ticket_id');
         }
 }

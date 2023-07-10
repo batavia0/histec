@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('ticket_process', function (Blueprint $table) {
             $table->id('ticket_process_id');
             $table->unsignedBigInteger('ticket_id');
-            $table->foreign('ticket_id')->references('ticket_id')->on('tickets');
+            $table->foreign('ticket_id')->references('ticket_id')->on('tickets')->onDelete('cascade');
             $table->unsignedBigInteger('ticket_process_status_id');
             $table->foreign('ticket_process_status_id')->references('status_id')->on('ticket_status');
             $table->unsignedBigInteger('technician_id');

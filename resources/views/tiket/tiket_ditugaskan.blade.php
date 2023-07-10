@@ -8,6 +8,8 @@
         href="{{ asset('stisla/library/jqvmap/dist/jqvmap.min.css') }}">
     <link rel="stylesheet"
         href="{{ asset('stisla/library/summernote/dist/summernote-bs4.min.css') }}"> --}}
+        <link rel="stylesheet"
+        href="{{ asset('stisla/library/izitoast/dist/css/iziToast.min.css') }}">
 @endpush
 
 @section('main')
@@ -99,6 +101,7 @@
                                             <a href="#"
                                                 class="btn btn-sm btn-info"
                                                 data-toggle="tooltip"
+                                                onclick="mutasiBtn({{ $row->ticket_id }})"
                                                 title="Mutasi Tiket"><i class="fas fa-handshake-alt"></i></a>
                                             <a href="#"
                                                 class="btn btn-sm btn-primary"
@@ -120,6 +123,7 @@
                                     </tr>
                                     @endforeach
                                 </table>
+                                <p class="text-center">{{ $all_tickets->isEmpty() ? 'NO DATA' : '' }}</p>
                             </div>
                         </div>
                         {{-- Pagination --}}
@@ -170,9 +174,19 @@
 
 @push('scripts')
     <!-- JS Libraies -->
+    <script src="{{ asset('stisla/library/izitoast/dist/js/iziToast.min.js') }}"></script>
+    <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
+
 
     <!-- Page Specific JS File -->
 
+    <script>
+        $.ajaxSetup({
+   headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+   }
+});
+     </script>
     <script>
         $(document).ready(function() {
     $('#search-input').on('keyup', function() {
@@ -208,11 +222,20 @@ function edit(id) {
     });
 }
 
+function mutasiBtn(id) {
+    $.get("{{ url('tiket/mutasi_proses_tiket') }}/" + id, {}, function(data, status) {
+        // jQuery.noConflict();
+        $("#exampleModalLabel").html('Mutasi ' + id)
+        $("#page").html(data);
+        $("#exampleModal").modal('show');
+    });
+}
+
 function updateBtn(id) {
-    var formData = new FormData($('#formEditTiket')[0]);
+    var formData = new FormData($('#formProsesTiket')[0]);
 
     $.ajax({
-        url: "{{ url('tiket/update_tiket_ditugaskan') }}/" + id,
+        url: "{{ url('tiket/update_mutasi_proses_tiket') }}/" + id,
         type: 'post',
         data: formData,
         processData: false,
@@ -222,12 +245,12 @@ function updateBtn(id) {
             window.location.reload()
             iziToast.success({
                 title: 'Success',
-                message: 'Berhasil edit',
+                message: 'Mutasi Tiket berhasil ',
                 position: 'topRight',
             });
         },
         error: function(xhr, status, error) {
-            console.log(error);
+            console.log(xhr, error);
         }
     });
 }

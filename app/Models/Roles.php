@@ -18,7 +18,7 @@ class Roles extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function users(): HasOne
+    public function users()
     {
         return $this->hasOne(User::class);
     }

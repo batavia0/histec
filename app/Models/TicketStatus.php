@@ -19,6 +19,11 @@ class TicketStatus extends Model
         return $this->hasOne(Tickets::class);
     }
 
+    public function ticketProcess()
+    {
+        return $this->hasMany(TicketProcess::class);
+    }
+
     public function getAllTicketStatus()
     {
         return TicketStatus::all();

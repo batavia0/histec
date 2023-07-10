@@ -12,10 +12,18 @@ class TicketMutasi extends Model
     protected $fillable = [
         'ticket_id',
         'technician_id',
-        'description',
         'created_at',
         'updated_at'
     ];
     protected $table = 'ticket_mutasi';
 
+    public function tickets()
+    {
+        return $this->belongsTo(Tickets::class, 'ticket_id', 'ticket_id');
+    }
+
+    public function getMutasiTiketByRoleId($id)
+    {
+        return TicketMutasi::where('technician_id',$id);
+    }
 }

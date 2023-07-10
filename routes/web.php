@@ -41,10 +41,16 @@ Route::middleware('auth')->group(function () {
         Route::get('tiket/status_tiket', 'indexStatusTiket')->name('indexStatusTiket');
         Route::get('tiket/edit_tiket/{id}', 'edit')->name('editTiket');
         Route::get('tiket/proses_tiket/{id}', 'editTiketDitugaskan')->name('editTiketDitugaskan');
+        Route::get('tiket/mutasi_proses_tiket/{id}', 'mutasiProsesTiket')->name('editTiketDitugaskan');
+        Route::get('tiket/tiket_mutasi/{id}', 'editTiketMutasi')->name('editTiketMutasi');
         Route::post('tiket/update_tiket/{id}', 'updates')->name('updateTiket');
-        Route::post('tiket/update_tiket_ditugaskan/{id}', 'updates')->name('updateTiketDitugaskan');
+        // Routes For Tiket Ditugaskan
+        Route::post('tiket/update_tiket_ditugaskan/{id}', 'updateTiketDitugaskan')->name('updateTiketDitugaskan');
+        Route::post('tiket/mutasi_proses_tiket/{id}', 'updateMutasiProsesTiket')->name('updateMutasiProsesTiket');
+        Route::post('tiket/update_tiket_mutasi/{id}', 'updateTiketMutasi')->name('updateTiketMutasi');
         Route::get('tiket/read_tiket/{id}', 'show')->name('readTiket');
         Route::get('tiket/read_tiket_ditugaskan/{id}', 'showTiketDitugaskan')->name('readTiketDitugaskan');
+        Route::get('tiket/read_tiket_selesai/{id}', 'showTiketSelesai')->name('readTiketSelesai');
         Route::post('tiket/delete_tiket/{id}', 'destroy')->name('deleteTiket');
     });
     

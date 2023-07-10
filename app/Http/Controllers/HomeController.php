@@ -30,6 +30,7 @@ class HomeController extends Controller
         $data['countTickets'] = Tickets::countTickets();
         $data['countNewTicket'] = Tickets::countNewTicket($auth_id);
         $data['countAdmin'] = User::countAdmin();
+        $data['countFinishedTicket'] = Tickets::countFinishedTickets($auth_id);
         return view('dashboard',$data,['type_menu' => 'dashboard']);
     }
 }

@@ -96,14 +96,14 @@
                                         <td><a href="#"
                                                 class="btn btn-sm btn-outline-primary"
                                                 onclick="read({{ $row->ticket_id }})">Detail</a>
-                                            <a href="#"
+                                            {{-- <a href="#"
                                                 class="btn btn-sm btn-info"
                                                 data-toggle="tooltip"
-                                                title="Mutasi Tiket"><i class="fas fa-handshake-alt"></i></a>
+                                                title="Mutasi Tiket"><i class="fas fa-handshake-alt"></i></a> --}}
                                             <a href="#"
                                                 class="btn btn-sm btn-primary"
                                                 title="Update"
-                                                onclick="edit({{ $row->ticket_id }})">Perbarui</a>
+                                                onclick="edit({{ $row->ticket_id }})">Edit</a>
 
                                             <a href="#"
                                                 class="btn btn-sm btn-danger"
@@ -116,7 +116,7 @@
                                                 src="{{ $row->image }}"
                                                 width="200"
                                                 data-toggle="tooltip"
-                                                title="#">
+                                                title="{{ $row->image }}">
                                         </td>
                                     </tr>
                                     @endforeach
@@ -191,6 +191,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <p class="text-center">{{ $all_tickets->isEmpty() ? 'NO DATA' : '' }}</p>
                             </div>
                         </div>
                     </div>
@@ -355,6 +356,15 @@
         });
         
         function edit(id) {
+    $.get("{{ url('tiket/edit_tiket') }}/" + id, {}, function(data, status) {
+        // jQuery.noConflict();
+        $("#exampleModalLabel").html('Edit Tiket ' + id)
+        $("#page").html(data);
+        $("#exampleModal").modal('show');
+    });
+}
+
+function updateMutasiTiket(id) {
     $.get("{{ url('tiket/edit_tiket') }}/" + id, {}, function(data, status) {
         // jQuery.noConflict();
         $("#exampleModalLabel").html('Edit Tiket ' + id)

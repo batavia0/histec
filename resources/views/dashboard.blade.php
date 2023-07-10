@@ -72,7 +72,7 @@
                                 <h4>Tiket Selesai</h4>
                             </div>
                             <div class="card-body">
-                                0
+                                {{ isset($countFinishedTicket) ? $countFinishedTicket : '0' }}
                             </div>
                         </div>
                     </div>
@@ -194,7 +194,7 @@
                 <div class="col-lg-6 col-md-12 col-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Authors</h4>
+                            <h4>Admin</h4>
                         </div>
                         <div class="card-body">
                             <div class="row pb-2">

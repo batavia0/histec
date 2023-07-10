@@ -46,11 +46,11 @@ class User extends Authenticatable
     /**
      * Get the roles belongs to Roles Model
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\
      */
-    public function roles(): BelongsTo
+    public function roles()
     {
-        return $this->belongsTo(Roles::class);
+        return $this->belongsTo(Roles::class,'role_id');
     }
 
     /**
@@ -58,12 +58,22 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ticketUpdates(): HasMany
-    {
-        return $this->hasMany(TicketUpdates::class, 'foreign_key', 'local_key');
-    }
+    // public function ticketUpdates(): HasMany
+    // {
+    //     return $this->hasMany(TicketUpdates::class, 'foreign_key', 'local_key');
+    // }
     public static function countAdmin()
     {
         return self::count('role_id');
+    }
+
+    public function getAllAdmin($id)
+    {
+        return User::with('roles')->whereNot('role_id',$id)->get();
+    }
+
+    public function assignedTickets()
+    {
+        return $this->hasMany(TicketProcess::class, 'ticket_id');
     }
 }
