@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="">
+                            <form action="" id="formBeritaPenyelesaian">
                                 <div class="form-group">
                                     <label>Nomor Surat</label>
                                     <input type="text"
@@ -153,8 +153,8 @@
                                         <div class="col-md-6">
                                             <input type="text"
                                             class="form-control"
-                                            name="institusi"
-                                            value="nip2">   
+                                            name="nip2"
+                                            value="NIP.">   
                                         </div>
                                     </div>
                                 </div>
@@ -206,6 +206,7 @@
 
 
      <!-- Page Specific JS File -->
+     
      <script src="{{ asset('stisla/js/page/bootstrap-modal.js') }}"></script>
      <script src="{{ asset('stisla/library/cleave.js/dist/cleave.min.js') }}"></script>
     <script src="{{ asset('stisla/library/cleave.js/dist/addons/cleave-phone.us.js') }}"></script>
@@ -215,8 +216,7 @@
     <script src="{{ asset('stisla/library/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
     <script src="{{ asset('stisla/library/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('stisla/library/selectric/public/jquery.selectric.min.js') }}"></script>
-     <script>
-    <script src="{{ asset('stisla/js/page/forms-advanced-forms.js') }}"></</script>
+    <script src="{{ asset('stisla/js/page/forms-advanced-forms.js') }}"></script>
 
     <script>
         $.ajaxSetup({
