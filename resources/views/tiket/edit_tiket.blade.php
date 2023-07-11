@@ -11,11 +11,16 @@
                 placeholder="Masukkan Judul Tiket">
         </div>
         <div class="form-group">
+            <label for="form-label">Deskripsi</label>
+            <input type="text" name="description" id="description" class="form-control" value="{{ isset($detail_id->description) ? $detail_id->description : '' }}"
+                placeholder="Masukkan Judul Tiket">
+        </div>
+        <div class="form-group">
             <label for="form-label">Status Tiket</label>
             <select name="status_name" id="status_name" class="form-control">
                 {{-- Cek apakah $status_id yang terpilih adalah pilihan dari $ts --}}
                 @foreach ($tiket_status as $ts)
-                <option value="{{ $ts->status_id}} {{ $ts->id == $detail_id->ticket_status_id ? 'selected' : '' }}">{{ $ts->name }}
+                <option value="{{ $ts->status_id}}" {{ $ts->id == $detail_id->ticket_status_id ? 'selected' : '' }}>{{ $ts->name }}
                 </option>
                 @endforeach
             </select>

@@ -235,6 +235,34 @@ function updateBtn(id) {
     var formData = new FormData($('#formProsesTiket')[0]);
 
     $.ajax({
+    url: "{{ url('tiket/update_tiket_ditugaskan') }}/" + id,
+        type: 'post',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            $('#exampleModal').modal('hide');
+            window.location.reload()
+            iziToast.success({
+                title: 'Success',
+                message: response.message,
+                position: 'topRight',
+            });
+        },
+        error: function(xhr, status, error) {
+            iziToast.error({
+                title: 'Error',
+                message: response.message,
+                position: 'topRight',
+            });
+        }
+    });
+}
+
+function updateMutasiBtn(id) {
+    var formData = new FormData($('#formMutasiTiket')[0]);
+
+    $.ajax({
         url: "{{ url('tiket/update_mutasi_proses_tiket') }}/" + id,
         type: 'post',
         data: formData,
@@ -245,7 +273,7 @@ function updateBtn(id) {
             window.location.reload()
             iziToast.success({
                 title: 'Success',
-                message: 'Mutasi Tiket berhasil ',
+                message: response.message,
                 position: 'topRight',
             });
         },

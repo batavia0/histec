@@ -24,6 +24,6 @@ class TicketMutasi extends Model
 
     public function getMutasiTiketByRoleId($id)
     {
-        return TicketMutasi::where('technician_id',$id);
+        return TicketMutasi::with('tickets')->where('technician_id',$id);
     }
 }

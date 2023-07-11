@@ -63,7 +63,6 @@
                                         <th>ID Tiket</th>
                                         <th>Email</th>
                                         <th>Dari Tanggal</th>
-                                        <th>Tanggal Selesai</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                         <th>Gambar</th>
@@ -85,16 +84,15 @@
                                             </div>
                                         </td>
                                         <td>{{  $i++ }}</td>
-                                        <td>{{ trim($row->name) }}</td>
-                                        <td>{{ trim($row->description) }}</td>
-                                        <td>{{ $row->ticket_no }}</td>
-                                        <td>{{ $row->email }}</td>
-                                        <td>{{ $row->created_at }}</td>
-                                        <td>{{ isset($row->ticket_finished_at)?($row->ticket_finished_at): '--|--' }}</td>
+                                        <td>{{ trim($row->tickets->name) }}</td>
+                                        <td>{{ trim($row->tickets->description) }}</td>
+                                        <td>{{ $row->tickets->ticket_no }}</td>
+                                        <td>{{ $row->tickets->email }}</td>
+                                        <td>{{ $row->tickets->created_at }}</td>
                                         <td>
-                                            <div class="badge badge-success">{{ $row->ticket_status->name }}</div>
-                                            <div class="badge">{{ $row->category->name }}</div>
-                                            <div class="badge">{{ $row->locations->name }}</div>
+                                            <div class="badge badge-success">{{ $row->tickets->ticket_status->name }}</div>
+                                            <div class="badge">{{ $row->tickets->category->name }}</div>
+                                            <div class="badge">{{ $row->tickets->locations->name }}</div>
                                         </td>
                                         <td><a href="#"
                                                 class="btn btn-sm btn-outline-primary"

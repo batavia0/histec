@@ -388,7 +388,7 @@ function updateMutasiTiket(id) {
             window.location.reload()
             iziToast.success({
                 title: 'Success',
-                message: 'Berhasil edit',
+                message: response.message,
                 position: 'topRight',
             });
         },

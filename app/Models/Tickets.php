@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -77,6 +78,60 @@ class Tickets extends Model
         public function getAllTickets()
         {
             return Tickets::with('category','locations','ticket_status')->orderBy('created_at','desc');
+        }
+        
+        public function getAllFinishedTicketPerDay()
+        {
+            $dayLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            $ticketCounts = [];
+
+            // Inisialisasi array ticketCounts dengan nilai awal 0 untuk setiap hari
+            foreach ($dayLabels as $dayLabel) {
+            $ticketCounts[] = 0;
+            }
+
+            // Mengambil tiket dengan relasi yang diinginkan
+            $tickets = Tickets::with('category', 'locations', 'ticket_status')->where('ticket_status_id',2)->get();
+
+            // Menghitung jumlah tiket selesai per hari
+            foreach ($tickets as $ticket) {
+            $finishedDate = Carbon::parse($ticket->ticket_finished_at)->subDay(1); // Kurangi 1 hari dari tanggal ticket_finished_at
+                if ($finishedDate) {
+                $dayOfWeek = $finishedDate->locale('id')->dayOfWeek; // Mengambil indeks hari dalam seminggu (0-6)
+                    if (isset($ticketCounts[$dayOfWeek])) {
+                    $ticketCounts[$dayOfWeek]++;
+                    }
+                }
+            }
+
+        return $ticketCounts;
+
+        }
+
+        public function getAllOpenTicketPerDay()
+        {
+            $dayLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            $ticketCounts = [];
+
+            // Inisialisasi array ticketCounts dengan nilai awal 0 untuk setiap hari
+            foreach ($dayLabels as $dayLabel) {
+            $ticketCounts[] = 0;
+             }
+
+            // Mengambil tiket dengan relasi yang diinginkan
+            $tickets = Tickets::with('ticket_status')->get();
+
+            // Menghitung jumlah tiket selesai per hari
+            foreach ($tickets as $ticket) {
+                $createdDate = $ticket->created_at;
+                if ($createdDate && $createdDate->isToday()) {
+                    $dayOfWeek = $createdDate->locale('id')->dayOfWeek; // Mengambil indeks hari dalam seminggu (0-6)
+                    if (isset($ticketCounts[$dayOfWeek])) {
+                        $ticketCounts[$dayOfWeek]++;
+                    }
+                }
+            }
+            return $ticketCounts;
         }
 
         public function getDetailByticket_id($ticket_id)

@@ -28,4 +28,9 @@ class TicketStatus extends Model
     {
         return TicketStatus::all();
     }
+
+    public function getTicketStatusById($id)
+    {
+        return TicketStatus::where('status_id',$id)->first();
+    }
 }

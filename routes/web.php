@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\SivitasAkademikaController;
+use App\Http\Controllers\LaporanController;
 // use App\Http\Controllers\TicketController;
 
 /*
@@ -38,7 +39,10 @@ Route::middleware('auth')->group(function () {
         Route::get('tiket/tiket_ditugaskan', 'indexTiketDitugaskan')->name('indexTiketDitugaskan');
         Route::get('tiket/mutasi_tiket', 'indexMutasiTiket')->name('indexMutasiTiket');
         Route::get('tiket/tiket_selesai', 'indexTiketSelesai')->name('indexTiketSelesai');
+        //Routes for Status Tiket
         Route::get('tiket/status_tiket', 'indexStatusTiket')->name('indexStatusTiket');
+        Route::get('tiket/read_status_tiket', 'showStatusTiket')->name('showStatusTiket');
+        //END Routes for Status Tiket
         Route::get('tiket/edit_tiket/{id}', 'edit')->name('editTiket');
         Route::get('tiket/proses_tiket/{id}', 'editTiketDitugaskan')->name('editTiketDitugaskan');
         Route::get('tiket/mutasi_proses_tiket/{id}', 'mutasiProsesTiket')->name('editTiketDitugaskan');
@@ -47,13 +51,21 @@ Route::middleware('auth')->group(function () {
         // Routes For Tiket Ditugaskan
         Route::post('tiket/update_tiket_ditugaskan/{id}', 'updateTiketDitugaskan')->name('updateTiketDitugaskan');
         Route::post('tiket/mutasi_proses_tiket/{id}', 'updateMutasiProsesTiket')->name('updateMutasiProsesTiket');
-        Route::post('tiket/update_tiket_mutasi/{id}', 'updateTiketMutasi')->name('updateTiketMutasi');
+        Route::post('tiket/update_mutasi_proses_tiket/{id}', 'updateMutasiProsesTiket')->name('updateMutasiProsesTiket');
         Route::get('tiket/read_tiket/{id}', 'show')->name('readTiket');
         Route::get('tiket/read_tiket_ditugaskan/{id}', 'showTiketDitugaskan')->name('readTiketDitugaskan');
         Route::get('tiket/read_tiket_selesai/{id}', 'showTiketSelesai')->name('readTiketSelesai');
         Route::post('tiket/delete_tiket/{id}', 'destroy')->name('deleteTiket');
     });
     
+});
+
+//Routes for Balasan Tiket
+//Routes for Laporan
+Route::middleware('auth')->group(function () {
+    Route::controller(LaporanController::class)->group(function () {
+        Route::get('/laporan/index', 'index')->name('indexLaporan');
+    });
 });
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');

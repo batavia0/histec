@@ -33,6 +33,7 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <a href="{{ route('indexSemuaTiket') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-danger">
                             <i class="far fa-newspaper"></i>
@@ -46,8 +47,10 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <a href="{{ route('indexTiketDitugaskan') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-warning">
                             <i class="far fa-file"></i>
@@ -61,8 +64,10 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                    <a href="{{ route('indexTiketSelesai') }}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
                             <i class="far fa-file"></i>
@@ -76,6 +81,7 @@
                             </div>
                         </div>
                     </div>
+                </a>
                 </div>
             </div>
             <div class="row">
@@ -125,7 +131,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12 col-12 col-sm-12">
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-header">
                             <h4>Recent Activities</h4>
                         </div>
@@ -187,7 +193,7 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="row">

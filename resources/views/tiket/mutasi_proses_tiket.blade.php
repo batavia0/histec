@@ -22,7 +22,7 @@
                 data-dismiss="modal">Close</button>
             <button type="button"
                 class="btn btn-primary"
-                onclick="updateBtn({{ $detail_id->ticket_id }})">Save changes</button>
+                onclick="updateMutasiBtn({{ $detail_id->ticket_id }})">Save changes</button>
         </div>
     </form>
 </div>

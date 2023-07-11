@@ -1,7 +1,7 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">HISTEC</a>
+            <a href="{{ route('dashboard') }}">HISTEC</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">St</a>
@@ -9,7 +9,7 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
             <li class="nav-item dropdown {{ $type_menu === 'dashboard' ? 'active' : '' }}">
-                <a href="#"
+                <a href="{{ route('dashboard') }}"
                     class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
                 <ul class="dropdown-menu">  
                 </ul>
@@ -44,7 +44,7 @@
                     </li>
                 </ul>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('tiket/status_tiket') ? 'active' : '' }}">
+                    <li class="{{ Request::is('tiket/tiket_selesai') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ route('indexTiketSelesai') }}">Tiket Selesai</a>
                     </li>
@@ -72,17 +72,9 @@
                     class="nav-link has-dropdown"><i class="far fa-user"></i> <span>User</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is('auth-forgot-password') ? 'active' : '' }}">
-                        <a href="{{ url('auth-forgot-password') }}">Tambah User</a>
+                        <a href="{{ url('auth-forgot-password') }}">User</a>
                     </li>
-                    <li class="{{ Request::is('auth-forgot-password') ? 'active' : '' }}">
-                        <a href="{{ url('auth-forgot-password') }}">Edit User</a>
-                    </li>
-                    <li class="{{ Request::is('auth-forgot-password') ? 'active' : '' }}">
-                        <a href="{{ url('auth-forgot-password') }}">Hapus User</a>
-                    </li>
-                    <li class="{{ Request::is('auth-reset-password') ? 'active' : '' }}">
-                        <a href="{{ url('auth-reset-password') }}">Reset Password</a>
-                    </li>
+                    
                 </ul>
             </li>
             <li class="menu-header">Berita Penyelesaian</li>
@@ -103,8 +95,8 @@
                     class="nav-link has-dropdown"><i class="fas fa-ellipsis-h"></i>
                     <span>Laporan</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('utilities-contact') ? 'active' : '' }}">
-                        <a href="{{ url('utilities-contact') }}">Laporan</a>
+                    <li class="{{ Request::is('laporan/index') ? 'active' : '' }}">
+                        <a href="{{ route('indexLaporan') }}">Laporan</a>
                     </li>
                 </ul>
             </li>

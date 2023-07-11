@@ -112,6 +112,7 @@
                                     </tr>
                                     @endforeach
                                 </table>
+                                <p class="text-center">{{ !isset($all_finished_tickets_filtered) ? 'NO DATA' : '' }}</p>
                             </div>
                         </div>
                         {{-- Pagination --}}
@@ -162,9 +163,6 @@
 
 @push('scripts')
     <!-- JS Libraies -->
-    <script src="{{ asset('stisla/library/izitoast/dist/js/iziToast.min.js') }}"></script>
-    <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
-
 
     <!-- Page Specific JS File -->
 
@@ -198,40 +196,6 @@ function read(id) {
         $("#exampleModalLabel").html('Detail Tiket ' + id)
         $("#page").html(data);
         $("#exampleModal").modal('show');
-    });
-}
-
-function edit(id) {
-    $.get("{{ url('tiket/proses_tiket') }}/" + id, {}, function(data, status) {
-        // jQuery.noConflict();
-        $("#exampleModalLabel").html('Proses Tiket ' + id)
-        $("#page").html(data);
-        $("#exampleModal").modal('show');
-    });
-}
-
-function updateBtn(id) {
-    var formData = new FormData($('#formProsesTiket')[0]);
-
-    $.ajax({
-        url: "{{ url('tiket/update_tiket_ditugaskan') }}/" + id,
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            console.log(response);
-            $('#exampleModal').modal('hide');
-            window.location.reload()
-            iziToast.success({
-                title: 'Success',
-                message: 'Proses Tiket berhasil ',
-                position: 'topRight',
-            });
-        },
-        error: function(xhr, status, error) {
-            console.log(xhr, error);
-        }
     });
 }
     </script>

@@ -7,6 +7,7 @@
             <label for="form-label">Judul</label>
             <input type="text" id="ticket_name" class="form-control" value="{{ isset($detail_tiket->name) ? $detail_tiket->name : '' }}" readonly>
         </div>
+        
         <div class="form-group">
             <label for="form-label">Status Tiket</label>
             <input type="text" id="status_tiket" class="form-control" value="{{ isset($detail_tiket->ticket_status_id) ? $detail_tiket->ticket_status->name : '' }}" readonly>

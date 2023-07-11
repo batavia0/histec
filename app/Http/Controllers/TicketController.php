@@ -65,6 +65,7 @@ class TicketController extends Controller
 
     public function indexStatusTiket()
     {
+        $data['all_ticket_status'] = $this->TicketStatus->getAllTicketStatus();
         $data['type_menu'] = 'tiket_nav';
         return view('tiket.status_tiket',$data);
     }
@@ -124,6 +125,12 @@ class TicketController extends Controller
         return view('tiket.read_tiket_selesai',$data);
     }
 
+    public function showStatusTiket($id)
+    {
+        $data['detail_status'] = $this->TicketStatus->getTicketStatusById($id);
+        return view('tiket.read_status_tiket',$data);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -166,9 +173,11 @@ class TicketController extends Controller
             $validator = Validator::make($request->only([
                 'status_name',
                 'ticket_name',
+                'description',
             ]), [
                 'status_name' => 'sometimes|required',
                 'ticket_name' => 'sometimes|required',
+                'description' => 'sometimes|required',
             ]);
             if ($validator->fails()) {
                 return response()->json(['error' => $validator->errors()], 422);
@@ -176,15 +185,20 @@ class TicketController extends Controller
     
             $ticket = Tickets::findOrFail($id);
     
-            $ticket->name = $request->input('ticket_name');
-            $ticket->ticket_status_id = $request->input('status_name');
-            $ticket->save();
-
-            return response()->json([
+            if ($ticket->isDirty(['status_name', 'ticket_name', 'description'])) {
+                // Ada perubahan pada data, maka simpan
+                $ticket->status_name = $request->input('status_name');
+                $ticket->ticket_name = $request->input('ticket_name');
+                $ticket->description = $request->input('description');
+                $ticket->save();
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Tiket berhasil diperbarui',
+                ],201);
+            } else return response()->json([
                 'status' => 'success',
-                'message' => 'Tiket berhasil diperbarui',
-                'data' => $ticket
-            ],201);
+                'message' => 'Tidak ada yang diperbarui'
+            ],200);                
     }
 
     public function updateTiketDitugaskan(Request $request, $id)
@@ -229,14 +243,17 @@ class TicketController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
-        $ticket = Tickets::findOrFail($id);
+        $ticket = Tickets::findOrFail($id);            
         $ticket->category_id = $request->input('technician');
         $ticket->save();
+        
 
         $this->TicketMutasi->ticket_id = $id;
         $this->TicketMutasi->technician_id = $request->input('technician');
         $this->TicketMutasi->created_at = now();
         $this->TicketMutasi->updated_at = now();
+        $this->TicketMutasi->save();
+        return response()->json(['message' => 'Mutasi Tiket Berhasil'], 201);
     }
 
     /**

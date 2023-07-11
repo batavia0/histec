@@ -98,7 +98,7 @@ class SivitasAkademikaController extends Controller
                 // $originalFileName = $file->getClientOriginalName();
                 // // Ambil ekstensi file
                 // $extension = $file->getClientOriginalExtension();
-                // // Generate New filename
+                // Generate New filename
                 // $newFileName = $originalFileName . '_' . round(microtime(true) * 1000) . '.' . $extension;
                 // Store to public path
                 // $file->storeAs('public/image',$newFileName);
