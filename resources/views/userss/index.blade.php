@@ -14,7 +14,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Status Tiket</h1>
+                <h1>User</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></div>
                     <div class="breadcrumb-item"><a href="{{ route('user.index') }}">User</a></div>
@@ -119,42 +119,42 @@
 });
      </script>
 <script>
-    function read(id) {
-    $.get("{{ url('tiket/read_status_tiket') }}/" + id, {}, function(data, status) {
-        $("#exampleModalLabel").html('Detail Tiket ' + id)
-        $("#page").html(data);
-        $("#exampleModal").modal('show');
-    });
-}
+//     function read(id) {
+//     $.get("{{ url('tiket/read_status_tiket') }}/" + id, {}, function(data, status) {
+//         $("#exampleModalLabel").html('Detail Tiket ' + id)
+//         $("#page").html(data);
+//         $("#exampleModal").modal('show');
+//     });
+// }
 function tambah() {
-    $.get("{{ url('user/tambah') }}", {}, function(data, status) {
-        $("#exampleModalLabel").html('Tambah User')
+    $.get("{{ route('indexTambahUser') }}", {}, function(data, status) {
+        $("#exampleModalLabel").html('Tambah User');
         $("#page").html(data);
         $("#exampleModal").modal('show');
     });
 }
-function updateBtn(id) {
-    var formData = new FormData($('#formEditTiket')[0]);
+// function updateBtn(id) {
+//     var formData = new FormData($('#formEditTiket')[0]);
 
-    $.ajax({
-        url: "{{ url('tiket/update_tiket') }}/" + id,
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            $('#exampleModal').modal('hide');
-            window.location.reload()
-            iziToast.success({
-                title: 'Success',
-                message: response.message,
-                position: 'topRight',
-            });
-        },
-        error: function(xhr, status, error) {
-            console.log(error);
-        }
-    });
-}
+//     $.ajax({
+//         url: "{{ url('tiket/update_tiket') }}/" + id,
+//         type: 'post',
+//         data: formData,
+//         processData: false,
+//         contentType: false,
+//         success: function(response) {
+//             $('#exampleModal').modal('hide');
+//             window.location.reload()
+//             iziToast.success({
+//                 title: 'Success',
+//                 message: response.message,
+//                 position: 'topRight',
+//             });
+//         },
+//         error: function(xhr, status, error) {
+//             console.log(error);
+//         }
+//     });
+// }
 </script>
 @endpush

@@ -25,13 +25,13 @@ class UserController extends Controller
     {
         $data['type_menu'] = 'user';
         $data['all_users'] = $this->User->getAllAdminWithRoles();
-        return view('users.index', $data);
+        return view('userss.index', $data);
     }
 
     public function indexTambahUser()
     {
         $data['role_name'] = $this->Roles->getRoleName();
-        return view('users.tambah', $data); 
+        return view('userss.tambah', $data); 
     }
 
     /**
