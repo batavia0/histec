@@ -263,7 +263,7 @@
                     },
                     error: function(xhr, status, error) {
                         $.each(xhr.responseJSON.errors,(prefix,val) => {
-                            console.log(prefix,val);
+                            // console.log(prefix,val);
                             $("span."+prefix+"_error").text(val[0]);
                         })
                         swal({

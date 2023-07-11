@@ -44,26 +44,30 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="" id="formBeritaPenyelesaian">
+                            <form action="" method="POST" id="formBeritaPenyelesaian">
+                                @csrf
                                 <div class="form-group">
                                     <label>Nomor Surat</label>
                                     <input type="text"
                                         class="form-control"
                                         name="nomor_surat"
-                                        placeholder="contoh: '1057/PL41.AI/TU.00.01/2023'">
+                                        placeholder="contoh: '1057/PL41.AI/TU.00.01/2023'"
+                                        value="{{ old('nomor_surat') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Tanggal</label>
                                     <input type="text"
                                         class="form-control datepicker"
-                                        name="date">
+                                        name="date"
+                                        value="{{ old('date') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Kegiatan</label>
                                     <input type="text"
                                         class="form-control"
                                         name="kegiatan"
-                                        placeholder="contoh: 'aktivasi jaringan internet lantai 2'">
+                                        placeholder="contoh: 'aktivasi jaringan internet lantai 2'"
+                                        value="{{ old('kegiatan') }}">
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
@@ -71,15 +75,17 @@
                                             <label>Perihal</label>
                                             <input type="text"
                                                 class="form-control"
-                                                name="kegiatan"
-                                                placeholder="contoh: 'Permohonan Pengaktifan WiFi'">
+                                                name="perihal"
+                                                placeholder="contoh: 'Permohonan Pengaktifan WiFi'"
+                                                value="{{ old('perihal') }}">
                                         </div>
                                         <div class="col-md-6">
                                             <label>Ruangan</label>
                                             <input type="text"
                                                 class="form-control"
                                                 name="ruangan"
-                                                placeholder="contoh: 'Ruang Teori 1'">
+                                                placeholder="contoh: 'Ruang Teori 1'"
+                                                value="{{ old('ruangan') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -87,13 +93,15 @@
                                     <textarea class="form-control"
                                     data-height="150"
                                     name="keterangan"
-                                    placeholder="contoh: 'Adapun SSID yang dilakukan diaktifikan.'"></textarea>
+                                    placeholder="contoh: 'Adapun SSID yang dilakukan diaktifikan.'"
+                                    value="{{ old('keterangan') }}"></textarea>
 
                                     <label>Keterangan Tambahan</label>
                                     <textarea class="form-control"
                                     data-height="150"
                                     name="keterangan_tambahan"
-                                    placeholder="contoh: 'Dengan password 123 '"></textarea>
+                                    placeholder="contoh: 'Dengan password 123 '"
+                                    value="{{ old('keterangan_tambahan') }}"></textarea>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -101,68 +109,100 @@
                                         <input type="text"
                                             class="form-control"
                                             name="gedung"
-                                            placeholder="contoh 'Agroindustri'">
+                                            placeholder="contoh 'Agroindustri'"
+                                            value="{{ old('gedung') }}">
                                         </div>
                                         <div class="col-md-6">
                                             <label>Institusi</label>
                                             <input type="text"
                                             class="form-control"
                                             name="institusi"
-                                            value="Politeknik Negeri Subang">    
+                                            value="Politeknik Negeri Subang"
+                                            value="{{ old('institusi') }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Kota</label>
+                                            <input type="text"
+                                            class="form-control"
+                                            name="kota"
+                                            value="Subang">
+                                                
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                        <label>Jabatan 1</label>
-                                        <input type="text"
-                                            class="form-control"
-                                            name="jabatan1"
-                                            placeholder="contoh 'Ketua Jurusan Agroindustri'">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>Jabatan 2</label>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
                                             <input type="text"
-                                            class="form-control"
-                                            name="jabatan2"
-                                            value="Kepala UPT Teknologi Komunikasi dan Infromasi">   
+                                                class="form-control"
+                                                name="jabatan1"
+                                                placeholder="contoh 'Wakil Direktur II'"
+                                                value="{{ old('jabatan2') }}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text"
+                                                class="form-control"
+                                                name="jabatan2"
+                                                value="Kepala UPT Teknologi Komunikasi dan Informasi">   
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                        <input type="text"
-                                            class="form-control"
-                                            name="nama_gelar1"
-                                            placeholder="contoh 'Nama dan gelar 1'">
-                                        </div>
-                                        <div class="col-md-6">
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
                                             <input type="text"
-                                            class="form-control"
-                                            name="nama_gelar2"
-                                            placeholder="Nama dan gelar 2">   
+                                                class="form-control"
+                                                name="nama_gelar1"
+                                                placeholder="contoh 'Nama dan gelar 1'"
+                                                value="{{ old('nama_gelar1') }}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text"
+                                                class="form-control"
+                                                name="nama_gelar2"
+                                                placeholder="Nama dan gelar 2"
+                                                value="{{ old('nama_gelar2') }}">   
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                        <input type="text"
-                                            class="form-control"
-                                            name="nip1"
-                                            value="NIP.">
-                                        </div>
-                                        <div class="col-md-6">
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
                                             <input type="text"
-                                            class="form-control"
-                                            name="nip2"
-                                            value="NIP.">   
+                                                class="form-control"
+                                                name="nip1"
+                                                value="NIP.1">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text"
+                                                class="form-control"
+                                                name="nip2"
+                                                value="NIP.2">   
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <button class="btn btn-primary btn-lg">GENERATE</button>
+                                        <div class="form-group">
+                                            <label for="format">Format</label>
+                                            <select name="format" id="format" class="form-control">
+                                                <option value="pdf">PDF</option>
+                                                <option value="docx">DOCX</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary btn-lg" onclick="generate()">GENERATE</button>
                                     </div>
                                 </div>
+                                
                             </form>
                         </div>
                     </div>
@@ -225,4 +265,35 @@
    }
 });
      </script>
+
+<script>
+    function generate() {
+    var formData = new FormData($('#formBeritaPenyelesaian')[0]);
+
+    $.ajax({
+        url: "{{ url('berita_penyelesaian/generate') }}",
+        type: 'post',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            // if (response.success) {
+            window.location.href = response.url;
+            window.location.href = response.file;
+            // }
+            // $('#exampleModal').modal('hide');
+            // window.location.reload()
+            // iziToast.success({
+            //     title: 'Success',
+            //     message: response.message,
+            //     position: 'topRight',
+            //});
+            // console.log(response.data);
+        },
+        error: function(xhr, status, error) {
+            console.log(xhr,error);
+        }
+    });
+}
+</script>
 @endpush

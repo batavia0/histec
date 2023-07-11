@@ -38,6 +38,15 @@ class BeritaPenyelesaianController extends Controller
         //
     }
 
+    public function generate(Request $request)
+    {
+        dd($request->all());
+        return response()->json([
+            'message' => 'success',
+            'data' => $request->all()
+        ],200);
+    }
+
     /**
      * Display the specified resource.
      *

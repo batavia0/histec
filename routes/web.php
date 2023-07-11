@@ -74,12 +74,12 @@ Route::middleware('auth')->group(function () {
 Route::resource('berita_penyelesaian', BeritaPenyelesaianController::class);
 Route::middleware('auth')->group(function () {
     Route::controller(BeritaPenyelesaianController::class)->group(function () {
-        // Route::get('/berita_penyelesaian/name', 'index')->name('name');
+        Route::post('/berita_penyelesaian/generate', 'generate')->name('generate');
     });
 });
 //END Routes for Berita Penyelesaian
 // Routes for WordController
-Route::post('word', [WordController::class,'index'])->name('word.index');
+Route::post('berita_penyelesaian/generate', [WordController::class,'generate'])->name('word.generate');
 Route::get('indexword', function () {
     return view('berita_penyelesaian.word');
 });
