@@ -27,7 +27,6 @@ class TicketController extends Controller
         $this->TicketProcess = new TicketProcess();
         $this->TicketMutasi = new TicketMutasi();
         $this->User = new User();
-
     }
     /**
      * Display a listing of the resource.

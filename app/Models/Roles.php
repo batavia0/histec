@@ -22,4 +22,9 @@ class Roles extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function getRoleName()
+    {
+        return Roles::all();
+    }
 }

@@ -67,12 +67,12 @@
                     </li>
                 </ul>
             <li class="menu-header">User</li>
-            <li class="nav-item dropdown {{ $type_menu === 'auth' ? 'active' : '' }}">
+            <li class="nav-item dropdown {{ $type_menu === 'user' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="far fa-user"></i> <span>User</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('auth-forgot-password') ? 'active' : '' }}">
-                        <a href="{{ url('auth-forgot-password') }}">User</a>
+                    <li class="{{ Request::is('user') ? 'active' : '' }}">
+                        <a href="{{ route('user.index') }}">User</a>
                     </li>
                     
                 </ul>

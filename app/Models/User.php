@@ -72,6 +72,12 @@ class User extends Authenticatable
         return User::with('roles')->whereNot('role_id',$id)->get();
     }
 
+    public function getAllAdminWithRoles()
+    {
+        //Function to return all admin with their roles
+        return User::with('roles')->get();
+    }
+
     public function assignedTickets()
     {
         return $this->hasMany(TicketProcess::class, 'ticket_id');

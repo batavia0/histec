@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WordController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\LaporanController;
@@ -66,6 +67,19 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::controller(LaporanController::class)->group(function () {
         Route::get('/laporan/index', 'index')->name('indexLaporan');
+    });
+});
+//END Routes for Laporan
+
+//Routes for User
+Route::resource('user', UserController::class);
+Route::middleware('auth')->group(function () {
+    Route::controller(UserController::class)->group(function () {
+        Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
+        Route::post('user/name', 'name')->name('name');
+        Route::post('user/name/{id}', 'name')->name('name');
+        Route::post('user/name/{id}', 'name')->name('name');
+        Route::get('user/name/{id}', 'name')->name('name');
     });
 });
 //END Routes for Laporan
