@@ -78,14 +78,14 @@
                 </ul>
             </li>
             <li class="menu-header">Berita Penyelesaian</li>
-            <li class="nav-item dropdown {{ $type_menu === 'error' ? 'active' : '' }}">
+            <li class="nav-item dropdown {{ $type_menu === 'berita_penyelesaian' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-exclamation"></i>
                     <span>Berita Penyelesaian</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('error-403') ? 'active' : '' }}">
+                    <li class="{{ Request::is('berita_penyelesaian/index') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ url('error-403') }}">Buat Berita Penyelesaian</a>
+                            href="{{ route('berita_penyelesaian.index') }}">Buat Berita Penyelesaian</a>
                     </li>
                 </ul>
             </li>

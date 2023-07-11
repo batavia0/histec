@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WordController;
 use App\Http\Controllers\TicketController;
-use App\Http\Controllers\SivitasAkademikaController;
 use App\Http\Controllers\LaporanController;
-// use App\Http\Controllers\TicketController;
+use App\Http\Controllers\SivitasAkademikaController;
+use App\Http\Controllers\BeritaPenyelesaianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,23 @@ Route::middleware('auth')->group(function () {
         Route::get('/laporan/index', 'index')->name('indexLaporan');
     });
 });
+//END Routes for Laporan
+
+//Routes for Berita Penyelesaian
+Route::resource('berita_penyelesaian', BeritaPenyelesaianController::class);
+Route::middleware('auth')->group(function () {
+    Route::controller(BeritaPenyelesaianController::class)->group(function () {
+        // Route::get('/berita_penyelesaian/name', 'index')->name('name');
+    });
+});
+//END Routes for Berita Penyelesaian
+// Routes for WordController
+Route::post('word', [WordController::class,'index'])->name('word.index');
+Route::get('indexword', function () {
+    return view('berita_penyelesaian.word');
+});
+// Routes for WordController
+
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 

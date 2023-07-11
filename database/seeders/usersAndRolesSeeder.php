@@ -22,6 +22,7 @@ class usersAndRolesSeeder extends Seeder
             ['name' => 'Jaringan Internet'],
             ['name' => 'Software'],
             ['name' => 'Hardware'],
+            ['name' => 'Kepala UPTTIK'],
         ]);
 
         // Insert Users
@@ -48,6 +49,15 @@ class usersAndRolesSeeder extends Seeder
                 'email' => 'user3@example.com',
                 'password' => Hash::make('admin'),
                 'role_id' => 3, // Teknisi Hardware
+                'email_verified_at' => now(),
+                'remember_token' => Str::random(10),
+
+            ],
+            [
+                'name' => 'Kepala UPTTIK',
+                'email' => 'user4@example.com',
+                'password' => Hash::make('admin'),
+                'role_id' => 4, // Kepala UPTTIK
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
 
