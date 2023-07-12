@@ -20,13 +20,21 @@ use App\Http\Controllers\BeritaPenyelesaianController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('tickets.index');
 });
 
-Route::get('mulai', function () {
-    return view('mulai');
-});
+
+
+Route::get('dashboard', function () {
+    return view('dashboard');
+})->middleware('auth');
 Auth::routes();
+Route::get('/logout', function () {
+    Auth::logout();
+
+    // Redirect to the desired page
+    return redirect()->route('tickets.index');
+})->name('logout');
 //Routes for Sivitas Akademika
 Route::resource('tickets', SivitasAkademikaController::class);
 Route::controller(SivitasAkademikaController::class)->group(function () {
@@ -72,14 +80,16 @@ Route::middleware('auth')->group(function () {
 //END Routes for Laporan
 
 //Routes for User
+Route::get('user/tambah', [UserController::class,'indexTambahUser'])->name('indexTambahUser');
 Route::resource('user', UserController::class);
 Route::middleware('auth')->group(function () {
     Route::controller(UserController::class)->group(function () {
-        Route::get('/user/tambah', 'indexTambahUser')->name('indexTambahUser');
-        Route::post('user/name', 'name')->name('name');
-        Route::post('user/name/{id}', 'name')->name('name');
-        Route::post('user/name/{id}', 'name')->name('name');
-        Route::get('user/name/{id}', 'name')->name('name');
+        Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
+        // Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
+        // Route::post('user/name', 'name')->name('name');
+        // Route::post('user/name/{id}', 'name')->name('name');
+        // Route::post('user/name/{id}', 'name')->name('name');
+        // Route::get('user/name/{id}', 'name')->name('name');
     });
 });
 //END Routes for Laporan

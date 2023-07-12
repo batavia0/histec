@@ -1,5 +1,6 @@
 <div class="p2">
     <form action="" method="post" id="formTambahUser">
+        @csrf
         <div class="form-group">
             <label for="form-label">Tambah User</label>
             <input type="email" id="email" class="form-control"

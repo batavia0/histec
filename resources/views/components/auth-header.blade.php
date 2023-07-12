@@ -1,6 +1,7 @@
  <div class="login-brand">
-     <img src="{{ asset('img/stisla-fill.svg') }}"
+     <img src="{{ asset('product_logo_histec.png') }}"
          alt="logo"
-         width="100"
-         class="shadow-light rounded-circle">
+         width="300"
+         class="shadow-light"
+         loading="lazy">
  </div>

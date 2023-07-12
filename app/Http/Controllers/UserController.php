@@ -31,7 +31,7 @@ class UserController extends Controller
     public function indexTambahUser()
     {
         $data['role_name'] = $this->Roles->getRoleName();
-        return view('userss.tambah', $data); 
+        return view('userss.tambah',$data); 
     }
 
     /**
