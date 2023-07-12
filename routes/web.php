@@ -81,8 +81,8 @@ Route::middleware(['auth','kepalaupttikrole'])->group(function () {
 
 //Routes for User
 Route::get('user/tambah', [UserController::class,'indexTambahUser'])->name('indexTambahUser');
-Route::resource('user', UserController::class);
 Route::middleware('auth')->group(function () {
+    Route::resource('user', UserController::class);
     Route::controller(UserController::class)->group(function () {
         Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
         // Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');

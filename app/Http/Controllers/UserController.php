@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Roles;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -59,21 +60,26 @@ class UserController extends Controller
             'email' => 'required|email',
             'name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
             'role' => 'required',
-            'password' => ['required', 'confirmed'],
-'password_confirm' => ['required', 'same:password'],
+            'password' => 'required', 'confirmed',
+            'password_confirm' => ['required', 'same:password'],
         ],[
-            '*.required' => 'Kolom wajib diisi.',
-            'role.required' => 'Divisi wajib diisi.',
-            'email.email' => 'Silakan masukkan email valid.',
-            'name.regex' => 'Format nama tidak valid. Nama hanya boleh terdiri dari huruf dan spasi.',
+            'email.required' => 'Kolom email wajib diisi.',
+    'email.email' => 'Silakan masukkan email yang valid.',
+    'name.required' => 'Kolom nama wajib diisi.',
+    'name.regex' => 'Format nama tidak valid. Nama hanya boleh terdiri dari huruf dan spasi.',
+    'role.required' => 'Kolom divisi wajib diisi.',
+    'password.required' => 'Kolom password wajib diisi.',
+    'password.confirmed' => 'Konfirmasi password tidak sesuai dengan password.',
+    'password_confirm.required' => 'Kolom konfirmasi password wajib diisi.',
+    'password_confirm.same' => 'Konfirmasi password tidak sesuai dengan password.',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->toArray()], 400);
         }
-        $this->User->email = $request->email;
-        $this->User->name = $request->name;
-        $this->User->password = Hash::make($request->password);
-        $this->User->role_id = $request->role;
+        $this->User->email = $request->input('email');
+        $this->User->name = $request->input('name');
+        $this->User->password = Hash::make($request->input('password'));
+        $this->User->role_id = $request->input('role');
         $this->User->remember_token = Str::random(10);
         $this->User->email_verified_at = now();
         $this->User->save();

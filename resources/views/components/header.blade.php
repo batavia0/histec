@@ -1,3 +1,4 @@
+@auth
 <div class="navbar-bg"></div>
 <nav class="navbar navbar-expand-lg main-navbar">
     <form class="form-inline mr-auto">
@@ -15,7 +16,7 @@
                 <img alt="image"
                     src="https://img.icons8.com/pastel-glyph/64/user-male-circle.png" alt="user-male-circle"
                     class="rounded-circle mr-1">
-                <div class="d-sm-none d-lg-inline-block">{{ Auth()->user()->name }}</div>
+                    <div class="d-sm-none d-lg-inline-block">{{ Auth()->user()->name }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 {{-- <div class="dropdown-title">Logged in 5 min ago</div> --}}
@@ -40,3 +41,4 @@
         </li>
     </ul>
 </nav>
+@endauth

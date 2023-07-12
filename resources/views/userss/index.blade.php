@@ -109,6 +109,8 @@
     <!-- JS Libraies -->
     <script src="{{ asset('stisla/library/izitoast/dist/js/iziToast.min.js') }}"></script>
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
+    <!-- jQuery validation plugin -->
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <!-- Page Specific JS File -->
 <script>
 //     function read(id) {
@@ -131,7 +133,6 @@ function tambah() {
       console.error('Error:', error);
     });
 }
-
 // function updateBtn(id) {
 //     var formData = new FormData($('#formEditTiket')[0]);
 
@@ -156,7 +157,8 @@ function tambah() {
 //     });
 // }
 
-function store() {
+
+function storeBtn() {
   const form = document.getElementById('formTambahUser');
   const formData = new FormData(form);
 
@@ -166,18 +168,27 @@ function store() {
   })
     .then(response => response.json())
     .then(data => {
-      $('#exampleModal').modal('hide');
+        if(data.success) {
+            $('#exampleModal').modal('hide');
     //   window.location.reload();
       iziToast.success({
         title: 'Success',
         message: data.message,
         position: 'topRight'
       });
+      form.reset();
+      form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
+        } else {
+            for (const field in data.errors) {
+          const errorElement = document.getElementById(`${field}_error`);
+          errorElement.textContent = data.errors[field][0];
+        }
+        }
     })
     .catch(error => {
         iziToast.error({
         title: 'Error',
-        message: 'Eror gagal tambah user',
+        message: 'Eror gagal menambahkan user',
         position: 'topRight'
       });
     });
