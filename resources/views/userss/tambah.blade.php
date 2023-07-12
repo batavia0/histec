@@ -3,12 +3,12 @@
         @csrf
         <div class="form-group">
             <label for="form-label">Tambah User</label>
-            <input type="email" id="email" class="form-control"
+            <input type="email" name="email" id="email" class="form-control"
             placeholder="Email">
         </div>
         <div class="form-group">
             <label for="form-label">Nama</label>
-            <input type="name" id="email" class="form-control"
+            <input type="text" name="name" id="email" class="form-control"
             placeholder="Nama User">
         </div>
         <div class="form-group">
@@ -26,6 +26,7 @@
                 data-dismiss="modal">Close</button>
             <button type="button"
                 class="btn btn-primary"
+                onclick="store()"
                 >Save changes</button>
         </div>
     </form>

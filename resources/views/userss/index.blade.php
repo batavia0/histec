@@ -4,10 +4,7 @@
 
 @push('style')
     <!-- CSS Libraries -->
-    {{-- <link rel="stylesheet"
-        href="{{ asset('stisla/library/jqvmap/dist/jqvmap.min.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('stisla/library/summernote/dist/summernote-bs4.min.css') }}"> --}}
+        <link rel="stylesheet" href="{{ asset('stisla/library/izitoast/dist/css/iziToast.min.css') }}">
 @endpush
 
 @section('main')
@@ -110,14 +107,9 @@
 
 @push('scripts')
     <!-- JS Libraies -->
+    <script src="{{ asset('stisla/library/izitoast/dist/js/iziToast.min.js') }}"></script>
+    <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <!-- Page Specific JS File -->
-    <script>
-        $.ajaxSetup({
-   headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-   }
-});
-     </script>
 <script>
 //     function read(id) {
 //     $.get("{{ url('tiket/read_status_tiket') }}/" + id, {}, function(data, status) {
@@ -126,13 +118,20 @@
 //         $("#exampleModal").modal('show');
 //     });
 // }
+
 function tambah() {
-    $.get("{{ route('indexTambahUser') }}", {}, function(data, status) {
-        $("#exampleModalLabel").html('Tambah User');
-        $("#page").html(data);
-        $("#exampleModal").modal('show');
+  fetch("{{ route('indexTambahUser') }}")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("exampleModalLabel").innerHTML = 'Tambah User';
+      document.getElementById("page").innerHTML = data;
+      $('#exampleModal').modal('show'); // Use jQuery to show the Bootstrap modal
+    })
+    .catch(error => {
+      console.error('Error:', error);
     });
 }
+
 // function updateBtn(id) {
 //     var formData = new FormData($('#formEditTiket')[0]);
 
@@ -156,5 +155,33 @@ function tambah() {
 //         }
 //     });
 // }
+
+function store() {
+  const form = document.getElementById('formTambahUser');
+  const formData = new FormData(form);
+
+  fetch("{{ route('user.store') }}", {
+    method: 'POST',
+    body: formData
+  })
+    .then(response => response.json())
+    .then(data => {
+      $('#exampleModal').modal('hide');
+    //   window.location.reload();
+      iziToast.success({
+        title: 'Success',
+        message: data.message,
+        position: 'topRight'
+      });
+    })
+    .catch(error => {
+        iziToast.error({
+        title: 'Error',
+        message: 'Eror gagal tambah user',
+        position: 'topRight'
+      });
+    });
+}
+
 </script>
 @endpush
