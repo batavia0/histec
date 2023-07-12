@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Roles;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -53,12 +54,30 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
-        // $validator = Validator::make($request->only([
-        //     ''
-        // ],[
+        // dd($request->getContent());
+        $validator = Validator::make($request->all(),[
+            'email' => 'required|email',
+            'name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
+            'role' => 'required',
+            'password' => ['required', 'confirmed'],
+'password_confirm' => ['required', 'same:password'],
+        ],[
+            '*.required' => 'Kolom wajib diisi.',
+            'role.required' => 'Divisi wajib diisi.',
+            'email.email' => 'Silakan masukkan email valid.',
+            'name.regex' => 'Format nama tidak valid. Nama hanya boleh terdiri dari huruf dan spasi.',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->toArray()], 400);
+        }
+        $this->User->email = $request->email;
+        $this->User->name = $request->name;
+        $this->User->password = Hash::make($request->password);
+        $this->User->role_id = $request->role;
+        $this->User->remember_token = Str::random(10);
+        $this->User->email_verified_at = now();
+        $this->User->save();
 
-        // ]))
     }
 
 

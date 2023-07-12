@@ -44,7 +44,7 @@
                   <small>{{ $item->tickets->category->name }}</small>
                 </a>
                 @endforeach
-        </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button"

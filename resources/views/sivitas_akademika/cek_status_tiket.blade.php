@@ -152,7 +152,7 @@
                                             <div class="accordion-body">
                                                 Isi dari Detail Penanganan 2
                                             </div>
-                                        </div>
+                                        </div>  
                                     </div>
                                 </div>
                             </div> -->
@@ -163,6 +163,7 @@
                                 
                             </div>
                             <div class="portfolio-info ticket-searchbar">
+
                             </div>
                     </div>
 

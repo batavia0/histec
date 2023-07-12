@@ -56,12 +56,12 @@
                                                 class="btn btn-outline-primary">Detail</a>
                                             <a href="#"
                                                 class="btn btn-primary">Edit</a>
-                                            <a href="#"
+                                            {{-- <a href="#"
                                                 class="btn btn-danger"
                                                 data-toggle="tooltip"
                                                 title="Delete"
                                                 data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?"
-                                                data-confirm-yes="alert('Deleted')">Hapus</a>
+                                                data-confirm-yes="alert('Deleted')">Hapus</a> --}}
                                             </td>
                                     </tr>
                                     @endforeach

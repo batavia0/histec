@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Tickets;
 use App\Models\Category;
 use App\Rules\ReCaptcha;
 use App\Models\Locations;
-use App\Models\Tickets;
 use Illuminate\Http\Request;
+use App\Models\TicketProcess;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Carbon;
 
 
 
@@ -24,6 +25,7 @@ class SivitasAkademikaController extends Controller
     {
         $this->Category = new Category();
         $this->Tickets = $Tickets;
+        $this->TicketProcess = new TicketProcess();
         $this->Locations = new Locations();
     }
     /**
@@ -186,7 +188,7 @@ class SivitasAkademikaController extends Controller
         // Check if request is Ajax
         if($request->ajax()){
             $output = '';
-
+            $histori = $this->TicketProcess->getHistoryTicketById($request->search_id_tiket);
             $query = $this->Tickets->getQueryByIdTiket($request->search_id_tiket)->get();
             // start search
             if ($query) {
@@ -202,9 +204,31 @@ class SivitasAkademikaController extends Controller
                         <li><strong>Tiket Selesai</strong>: '.(isset($data->ticket_finished_at) ? $data->ticket_finished_at : "--|--").'</li>
                     </ul>';
                 }
+                $output .= '<div class="form-group">
+                        <label for="form-label">Histori Tiket</label>
+                        <div class="list-group">';
+                        $iteration = 0;
+                        foreach ($histori as $data) {
+                            // $diff = Carbon::parse($data->tickets->ticket_finished_at)->diffForHumans($data->tickets->created_at);
+                            // $isActive = ($iteration === 0 ? 'active' : '');
+                $output .= '<a href="#" class="list-group-item list-group-item-action ' . $isActive . '">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">' . $data->name . '</h5>
+                                    <small>' . $diff . '</small>
+                                </div>
+                                <p class="mb-1">' . $data->description . '</p>
+                                <small>' . $data->tickets->locations->name . '</small>
+                                <span>-</span>
+                                <small>' . $data->tickets->category->name . '</small>
+                            </a>';
+                            $iteration++;
+                        }
+                        $output .= '</div>
+                        </div>';
+
             }
+            return response()->json($output);
         }
-        return response()->json($output);
         return view('sivitas_akademika.cek_status_tiket');
         
     }

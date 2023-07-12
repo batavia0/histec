@@ -89,6 +89,7 @@
                     </li>
                 </ul>
             </li>
+            @kepalaupttikrole
             <li class="menu-header">Laporan</li>
             <li class="nav-item dropdown {{ $type_menu === 'laporan' ? 'active' : '' }}">
                 <a href="#"
@@ -100,6 +101,7 @@
                     </li>
                 </ul>
             </li>
+            @endkepalaupttikrole
             <li class="{{ Request::is('credits') ? 'active' : '' }}">
                 <a class="nav-link"
                     href="{{ url('credits') }}"><i class="fas fa-pencil-ruler">
