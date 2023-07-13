@@ -91,17 +91,13 @@
                                         <td><a href="#"
                                                 class="btn btn-sm btn-outline-primary"">Detail</a>
                                             <a href="#"
-                                                class="btn btn-sm btn-info"
-                                                data-toggle="tooltip"
-                                                onclick="mutasiBtn({{ $row }})"
-                                                title="Mutasi Tiket"><i class="fas fa-handshake-alt"></i></a>
-                                            <a href="#"
                                                 class="btn btn-sm btn-primary"
                                                 title="Edit">Edit</a>
                                             <a href="#"
                                                 class="btn btn-sm btn-danger"
                                                 data-toggle="tooltip"
-                                                title="Hapus">Hapus</a>
+                                                title="Hapus"
+                                                onclick="destroy({{ $row->faq_id }})">Hapus</a>
                                             </td>
                                     </tr>
                                     @endforeach
@@ -131,7 +127,8 @@
                     <form
                         class="needs-validation"
                         novalidate=""
-                        id="formTambahFaq">
+                        id="formTambahFaq"
+                        method="post">
                         @csrf
                         <div class="card">
                             <div class="card-header">
@@ -237,7 +234,32 @@ function store() {
   })
     .then(response => response.json())
     .then(data => {
-        //   window.location.reload();
+          window.location.reload();
+        iziToast.success({
+        title: 'Success',
+        message: data.message,
+        position: 'topRight'
+      });
+        
+    })
+    .catch(error => {
+        iziToast.error({
+        title: 'Error',
+        message: 'Eror'+error,
+        position: 'topRight'
+      });
+        console.log(error);
+    });
+}
+
+function destroy(id) {
+
+  fetch("{{ url('faq_admin_page') }}/"+id, {
+    method: 'post',
+  })
+    .then(response => response.json())
+    .then(data => {
+          window.location.reload();
         iziToast.success({
         title: 'Success',
         message: data.message,

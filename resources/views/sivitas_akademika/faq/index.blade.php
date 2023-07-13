@@ -66,8 +66,18 @@
             </div>
           </div>
           <div class="row">
-            <div id="faq-list">
-
+            {{-- <div class="col-md-4 -flex justify-content-end mb-2">
+              <label for="filterBy">Filter By:</label>
+              <select id="filterBy" class="form-select ms-2">
+                <option value="all">All</option>
+                <option value="category1">Jaringan Internet</option>
+                <option value="category2">Software</option>
+                <option value="category3">Hardware</option>
+              </select>
+            </div> --}}
+            <div class="col mx-auto py-2">
+              <div id="faq-list">
+              </div>
             </div>
           </div>
         </div>
@@ -127,15 +137,54 @@
   // Generate the list items based on the fetched data
   $('#faq-list').empty();
   for (var i = 0; i < all_faq.length; i++) {
-              var cardItem = '<div class="col mx-auto py-2">'+'<div class="card-body">'+
-                    '<h5 class="card-title">'+ all_faq[0].title +'</h5>'+
-                    '<h6 class="card-subtitle mb-2 text-body-secondary">Kategori: '+ all_faq[0].category.name +'</h6>' +
-                    '<p class="card-text">'+ all_faq[0].answer +'</p>'+
-                    '<a href="#" class="card-link">Card link</a>'+
-                    '<a href="#" class="card-link">Another link</a>'+
-                    '</div>'+'</div>'
-  
-              $('#faq-list').append(cardItem);
-          }
+    var faqId = all_faq[i].faq_id; // Cari berdasarkan faq_id
+
+    // Cari objek FAQ dengan ID yang sesuai
+    var faq = all_faq.find(function(item) {
+        return item.faq_id === faqId;
+    });
+
+    // Periksa apakah objek FAQ ditemukan
+    if (faq) {
+        var cardItem = 
+            '<div class="card-body">' +
+            '<h5 class="card-title">' + faq.title + '</h5>' +
+            '<h6 class="card-subtitle mb-2 text-body-secondary">Kategori: ' + faq.category.name + '</h6>' +
+            '<div class="card-text overflow-auto" style="max-height: 200px;">' + faq.answer + '</div>' +
+            '</div>';
+
+        $('#faq-list').append(cardItem);
+    } else {
+        console.log('FAQ dengan ID ' + faqId + ' tidak ditemukan.');
+    }
+}
+// Ambil elemen dropdown filter dan faq-list
+const filterDropdown = document.getElementById('filterBy');
+const faqList = document.getElementById('faq-list');
+
+// Event listener untuk perubahan nilai dropdown filter
+filterDropdown.addEventListener('change', function() {
+  const selectedCategory = this.value; // Nilai kategori yang dipilih
+
+  // Hapus semua elemen dalam faq-list
+  while (faqList.firstChild) {
+    faqList.removeChild(faqList.firstChild);
+  }
+
+  // Loop melalui data FAQ dan tampilkan yang sesuai dengan kategori yang dipilih
+  all_faq.forEach(function(faq) {
+    if (selectedCategory === 'all' || faq.category.name === selectedCategory) {
+      var cardItem = '<div class="col mx-auto py-2">'+'<div class="card-body">'+
+        '<h5 class="card-title">'+ faq.title +'</h5>'+
+        '<h6 class="card-subtitle mb-2 text-body-secondary">Kategori: '+ faq.category.name +'</h6>' +
+        '<p class="card-text">'+ faq.answer +'</p>'+
+        '<a href="#" class="card-link">Card link</a>'+
+        '<a href="#" class="card-link">Another link</a>'+
+        '</div>'+'</div>';
+      faqList.insertAdjacentHTML('beforeend', cardItem);
+    }
+  });
+});
+
   </script>
 @endpush

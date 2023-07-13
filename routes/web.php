@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(FAQController::class)->group(function () {
         // FAQ pada halaman dashboard admin
         Route::get('faq_admin_page', 'indexFaqAdmin')->name('indexFaqAdmin');
+        Route::post('faq_admin_page/{id}', 'destroy')->name('destroy_faq');
     });
 });
 // END Routes for FAQController

@@ -76,9 +76,6 @@ class FAQController extends Controller
         $this->Faq->created_at = now();
         $this->Faq->updated_at = now();
         $this->Faq->save();
-        return response()->json([
-            'message' => 'FAQ Berhasil ditambahkan'
-        ],201);
     }
 
     /**
@@ -123,6 +120,7 @@ class FAQController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $faq = FAQ::findOrFail($id);
+        $faq = FAQ::where('faq_id',$id)->destroy();
     }
 }
