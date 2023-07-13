@@ -34,4 +34,9 @@ class Category extends Model
     {
         return Category::all();
     }
+
+    public function faq()
+    {
+        return $this->hasMany(FAQ::class, 'category_id', 'category_id');
+    }
 }

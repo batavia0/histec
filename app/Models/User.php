@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->belongsTo(Roles::class,'role_id');
     }
 
+    public function faq()
+    {
+        return $this->hasMany(FAQ::class,'technician_id','id');
+    }
+
     /**
      * Get all of the comments for the User
      *

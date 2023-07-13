@@ -15,8 +15,13 @@ return new class extends Migration
     {
         Schema::create('faq', function (Blueprint $table) {
             $table->id('faq_id');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('category_id')->on('category');
             $table->string('title');
-            $table->string('answer');
+            $table->text('answer');
+            $table->unsignedBigInteger('technician_id');
+            $table->foreign('technician_id')->references('id')->on('users');
+            $table->unsignedBigInteger('created_date')->nullable();
             $table->timestamps();
         });
     }

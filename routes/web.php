@@ -102,12 +102,16 @@ Route::middleware('auth')->group(function () {
     });
 });
 //END Routes for Berita Penyelesaian
+
 // Routes for WordController
 Route::post('berita_penyelesaian/generate', [WordController::class,'generate'])->name('word.generate');
 Route::get('indexword', function () {
     return view('berita_penyelesaian.word');
 });
-// Routes for WordController
+// END Routes for WordController
+// Routes for FAQController
+
+// END Routes for FAQController
 
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
