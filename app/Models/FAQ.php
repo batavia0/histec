@@ -19,14 +19,26 @@ class FAQ extends Model
         'updated_at',
     ];
 
+    protected $table = 'faq';
+
+
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id','category_id');
     }
 
     public function users()
     {
-        return $this->belongsTo(User::class,'technician_id');
+        return $this->belongsTo(User::class,'technician_id','id');
     }
 
+    public function getAllFaq()
+    {
+        return FAQ::with('category','users');
+    }
+
+    public function getFaqById()
+    {
+        return true;
+    }
 }

@@ -114,8 +114,14 @@ Route::middleware('auth')->group(function () {
 
 // Routes for FAQController
 Route::controller(FAQController::class)->group(function () {
-    Route::get('faq', 'index');
-    // Route::post('faq/', );
+    Route::get('faq', 'index'); //Routes for Sivitas Akademika FAQ's
+});
+Route::middleware('auth')->group(function () {
+    Route::resource('faq_admin_page', FAQController::class);
+    Route::controller(FAQController::class)->group(function () {
+        // FAQ pada halaman dashboard admin
+        Route::get('faq_admin_page', 'indexFaqAdmin')->name('indexFaqAdmin');
+    });
 });
 // END Routes for FAQController
 

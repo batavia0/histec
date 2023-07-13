@@ -37,6 +37,6 @@ class Category extends Model
 
     public function faq()
     {
-        return $this->hasMany(FAQ::class, 'category_id', 'category_id');
+        return $this->hasMany(FAQ::class, 'category_id');
     }
 }

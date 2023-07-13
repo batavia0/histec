@@ -73,9 +73,9 @@
                     class="nav-link has-dropdown"
                     data-toggle="dropdown"><i class="far fa-square"></i> <span>FAQ</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('faq/index') ? 'active' : '' }}">
+                    <li class="{{ Request::is('faq_admin_page/index') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ route('indexSemuaTiket') }}">FAQ</a>
+                            href="{{ route('indexFaqAdmin') }}">FAQ</a>
                     </li>
                 </ul>
             </li>
