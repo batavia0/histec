@@ -13,7 +13,7 @@ class FAQController extends Controller
      */
     public function index()
     {
-        //
+        return view('sivitas_akademika.faq.index');
     }
 
     /**

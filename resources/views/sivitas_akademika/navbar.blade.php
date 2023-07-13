@@ -12,7 +12,7 @@
         <ul>
           <li><a class="nav-link scrollto {{ Request::is('tickets') ? 'active' : '' }}" href="{{ route('tickets.index') }}">Home</a></li>
           <li><a class="nav-link scrollto {{ Request::is('cek_status_tiket') ? 'active' : '' }}" href="{{ route('indexCekStatusTiket') }}">Cek Status Tiket</a></li>
-          {{-- <li class="dropdown"><a href="#"><span>FAQ</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a href="#"><span>FAQ</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">FAQ</a></li>
               <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
@@ -23,7 +23,7 @@
                 </ul>
               </li>
             </ul>
-          </li> --}}
+          </li>
           <li><a class="getstarted scrollto" href="{{ route('login') }}">Login</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>

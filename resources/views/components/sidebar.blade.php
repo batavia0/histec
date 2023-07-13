@@ -66,6 +66,19 @@
                             href="{{ route('indexSemuaTiket') }}">Kategori</a>
                     </li>
                 </ul>
+            </li>
+            <li class="menu-header">FAQ</li>
+            <li class="nav-item dropdown {{ $type_menu === 'faq_nav' ? 'active' : '' }}">
+                <a href="#"
+                    class="nav-link has-dropdown"
+                    data-toggle="dropdown"><i class="far fa-square"></i> <span>FAQ</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is('faq/index') ? 'active' : '' }}">
+                        <a class="nav-link"
+                            href="{{ route('indexSemuaTiket') }}">FAQ</a>
+                    </li>
+                </ul>
+            </li>
             <li class="menu-header">User</li>
             <li class="nav-item dropdown {{ $type_menu === 'user' ? 'active' : '' }}">
                 <a href="#"

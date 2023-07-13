@@ -79,6 +79,7 @@ class SivitasAkademikaController extends Controller
             'filenames.max' => 'Ukuran gambar maksimal adalah 16MB',
         ]);
 
+
         if($validator->fails()){
             return response()->json(['errors' => $validator->errors()->toArray()],400);
         }

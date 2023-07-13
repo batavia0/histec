@@ -7,6 +7,7 @@ use App\Http\Controllers\TicketController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\SivitasAkademikaController;
 use App\Http\Controllers\BeritaPenyelesaianController;
+use App\Http\Controllers\FAQController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,15 +103,20 @@ Route::middleware('auth')->group(function () {
     });
 });
 //END Routes for Berita Penyelesaian
-
 // Routes for WordController
-Route::post('berita_penyelesaian/generate', [WordController::class,'generate'])->name('word.generate');
-Route::get('indexword', function () {
-    return view('berita_penyelesaian.word');
+Route::middleware('auth')->group(function () {
+    Route::post('berita_penyelesaian/generate', [WordController::class,'generate'])->name('word.generate');
+    Route::get('indexword', function () {
+        return view('berita_penyelesaian.word');
+    });    
 });
 // END Routes for WordController
-// Routes for FAQController
 
+// Routes for FAQController
+Route::controller(FAQController::class)->group(function () {
+    Route::get('faq', 'index');
+    // Route::post('faq/', );
+});
 // END Routes for FAQController
 
 

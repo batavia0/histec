@@ -1,31 +1,10 @@
 @extends('layouts.appresi')
 @section('content')
-@push('style')
+    @push('style')
         <!-- CSS Libraries -->
 
-@endpush
-@include('sivitas_akademika.navbar')
-<section>
-    <div class="container d-flex justify-content-center align-items-center">
-        <div class="row mt-5 col-md-8">
-            <div class="col-lg-12 col-md-12">
-                <div class="hero-section">
-                    <form id="searchForm">
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-lg" id="searchInput" placeholder="Cari FAQ Jawaban Masalah">
-                        </div>
-                    </form>
-    
-                    <div class="list-group" id="previewList">
-                        <!-- List group items will be dynamically added here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section>
-
+    @endpush
+    @include('sivitas_akademika.navbar')
     <div class="container">
         <div class="row">
             <div class="col-md-8 mt-5">
@@ -89,7 +68,7 @@
                                         <p class="text text-muted">Tidak ada kategori yang tersedia.</p>
                                     @endif
                                     <span class="text-error text-danger kategori_error"></span>
-    
+
                                     <div class="valid-feedback">
                                         Benar
                                     </div>
@@ -150,10 +129,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- Message Validation --}}
-                                <span class="text-error text-danger g-recaptcha-response_error"></span>
                                 </div>
-                                
+                                {{-- Message Validation --}}
+                                <span class="text-error text-danger recaptcha_error"></span>
                             </div>
                             <button type="submit" onclick="store(event)" class="btn btn-primary" id="btnSubmit">Submit</button>
                             <button type="reset" class="btn btn-danger">Reset</button>
@@ -164,7 +142,6 @@
             @include('sivitas_akademika.artikel_terkait')
         </div>
     </div>
-</section>
 @endsection
 @push('scripts')
     <!-- JS Libraies -->
@@ -216,6 +193,21 @@
                 reader.readAsDataURL(inputFile.files[0]);
             }
         }
+
+        // function preview(event) {
+        //     const file = event.target.files[0];
+        //     const reader = new FileReader();
+
+        //     reader.onload = function(e) {
+        //         const imageContainer = document.getElementById('imageContainer');
+        //         const img = document.createElement('img');
+        //         img.src = e.target.result;
+        //         img.classList.add('img-fluid');
+        //         imageContainer.insertBefore(img, imageContainer.firstChild);
+        //     };
+
+        //     reader.readAsDataURL(file);
+        // }
 
         function deletePreview() {
             const imageContainer = document.getElementById('imageContainer');
@@ -290,7 +282,68 @@
                     }
             });
         }
+        // $(document).ready(function() {
+        //     $('#btnSubmit').submit(function(event) {
+        //         event.preventDefault();
 
+        //         var formData = new FormData($('#formTiket')[0]);
+        //         $.ajax({
+        //             url: "{{ url('tickets/store') }}",
+        //             type: 'POST',
+        //             data: formData,
+        //             processData: false,
+        //             contentType: false,
+        //             success: function(response) {
+        //                 console.log(response);
+        //                 Swal.fire({
+        //                     icon: "success",
+        //                     title: "Berhasil",
+        //                     text: "Data berhasil dikirim",
+        //                     showConfirmButton: true
+        //                 });
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 console.log(xhr.responseText);
+        //                 Swal.fire({
+        //                     icon: "error",
+        //                     title: "Gagal",
+        //                     text: "Terjadi kesalahan saat mengirim data: " + error,
+        //                     showConfirmButton: true
+        //                 });
+        //             }
+        //         });
+        //     });
+        // });
+        /*function store() {
+            // Mendapatkan data form
+            var form = $('formTiket')[0];
+            var formData = new FormData(form);
+            $.ajax({
+                url: '{{ url('tickets.store') }}', // Ganti dengan URL tujuan pengiriman form
+                type: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Menampilkan SweetAlert respons berhasil
+                    Swal.fire({
+                    icon: "success",
+                    title: "Berhasil",
+                    text: "Data berhasil dikirim",
+                    showConfirmButton: true
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Menampilkan SweetAlert respons gagal
+                    Swal.fire({
+                    icon: "error",
+                    title: "Gagal",
+                    text: "Terjadi kesalahan saat mengirim data: " + error,
+                    showConfirmButton: true
+                    });
+                }
+                });
+        } */
     </script>
     <script>
         // Tambahkan event listener untuk menangani submit form
@@ -318,53 +371,4 @@
             alert("Text copied to clipboard");
         }
     </script>
-<script>
-    // Function to update the list group based on search input
-    function updatePreviewList() {
-        var searchInput = $('#searchInput').val();
-
-        // Perform API call or fetch data from server based on the search input
-        // You can replace this with your actual logic to fetch and display the list
-
-        // Example data (replace with your actual data)
-
-        if (searchInput === '') {
-        $('#previewList').empty();
-        return; // Exit the function early
-    }
-        var articleList = [
-            { title: 'Article 1', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-            { title: 'Article 2', content: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.' },
-            { title: 'Article 3', content: 'Fusce eu orci vestibulum, aliquam ex vitae, dapibus neque.' }
-        ];
-        // Clear the existing list
-        $('#previewList').empty();
-
-
-        // Generate the list items based on the fetched data
-        for (var i = 0; i < articleList.length; i++) {
-            var listItem = '<a href="#" class="list-group-item list-group-item-action">' +
-                '<h5 class="mb-1">' + articleList[i].title + '</h5>' +
-                '<p class="mb-1">' + articleList[i].content + '</p>' +
-                '</a>';
-
-            $('#previewList').append(listItem);
-        }
-
-        // Tambahkan event listener untuk menambahkan kelas pada hover
-        $('#previewList').on('mouseenter', '.list-group-item', function() {
-            $(this).addClass('list-group-item-primary');
-        });
-
-        $('#previewList').on('mouseleave', '.list-group-item', function() {
-            $(this).removeClass('list-group-item-primary');
-        });
-        
-    }
-
-    // Event listener for keyup event on search input
-    $('#searchInput').on('keyup', function () {
-        updatePreviewList();
-    });
-</script>
 @endpush
