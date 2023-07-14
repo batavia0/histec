@@ -37,23 +37,40 @@ npm "9x"
 Composer "2.5"
 
 ## Setup
-`composer install`
+```sh
+composer install
+```
 
-`php artisan migrate`
+```sh
+php artisan migrate
+```
 
-`php artisan key:generate`
+```sh
+php artisan key:generate
+```
 
-`php artisan db:seed --class=categorySeeder`
+```sh
+php artisan db:seed --class=categorySeeder
+```
 
-`php artisan db:seed --class=usersAndRolesSeeder`
+```sh
+php artisan db:seed --class=usersAndRolesSeeder
+```
 
-`php artisan db:seed --class=statusSeeder`
+```sh
+php artisan db:seed --class=statusSeeder
+```
 
-`php artisan db:seed --class=locationSeeder`
+```sh
+php artisan db:seed --class=locationSeeder
+```
 
-`npm install`
-
-`npm run dev`
+```sh
+npm install
+```
+```sh
+npm run dev
+```
 
 
 ## Laravel Sponsors
