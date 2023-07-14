@@ -37,8 +37,8 @@ class FAQ extends Model
         return FAQ::with('category','users');
     }
 
-    public function getFaqById()
+    public function getFaqById($id)
     {
-        return true;
+        return FAQ::with('category','users')->where('faq_id',$id);
     }
 }

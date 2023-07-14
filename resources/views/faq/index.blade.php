@@ -277,6 +277,7 @@ function destroy(id) {
     });
 }
 
+
 // function read(id) {
 //     $.get("{{ url('#') }}/" + id, {}, function(data, status) {
 //         // jQuery.noConflict();

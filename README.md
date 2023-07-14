@@ -29,25 +29,31 @@ You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you
 
 If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
+## Requirements
+PHP "8x"
+
+npm "9x"
+
+Composer "2.5"
+
 ## Setup
-Run composer install
+`composer install`
 
-Run php artisan migrate
+`php artisan migrate`
 
-Run php artisan key:generate
+`php artisan key:generate`
 
-Run php artisan db:seed --class=categorySeeder
+`php artisan db:seed --class=categorySeeder`
 
-Run php artisan db:seed --class=usersAndRolesSeeder
+`php artisan db:seed --class=usersAndRolesSeeder`
 
-Run php artisan db:seed --class=statusSeeder
+`php artisan db:seed --class=statusSeeder`
 
-Run php artisan db:seed --class=locationSeeder
+`php artisan db:seed --class=locationSeeder`
 
-Run npm install
+`npm install`
 
-Run npm run dev
-
+`npm run dev`
 
 
 ## Laravel Sponsors

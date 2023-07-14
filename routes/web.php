@@ -42,6 +42,7 @@ Route::controller(SivitasAkademikaController::class)->group(function () {
      Route::get('/cek_status_tiket/find_tickets', 'findTicketsByTicketNumber');
     Route::get('/cek_status_tiket', 'indexCekStatusTiket')->name('indexCekStatusTiket');
     Route::post('/tickets/store', 'store')->name('tickets.store');
+    Route::get('/tickets/{id}', 'showFaqById')->name('showFaqById');
 });
 //Routes for Tiket
 Route::middleware('auth')->group(function () {
@@ -115,6 +116,7 @@ Route::middleware('auth')->group(function () {
 // Routes for FAQController
 Route::controller(FAQController::class)->group(function () {
     Route::get('faq', 'index'); //Routes for Sivitas Akademika FAQ's
+    Route::get('faq/{id}', 'showFaqById'); //Routes for show
 });
 Route::middleware('auth')->group(function () {
     Route::resource('faq_admin_page', FAQController::class);

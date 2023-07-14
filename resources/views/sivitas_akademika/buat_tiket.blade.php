@@ -320,51 +320,47 @@
     </script>
 <script>
     // Function to update the list group based on search input
-    function updatePreviewList() {
-        var searchInput = $('#searchInput').val();
+function updatePreviewList() {
+    var all_faq = @json($all_faq);
+    var searchInput = $('#searchInput').val();
 
-        // Perform API call or fetch data from server based on the search input
-        // You can replace this with your actual logic to fetch and display the list
+    // Clear the existing list
+    $('#previewList').empty();
 
-        // Example data (replace with your actual data)
-
-        if (searchInput === '') {
-        $('#previewList').empty();
-        return; // Exit the function early
-    }
-        var articleList = [
-            { title: 'Article 1', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-            { title: 'Article 2', content: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.' },
-            { title: 'Article 3', content: 'Fusce eu orci vestibulum, aliquam ex vitae, dapibus neque.' }
-        ];
-        // Clear the existing list
-        $('#previewList').empty();
-
-
-        // Generate the list items based on the fetched data
-        for (var i = 0; i < articleList.length; i++) {
-            var listItem = '<a href="#" class="list-group-item list-group-item-action">' +
-                '<h5 class="mb-1">' + articleList[i].title + '</h5>' +
-                '<p class="mb-1">' + articleList[i].content + '</p>' +
-                '</a>';
-
-            $('#previewList').append(listItem);
-        }
-
-        // Tambahkan event listener untuk menambahkan kelas pada hover
-        $('#previewList').on('mouseenter', '.list-group-item', function() {
-            $(this).addClass('list-group-item-primary');
-        });
-
-        $('#previewList').on('mouseleave', '.list-group-item', function() {
-            $(this).removeClass('list-group-item-primary');
-        });
-        
+    if (searchInput === '') {
+        return; // Exit the function early if search input is empty
     }
 
-    // Event listener for keyup event on search input
-    $('#searchInput').on('keyup', function () {
-        updatePreviewList();
+    // Filter the FAQ data based on the search input
+    var filtered_faq = all_faq.filter(function(faq) {
+        return faq.title.toLowerCase().includes(searchInput.toLowerCase());
     });
+
+    // Generate the list items based on the filtered FAQ data
+    filtered_faq.forEach(function(faq) {
+        var listItem = '<a href="{{ url("faq") }}/'+faq.faq_id+'"  class="list-group-item list-group-item-action">' +
+            '<h5 class="mb-1">' + faq.title + '</h5>' +
+            '<p class="mb-1 overflow-hidden" style="max-height: 200px;">' + faq.answer + '</p>' +
+            '<p class="text text-muted">' + faq.category.name + '</p>' +
+            '</a>';
+
+        $('#previewList').append(listItem);
+    });
+
+    // Add event listener for hover effect
+    $('#previewList').on('mouseenter', '.list-group-item', function() {
+        $(this).addClass('list-group-item-primary');
+    });
+
+    $('#previewList').on('mouseleave', '.list-group-item', function() {
+        $(this).removeClass('list-group-item-primary');
+    });
+}
+
+// Event listener for keyup event on search input
+$('#searchInput').on('keyup', function () {
+    updatePreviewList();
+});
+
 </script>
 @endpush

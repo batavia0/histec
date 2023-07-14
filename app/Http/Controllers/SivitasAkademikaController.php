@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\FAQ;
 use App\Models\Tickets;
 use App\Models\Category;
 use App\Rules\ReCaptcha;
@@ -27,6 +28,7 @@ class SivitasAkademikaController extends Controller
         $this->Tickets = $Tickets;
         $this->TicketProcess = new TicketProcess();
         $this->Locations = new Locations();
+        $this->Faq = new FAQ();
     }
     /**
      * Display a listing of the resource.
@@ -35,9 +37,10 @@ class SivitasAkademikaController extends Controller
      */
     public function index()
     {
-        $category = $this->Category->getAllCategory();
-        $locations = $this->Locations->getAllLocations();
-        return view('sivitas_akademika.buat_tiket', ['category' => $category],['locations' => $locations]);
+        $data['category'] = $this->Category->getAllCategory();
+        $data['locations'] = $this->Locations->getAllLocations();
+        $data['all_faq'] = $this->Faq->getAllFaq()->get();
+        return view('sivitas_akademika.buat_tiket', $data);
     }
 
     public function indexCekStatusTiket()

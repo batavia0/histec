@@ -89,6 +89,13 @@ class FAQController extends Controller
         //
     }
 
+    public function showFaqById($id)
+    {
+        $data['detail_faq'] = $this->Faq->getFaqById($id)->get();
+        return view('sivitas_akademika.faq.show',$data);
+
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
