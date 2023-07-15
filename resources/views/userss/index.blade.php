@@ -190,7 +190,7 @@ function storeBtn() {
                     errorElement.html(message);
                     iziToast.error({
                 title: 'Error',
-                message: 'Eror'+JSON.stringify(data.errors),
+                message: 'Eror '+message,
                 position: 'topRight'
             });
                 });
