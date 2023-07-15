@@ -162,15 +162,19 @@ function storeBtn() {
   const form = document.getElementById('formTambahUser');
   const formData = new FormData(form);
 
-  fetch("{{ route('user.store') }}", {
+  fetch("{{ url('user/store') }}", {
     method: 'POST',
-    body: formData
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+    body: JSON.stringify(formData)
   })
     .then(response => response.json())
     .then(data => {
         if(data.success) {
             $('#exampleModal').modal('hide');
-    //   window.location.reload();
+      window.location.reload();
       iziToast.success({
         title: 'Success',
         message: data.message,
@@ -179,10 +183,12 @@ function storeBtn() {
       form.reset();
       form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
         } else {
-            for (const field in data.errors) {
-          const errorElement = document.getElementById(`${field}_error`);
-          errorElement.textContent = data.errors[field][0];
-        }
+      form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
+
+            $.each(data.errors, function(index, message) {
+            var errorElement = $("#" + index + "_error");
+            errorElement.html(message);
+  });
         }
     })
     .catch(error => {
@@ -193,6 +199,14 @@ function storeBtn() {
       });
     });
 }
+
+// var errors = @json($errors->all());
+
+//   // Menampilkan pesan error pada setiap "_error"
+//   $.each(errors, function(index, message) {
+//     var errorElement = $("#" + index + "_error");
+//     errorElement.html(message);
+//   });
 
 </script>
 @endpush

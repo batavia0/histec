@@ -88,7 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
         // Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
-        // Route::post('user/name', 'name')->name('name');
+        Route::post('user/store', 'store')->name('user.store');
         // Route::post('user/name/{id}', 'name')->name('name');
         // Route::post('user/name/{id}', 'name')->name('name');
         // Route::get('user/name/{id}', 'name')->name('name');

@@ -35,7 +35,7 @@
                     </div>
                     {{--                    Alert Message Success --}}
                     <div class="alert alert-success alert-dismissible fade" role="alert" style="display: none; ">
-                        <strong>Berhasil</strong> ID Tiket <a href="{{route('indexCekStatusTiket')}}" class="alert-link"><span id="ticket_id"></span></a> Silakan.
+                        <strong>Berhasil</strong> ID Tiket <a href="{{route('indexCekStatusTiket')}}" class="alert-link"><span id="ticket_id"></span></a> <i class="text text-link fas fa-paperclip" id="icon_clip" onclick="copyToClipboard()"></i> Silakan cek Status Tiket anda.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     {{--                    Alert Message Error --}}
@@ -309,17 +309,19 @@
     <script>
         function copyToClipboard() {
             var copyText = document.getElementById("ticket_id");
+            var copyIcon = document.getElementById("icon_clip");
             var textArea = document.createElement("textarea");
-            textArea.value = copy   Text.textContent;
+            textArea.value = copyText.textContent;
+            copyIcon = textArea.value;
             document.body.appendChild(textArea);
             textArea.select();
             document.execCommand("Copy");
             textArea.remove();
-            alert("Text copied to clipboard");
+            alert("Nomor Tiket berhasil disalin");
         }
     </script>
 <script>
-    // Function to update the list group based on search input
+    // Function to update the list group FAQ's based on search input
 function updatePreviewList() {
     var all_faq = @json($all_faq);
     var searchInput = $('#searchInput').val();
@@ -332,8 +334,8 @@ function updatePreviewList() {
     }
 
     // Filter the FAQ data based on the search input
-    var filtered_faq = all_faq.filter(function(faq) {
-        return faq.title.toLowerCase().includes(searchInput.toLowerCase());
+    var filtered_faq = all_faq.filter(function(faq_obj) {
+        return faq_obj.title.toLowerCase().includes(searchInput.toLowerCase());
     });
 
     // Generate the list items based on the filtered FAQ data

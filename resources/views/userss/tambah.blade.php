@@ -1,27 +1,26 @@
 <div class="p2">
-    <form action=""  id="formTambahUser">
+    <form action="" method="post" id="formTambahUser">
         @csrf
         <div class="form-group">
             <label for="email">Tambah User</label>
             <input type="email" name="email" id="email" class="form-control" placeholder="Email">
-            {{-- <span id="email_error" class="text-danger"></span> --}}
-            <span id="email_error" class="text-danger">@error('email') {{ $message }} @enderror</span>
+            <span id="email_error" class="text-danger"></span>
         </div>
         </div>
         <div class="form-group">
             <label for="name">Nama</label>
             <input type="text" name="name" id="name" class="form-control" placeholder="Nama User">
-            <span id="name_error" class="text-danger">@error('name') {{ $message }} @enderror</span>
+            <span id="name_error" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="name">Password</label>
             <input type="password" name="password" id="password" class="form-control" placeholder="Password">
-            <span id="password_error" class="text-danger">@error('password') {{ $message }} @enderror</span>
-        </div>
+            <span id="password_error" class="text-danger"></span>
+            </div>
         <div class="form-group">
             <label for="name">Konfirmasi Password</label>
             <input type="password" name="password_confirm" id="password_confirm" class="form-control" placeholder="Konfirmasi Password">
-            <span id="password_confirm_error" class="text-danger">@error('password_confirm') {{ $message }} @enderror</span>
+            <span id="password_confirm_error" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="role">Divisi</label>

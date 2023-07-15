@@ -57,21 +57,21 @@ class UserController extends Controller
     {
         // dd($request->getContent());
         $validator = Validator::make($request->all(),[
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
             'role' => 'required',
-            'password' => 'required', 'confirmed',
-            'password_confirm' => ['required', 'same:password'],
+            'password' => 'required|confirmed',
+            'password_confirm' => 'required|same:password',
         ],[
             'email.required' => 'Kolom email wajib diisi.',
-    'email.email' => 'Silakan masukkan email yang valid.',
-    'name.required' => 'Kolom nama wajib diisi.',
-    'name.regex' => 'Format nama tidak valid. Nama hanya boleh terdiri dari huruf dan spasi.',
-    'role.required' => 'Kolom divisi wajib diisi.',
-    'password.required' => 'Kolom password wajib diisi.',
-    'password.confirmed' => 'Konfirmasi password tidak sesuai dengan password.',
-    'password_confirm.required' => 'Kolom konfirmasi password wajib diisi.',
-    'password_confirm.same' => 'Konfirmasi password tidak sesuai dengan password.',
+            'email.email' => 'Silakan masukkan email yang valid.',
+            'name.required' => 'Kolom nama wajib diisi.',
+            'name.regex' => 'Format nama tidak valid. Nama hanya boleh terdiri dari huruf dan spasi.',
+            'role.required' => 'Kolom divisi wajib diisi.',
+            'password.required' => 'Kolom password wajib diisi.',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai dengan password.',
+            'password_confirm.required' => 'Kolom konfirmasi password wajib diisi.',
+            'password_confirm.same' => 'Konfirmasi password tidak sesuai dengan password.',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->toArray()], 400);
