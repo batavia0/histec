@@ -159,45 +159,50 @@ function tambah() {
 
 
 function storeBtn() {
-  const form = document.getElementById('formTambahUser');
-  const formData = new FormData(form);
+    const form = document.getElementById('formTambahUser');
+    const formData = new FormData(form);
 
-  fetch("{{ url('user/store') }}", {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    },
-    body: JSON.stringify(formData)
-  })
-    .then(response => response.json())
-    .then(data => {
-        if(data.success) {
-            $('#exampleModal').modal('hide');
-      window.location.reload();
-      iziToast.success({
-        title: 'Success',
-        message: data.message,
-        position: 'topRight'
-      });
-      form.reset();
-      form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
-        } else {
-      form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
+    fetch("{{ url('user/store') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                $('#exampleModal').modal('hide');
+                window.location.reload();
+                iziToast.success({
+                    title: 'Success',
+                    message: data.message,
+                    position: 'topRight'
+                });
+                form.reset();
+                form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
+            } else {
+                form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
 
-            $.each(data.errors, function(index, message) {
-            var errorElement = $("#" + index + "_error");
-            errorElement.html(message);
-  });
-        }
-    })
-    .catch(error => {
-        iziToast.error({
-        title: 'Error',
-        message: 'Eror gagal menambahkan user',
-        position: 'topRight'
-      });
-    });
+                $.each(data.errors, function(index, message) {
+                    var errorElement = $("#" + index + "_error");
+                    errorElement.html(message);
+                    iziToast.error({
+                title: 'Error',
+                message: 'Eror'+JSON.stringify(data.errors),
+                position: 'topRight'
+            });
+                });
+            }
+        })
+        .catch(error => {
+            iziToast.error({
+                title: 'Error',
+                message: 'Eror gagal menambahkan user',
+                position: 'topRight'
+            });
+        });
 }
 
 // var errors = @json($errors->all());
