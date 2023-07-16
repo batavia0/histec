@@ -85,14 +85,14 @@ Route::middleware(['auth','kepalaupttikrole'])->group(function () {
 Route::get('user/tambah', [UserController::class,'indexTambahUser'])->name('indexTambahUser');
 Route::middleware('auth')->group(function () {
     Route::resource('user', UserController::class);
-    Route::controller(UserController::class)->group(function () {
-        Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
-        // Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
-        Route::post('user/store', 'store')->name('user.store');
-        // Route::post('user/name/{id}', 'name')->name('name');
-        // Route::post('user/name/{id}', 'name')->name('name');
-        // Route::get('user/name/{id}', 'name')->name('name');
-    });
+    Route::post('user/store', [UserController::class,'store'])->name('user.store');
+    Route::get('user/tambah', [UserController::class,'indexTambahUser'])->name('user.tambah');
+    // Route::controller(UserController::class)->group(function () {
+    //     // Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
+    //     // Route::post('user/name/{id}', 'name')->name('name');
+    //     // Route::post('user/name/{id}', 'name')->name('name');
+    //     // Route::get('user/name/{id}', 'name')->name('name');
+    // });
 });
 //END Routes for Laporan
 
@@ -100,7 +100,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('berita_penyelesaian', BeritaPenyelesaianController::class);
 Route::middleware('auth')->group(function () {
     Route::controller(BeritaPenyelesaianController::class)->group(function () {
-        Route::post('/berita_penyelesaian/generate', 'generate')->name('generate');
+        Route::get('/berita_penyelesaian/generate', 'generate')->name('generate');
     });
 });
 //END Routes for Berita Penyelesaian

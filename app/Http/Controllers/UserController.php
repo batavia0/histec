@@ -60,7 +60,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
             'role' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required',
             'password_confirm' => 'required|same:password',
         ],[
             'email.required' => 'Kolom email wajib diisi.',
@@ -77,7 +77,7 @@ class UserController extends Controller
             return response()->json(['errors' => $validator->errors()->toArray()], 400);
         }
         $this->User->email = $request->input('email');
-        $this->User->name = $request->input('name');
+        $this->User->name = trim($request->input('name'));
         $this->User->password = Hash::make($request->input('password'));
         $this->User->role_id = $request->input('role');
         $this->User->remember_token = Str::random(10);

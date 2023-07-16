@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="" method="POST" id="formBeritaPenyelesaian">
+                            <form action="" method="get" id="formBeritaPenyelesaian">
                                 @csrf
                                 <div class="form-group">
                                     <label>Nomor Surat</label>
@@ -272,7 +272,7 @@
 
     $.ajax({
         url: "{{ url('berita_penyelesaian/generate') }}",
-        type: 'post',
+        type: 'get',
         data: formData,
         processData: false,
         contentType: false,

@@ -113,16 +113,8 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <!-- Page Specific JS File -->
 <script>
-//     function read(id) {
-//     $.get("{{ url('tiket/read_status_tiket') }}/" + id, {}, function(data, status) {
-//         $("#exampleModalLabel").html('Detail Tiket ' + id)
-//         $("#page").html(data);
-//         $("#exampleModal").modal('show');
-//     });
-// }
-
-function tambah() {
-  fetch("{{ route('indexTambahUser') }}")
+    function tambah() {
+  fetch("{{ route('user.tambah') }}")
     .then(response => response.text())
     .then(data => {
       document.getElementById("exampleModalLabel").innerHTML = 'Tambah User';
@@ -133,42 +125,29 @@ function tambah() {
       console.error('Error:', error);
     });
 }
-// function updateBtn(id) {
-//     var formData = new FormData($('#formEditTiket')[0]);
-
-//     $.ajax({
-//         url: "{{ url('tiket/update_tiket') }}/" + id,
-//         type: 'post',
-//         data: formData,
-//         processData: false,
-//         contentType: false,
-//         success: function(response) {
-//             $('#exampleModal').modal('hide');
-//             window.location.reload()
-//             iziToast.success({
-//                 title: 'Success',
-//                 message: response.message,
-//                 position: 'topRight',
-//             });
-//         },
-//         error: function(xhr, status, error) {
-//             console.log(error);
-//         }
-//     });
-// }
-
 
 function storeBtn() {
     const form = document.getElementById('formTambahUser');
     const formData = new FormData(form);
+    const name = document.getElementById('name').value;
+    formData.append('name', name);
+    const password = document.getElementById('password').value;
+    formData.append('password', password);
+    const email = document.getElementById('email').value;
+    formData.append('email', email);
+    const password_confirm = document.getElementById('password_confirm').value;
+    formData.append('password_confirm', password_confirm);
+    const role = document.getElementById('role').value;
+    formData.append('role', role);
+    console.log(formData);
 
-    fetch("{{ url('user/store') }}", {
+    fetch("{{ route('user.store') }}", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
         })
         .then(response => response.json())
         .then(data => {
@@ -204,6 +183,41 @@ function storeBtn() {
             });
         });
 }
+</script>
+
+<script>
+//     function read(id) {
+//     $.get("{{ url('tiket/read_status_tiket') }}/" + id, {}, function(data, status) {
+//         $("#exampleModalLabel").html('Detail Tiket ' + id)
+//         $("#page").html(data);
+//         $("#exampleModal").modal('show');
+//     });
+// }
+
+// function updateBtn(id) {
+//     var formData = new FormData($('#formEditTiket')[0]);
+
+//     $.ajax({
+//         url: "{{ url('tiket/update_tiket') }}/" + id,
+//         type: 'post',
+//         data: formData,
+//         processData: false,
+//         contentType: false,
+//         success: function(response) {
+//             $('#exampleModal').modal('hide');
+//             window.location.reload()
+//             iziToast.success({
+//                 title: 'Success',
+//                 message: response.message,
+//                 position: 'topRight',
+//             });
+//         },
+//         error: function(xhr, status, error) {
+//             console.log(error);
+//         }
+//     });
+// }
+
 
 // var errors = @json($errors->all());
 
@@ -212,6 +226,5 @@ function storeBtn() {
 //     var errorElement = $("#" + index + "_error");
 //     errorElement.html(message);
 //   });
-
 </script>
 @endpush

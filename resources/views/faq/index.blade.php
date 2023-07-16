@@ -28,6 +28,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
+                            <div class="buttons">
+                                <a href="#formTambahFaq"
+                                class="btn btn-icon icon-left btn-primary"><i class="far fa-plus"></i> Tambah</a>
+                            </div>
+                        </div>
+                        <div class="card-header">
                             <h4>FAQ</h4>
                             <div class="card-header-form">
                                 <form>
@@ -158,7 +164,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Content</label>
-                                    <textarea name="content" class="summernote-simple"></textarea>
+                                    <textarea name="content" id="summernote" class="summernote-simple"></textarea>
                                 </div>
                             </div>
                             <div class="card-footer pt-0">
@@ -220,6 +226,28 @@
             }
         });
     });
+});
+
+$(document).ready(function() {
+        // Menghapus elemen .modal-backdrop
+        $('.modal').on('shown.bs.modal', function() {
+            $('.modal-backdrop').remove();
+        });
+    });
+
+$('#summernote').summernote({
+  toolbar: [
+    // [groupName, [list of button]]
+    ['style', ['style']],
+    ['insert', ['link']],
+    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['font', ['strikethrough', 'superscript', 'subscript']],
+    ['fontsize', ['fontsize']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['height', ['height']],
+    ['codeview', ['codeview']]
+  ]
 });
 function store() {
   const form = document.getElementById('formTambahFaq');

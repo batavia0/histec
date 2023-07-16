@@ -14,6 +14,17 @@
 </main>
 <div class="container">
   <div class="row mt-5 col-md-12">
+    <div class="col md-12 mb-3">
+      <form id="searchForm">
+        <div class="form-group">
+            <input type="text" class="form-control form-control-lg" id="searchInput" placeholder="Cari FAQ Jawaban Masalah">
+        </div>
+    </form>
+
+    <div class="list-group" id="previewList">
+        <!-- List group items will be dynamically added here -->
+    </div>
+    </div>
     <div class="col-lg-12 col-md-12">
       <div class="card">
         <div class="card-body">
@@ -49,18 +60,70 @@
     <!-- JS Libraies -->
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
   <script>
-    var detail_faq = @json($detail_faq);
-    // Buat variabel untuk menyimpan HTML yang akan ditambahkan ke #previewList
-    var faqPage = '';
+var detail_faq = @json($detail_faq);
+// Buat variabel untuk menyimpan HTML yang akan ditambahkan ke #previewList
+var faqPage = '';
 
-  // Loop melalui data $detail_faq dan tambahkan ke variabel faqPage
-    detail_faq.forEach(function(faq) {
+// Loop melalui data $detail_faq dan tambahkan ke variabel faqPage
+detail_faq.forEach(function(faq) {
     var faqItem = '<h5 class="mb-1">' + faq.title + '</h5>' +
         '<p class="mb-1 overflow-scroll" style="max-height: 500px;">' + faq.answer + '</p>' +
-        '<p class="text text-muted">' + faq.category.name + '</p>';
-
+        '<p class="text text-muted">' + faq.category.name + '</p>' +
+        '<div class="d-flex justify-content-end">' +
+        '<div class="btn-group" role+"group" aria-label="User next decision">' +
+          '<p class="text-secondary">' +
+          '<a href="{{ route('tickets.index') }}" class="text-secondary">Kembali buat tiket</a></p>' +
+          '</div>' +
+          '</div>';
     faqPage += faqItem;
 });
 $('#faqPage').append(faqPage);
+
+// Function to update the list group FAQ's based on search input
+function updatePreviewList() {
+    var all_faq = @json($all_faq);
+    var searchInput = $('#searchInput').val();
+
+    // Clear the existing list
+    $('#previewList').empty();
+
+    if (searchInput === '') {
+        return; // Exit the function early if search input is empty
+    }
+
+    // Filter the FAQ data based on the search input
+    var filtered_faq = all_faq.filter(function(faq_obj) {
+        var titleMatch = faq_obj.title.toLowerCase().includes(searchInput.toLowerCase());
+        var categoryMatch = faq_obj.category.name.toLowerCase().includes(searchInput.toLowerCase());
+        var answerMatch = faq_obj.answer.toLowerCase().includes(searchInput.toLowerCase());
+        return titleMatch || categoryMatch || answerMatch;
+        // return faq_obj.title.toLowerCase().includes(searchInput.toLowerCase());
+    });
+
+    // Generate the list items based on the filtered FAQ data
+    filtered_faq.forEach(function(faq) {
+        var listItem = '<a href="{{ url("faq") }}/' + faq.faq_id + '"  class="list-group-item list-group-item-action">' +
+            '<h5 class="mb-1">' + faq.title + '</h5>' +
+            '<p class="mb-1 overflow-hidden" style="max-height: 200px;">' + faq.answer + '</p>' +
+            '<p class="text text-muted">' + faq.category.name + '</p>' +
+            '</a>';
+
+        $('#previewList').append(listItem);
+    });
+
+    // Add event listener for hover effect
+    $('#previewList').on('mouseenter', '.list-group-item', function() {
+        $(this).addClass('list-group-item-primary');
+    });
+
+    $('#previewList').on('mouseleave', '.list-group-item', function() {
+        $(this).removeClass('list-group-item-primary');
+    });
+}
+
+// Event listener for keyup event on search input
+$('#searchInput').on('keyup', function() {
+    updatePreviewList();
+});
   </script>
 @endpush

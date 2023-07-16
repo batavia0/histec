@@ -91,7 +91,9 @@ class FAQController extends Controller
 
     public function showFaqById($id)
     {
+
         $data['detail_faq'] = $this->Faq->getFaqById($id)->get();
+        $data['all_faq'] = $this->Faq->getAllFaq()->get();
         return view('sivitas_akademika.faq.show',$data);
 
     }

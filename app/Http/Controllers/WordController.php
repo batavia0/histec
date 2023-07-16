@@ -98,7 +98,8 @@ class WordController extends Controller
             'file' => $docxFilePath,
             'url' => route('berita_penyelesaian.index')
         ],200);
-        }if($request->input('format') === 'pdf'){
+        }elseif ($request->input('format') === 'pdf') {
+            $phpWord = new TemplateProcessor('BeritaAcaraPenyelesaianPekerjaan(GedungAgroLantai2).docx');
             $phpWord->setValues([
                 'tahun' => $year,
                 'nama_hari' => $day,
@@ -125,22 +126,33 @@ class WordController extends Controller
                 'nip1' => $request->input('nip1'),
                 'nip2' => $request->input('nip2'),
             ]);
+        
+            $htmlFilePath = "Berita Acara Penyelesaian Pekerjaan '" . $request->input('gedung') . "'.html";
             $pdfFilePath = "Berita Acara Penyelesaian Pekerjaan '" . $request->input('gedung') . "'.pdf";
-            $phpWord = IOFactory::load($pdfFilePath);
-            $html = $phpWord->saveHTML();
-            
+        
+            $writer = IOFactory::createWriter($phpWord, 'HTML');
+            $writer->save($htmlFilePath);
+        
             $dompdf = new Dompdf();
-            $dompdf->loadHtml($html);
+            $dompdf->loadHtmlFile($htmlFilePath);
             $dompdf->setPaper('A4', 'portrait');
             $dompdf->render();
             $output = $dompdf->output();
-            file_put_contents($pdfFilePath, $output);
+        
+            file_put_contents(public_path($pdfFilePath), $output);
+        
+            // Remove the intermediate HTML file
+            if (file_exists($htmlFilePath)) {
+                unlink($htmlFilePath);
+            }
+        
             return response()->json([
                 'status' => 'success',
                 'file' => $pdfFilePath,
                 'url' => route('berita_penyelesaian.index')
-            ],200);
+            ], 200);
         }
+        
         // if fail
         // return response()->json([
         //     'status' => 'fail',

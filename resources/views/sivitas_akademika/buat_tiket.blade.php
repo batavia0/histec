@@ -321,7 +321,7 @@
         }
     </script>
 <script>
-    // Function to update the list group FAQ's based on search input
+// Function to update the list group FAQ's based on search input
 function updatePreviewList() {
     var all_faq = @json($all_faq);
     var searchInput = $('#searchInput').val();
@@ -335,12 +335,16 @@ function updatePreviewList() {
 
     // Filter the FAQ data based on the search input
     var filtered_faq = all_faq.filter(function(faq_obj) {
-        return faq_obj.title.toLowerCase().includes(searchInput.toLowerCase());
+        var titleMatch = faq_obj.title.toLowerCase().includes(searchInput.toLowerCase());
+        var categoryMatch = faq_obj.category.name.toLowerCase().includes(searchInput.toLowerCase());
+        var answerMatch = faq_obj.answer.toLowerCase().includes(searchInput.toLowerCase());
+        return titleMatch || categoryMatch || answerMatch;
+        // return faq_obj.title.toLowerCase().includes(searchInput.toLowerCase());
     });
 
     // Generate the list items based on the filtered FAQ data
     filtered_faq.forEach(function(faq) {
-        var listItem = '<a href="{{ url("faq") }}/'+faq.faq_id+'"  class="list-group-item list-group-item-action">' +
+        var listItem = '<a href="{{ url("faq") }}/' + faq.faq_id + '"  class="list-group-item list-group-item-action">' +
             '<h5 class="mb-1">' + faq.title + '</h5>' +
             '<p class="mb-1 overflow-hidden" style="max-height: 200px;">' + faq.answer + '</p>' +
             '<p class="text text-muted">' + faq.category.name + '</p>' +
@@ -360,7 +364,7 @@ function updatePreviewList() {
 }
 
 // Event listener for keyup event on search input
-$('#searchInput').on('keyup', function () {
+$('#searchInput').on('keyup', function() {
     updatePreviewList();
 });
 
