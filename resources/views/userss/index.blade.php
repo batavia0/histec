@@ -129,25 +129,14 @@
 function storeBtn() {
     const form = document.getElementById('formTambahUser');
     const formData = new FormData(form);
-    const name = document.getElementById('name').value;
-    formData.append('name', name);
-    const password = document.getElementById('password').value;
-    formData.append('password', password);
-    const email = document.getElementById('email').value;
-    formData.append('email', email);
-    const password_confirm = document.getElementById('password_confirm').value;
-    formData.append('password_confirm', password_confirm);
-    const role = document.getElementById('role').value;
-    formData.append('role', role);
-    console.log(formData);
 
-    fetch("{{ route('user.store') }}", {
-            method: 'POST',
+    fetch(form.action, {
+            method: 'post',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(formData)
         })
         .then(response => response.json())
         .then(data => {

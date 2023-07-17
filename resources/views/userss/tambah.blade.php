@@ -1,5 +1,5 @@
 <div class="p2">
-    <form action="" method="post" id="formTambahUser" novalidate="">
+    <form id="formTambahUser">
         @csrf
         <div class="form-group">
             <label for="email">Tambah User</label>

@@ -53,7 +53,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->name }}</td>
                                         <td><a href="#"
-                                                class="btn btn-outline-primary">Detail</a>
+                                                class="btn btn-outline-primary" onclick="read({{ $row->status_id }})">Detail</a>
                                             <a href="#"
                                                 class="btn btn-primary">Edit</a>
                                             {{-- <a href="#"
@@ -113,7 +113,7 @@
 <script>
     function read(id) {
     $.get("{{ url('tiket/read_status_tiket') }}/" + id, {}, function(data, status) {
-        $("#exampleModalLabel").html('Detail Tiket ' + id)
+        $("#exampleModalLabel").html('Status Tiket')
         $("#page").html(data);
         $("#exampleModal").modal('show');
     });

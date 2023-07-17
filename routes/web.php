@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FAQController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WordController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\SivitasAkademikaController;
 use App\Http\Controllers\BeritaPenyelesaianController;
-use App\Http\Controllers\FAQController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::get('tiket/tiket_selesai', 'indexTiketSelesai')->name('indexTiketSelesai');
         //Routes for Status Tiket
         Route::get('tiket/status_tiket', 'indexStatusTiket')->name('indexStatusTiket');
-        Route::get('tiket/read_status_tiket', 'showStatusTiket')->name('showStatusTiket');
+        Route::get('tiket/read_status_tiket/{id}', 'showStatusTiket')->name('showStatusTiket');
         //END Routes for Status Tiket
         Route::get('tiket/edit_tiket/{id}', 'edit')->name('editTiket');
         Route::get('tiket/proses_tiket/{id}', 'editTiketDitugaskan')->name('editTiketDitugaskan');
@@ -139,6 +140,10 @@ Route::get('/dashboard-ecommerce-dashboard', function () {
     return view('pages.dashboard-ecommerce-dashboard', ['type_menu' => 'dashboard']);
 });
 
+//Routes for Notifikasi
+Route::post('/markNotificationAsRead/{id}', [NotifikasiController::class, 'markAsRead'])
+    ->name('markNotificationAsRead');
+// End Routes for notifikasi
 
 // Layout
 Route::get('/layout-default-layout', function () {

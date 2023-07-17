@@ -176,9 +176,8 @@
     <script src="{{ asset('stisla/library/izitoast/dist/js/iziToast.min.js') }}"></script>
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
 
-
     <!-- Page Specific JS File -->
-
+    <script src="{{ asset('js/jquery.doubleScroll.js') }}"></script>
     <script>
         $.ajaxSetup({
    headers: {
@@ -244,5 +243,9 @@ function updateBtn(id) {
         }
     });
 }
+
+$(document).ready(function(){
+  $('.table-responsive').doubleScroll();
+});
     </script>
 @endpush

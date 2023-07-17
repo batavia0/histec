@@ -8,6 +8,7 @@ use App\Models\Tickets;
 use App\Models\Category;
 use App\Rules\ReCaptcha;
 use App\Models\Locations;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\TicketProcess;
 use Illuminate\Support\Facades\Validator;
@@ -29,6 +30,7 @@ class SivitasAkademikaController extends Controller
         $this->TicketProcess = new TicketProcess();
         $this->Locations = new Locations();
         $this->Faq = new FAQ();
+        $this->Notifikasi = new Notifikasi();
     }
     /**
      * Display a listing of the resource.
@@ -115,6 +117,12 @@ class SivitasAkademikaController extends Controller
         // $imageString = implode(',', $uploadedFile); //Mengubah array nama file menjadi string
         // $this->Tickets->image = $imageString;
         if ($this->Tickets->save()) {
+            $this->Notifikasi->category_id = $request->kategori;
+            $this->Notifikasi->type = 'tickets';
+            $this->Notifikasi->content = $this->Tickets->ticket_no;
+            $this->Notifikasi->content = $this->Tickets->ticket_no;
+            $this->Notifikasi->created_at = now();
+            $this->Notifikasi->save();
             return response()->json(
                 ['status' => 'success',
                 'message' => 'Tiket berhasil dibuat',

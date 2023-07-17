@@ -325,6 +325,7 @@
     <!-- JS Libraies -->
      {{-- <script src="{{ asset('stisla/library/prismjs/prism.js') }}"></script> --}}
          <!-- JS Libraies -->
+    <script src="{{ asset('js/jquery.doubleScroll.js') }}"></script>
     <script src="{{ asset('stisla/library/izitoast/dist/js/iziToast.min.js') }}"></script>
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
 
@@ -442,5 +443,8 @@ function updateMutasiTiket(id) {
         }
     })
 }
+$(document).ready(function(){
+  $('.table-responsive').doubleScroll();
+});
     </script>
 @endpush

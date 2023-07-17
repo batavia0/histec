@@ -24,6 +24,11 @@ class Category extends Model
     {
         return $this->hasOne(Tickets::class);
     }
+
+    public function notifikasi()
+    {
+        return $this->hasMany(Notifikasi::class,'category_id');
+    }
     
     public function locations()
     {

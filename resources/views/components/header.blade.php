@@ -9,7 +9,26 @@
         </ul>
     </form>
     <ul class="navbar-nav navbar-right">
-        
+        <!-- Notification -->
+        <li class="dropdown dropdown-list-toggle">
+            <a href="#"
+            data-toggle="dropdown"
+            class="nav-link notification-toggle nav-link-lg"><i class="far fa-bell"></i></a>
+        <div class="dropdown-menu dropdown-list dropdown-menu-right" style="overflow-y: auto;">
+            <div class="dropdown-header">Notifikasi
+                {{-- <div class="float-right">
+                    <a href="#">Tandai sudah dibaca semua</a>
+                </div> --}}
+            </div>
+            <div class="dropdown-list-content dropdown-list-icons" id="notification_list">
+                
+            </div>
+            <div class="dropdown-footer text-center">
+                <a href="#">Lihat semua <i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </li>
+            <!-- END Notification -->
         <li class="dropdown"><a href="#"
                 data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">

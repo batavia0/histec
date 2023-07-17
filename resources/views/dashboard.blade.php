@@ -593,4 +593,76 @@
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('stisla/js/page/index-0.js') }}"></script>
+    <script>
+const userNotification = @json($userNotification);
+
+// Buat variabel untuk menyimpan HTML yang akan ditambahkan ke notification list
+var notificationElement = '';
+
+if (userNotification.length > 0) {
+    // Jika terdapat notifikasi, buat elemen notifikasi untuk setiap notifikasi
+    userNotification.forEach(function(notification_obj) {
+        var createdAt = moment(notification_obj.created_at).utc();
+        var timeAgo = createdAt.local().fromNow();
+        var notificationItem = '<div class="dropdown-list-content dropdown-list-icons">' +
+    '<a href="{{ route('indexTiketDitugaskan') }}" class="dropdown-item">' +
+    '<div class="dropdown-item-icon bg-warning text-white">' + // Mengganti bg-success dengan bg-warning untuk ikon kuning
+    '<i class="far fa-siren-on"></i>'+
+    '</div>' +
+    '<div class="dropdown-item-desc">' +
+    '<b>Tiket Baru telah masuk '+notification_obj.content+'</b>' +
+    '<div class="time">'+timeAgo+'</div>' +
+    '</div>';
+    if (notification_obj.read_at) {
+            // Jika notifikasi telah dibaca
+            notificationItem += '<span class="text text-primary ml-auto">Dibaca</span>';
+        } else {
+            // Jika notifikasi belum dibaca
+            notificationItem += '<a href="/markNotificationAsRead/' + notification_obj.notifikasi_id + '" class="text-primary ml-auto mark-as-read" data-notification-id="' + notification_obj.notifikasi_id + '">Tandai dibaca</a>';
+        }
+
+        notificationItem += '</a>' +
+            '</div>';
+
+        notificationElement += notificationItem;
+    });
+} else {
+    // Jika tidak ada notifikasi, tampilkan teks "Belum ada notifikasi"
+    notificationElement = '<div class="dropdown-item">Belum ada notifikasi</div>';
+}
+
+// Tambahkan elemen notifikasi ke dalam elemen dengan id "notification_list"
+$('#notification_list').append(notificationElement);
+
+const markAsReadLinks = document.querySelectorAll('.mark-as-read');
+markAsReadLinks.forEach(link => {
+    link.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        const notificationId = link.getAttribute('data-notification-id');
+
+        fetch(`/markNotificationAsRead/${notificationId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Notifikasi telah ditandai sebagai dibaca');
+                link.textContent = 'Dibaca';
+                link.classList.remove('text-primary');
+                link.classList.add('text-success');
+            } else {
+                console.log('Gagal menandai notifikasi sebagai dibaca');
+            }
+        })
+        .catch(errors => {
+            console.error(errors);
+        });
+    });
+});
+
+    </script>
 @endpush
