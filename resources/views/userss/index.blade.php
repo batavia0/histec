@@ -144,7 +144,7 @@ function storeBtnUser(event) {
         })
         .then(response => response.json())
         .then(data => {
-            if (data) {
+            if (data.success) {
                 $('#exampleModal').modal('hide');
                 window.location.reload();
                 iziToast.success({

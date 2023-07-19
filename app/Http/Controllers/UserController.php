@@ -83,12 +83,8 @@ class UserController extends Controller
         $this->User->remember_token = Str::random(10);
         $this->User->email_verified_at = now();
         if($this->User->save()){
-            return response->json([
-                'status' => 'success'
-            ],201);
-        } else return response->json([
-            'message' => 'fail'
-        ],400);
+            return response()->json(['success' => true, 'message' => 'User berhasil ditambahkan.'], 200);
+        } else return response()->json(['success' => false, 'errors' => $validator->errors()], 400);
 
     }
 
