@@ -34,8 +34,9 @@ class TicketProcess extends Model
     {
         return $this->belongsTo(TicketStatus::class, 'ticket_process_status_id','status_id');
     }
-    public function getHistoryTicketById($id)
+    public function getHistoryTicketById($ticket_no)
     {
-        return TicketProcess::with('tickets')->where('ticket_id',$id)->get();
+        $ticketIds = Tickets::where('ticket_no', $ticket_no)->pluck('ticket_id');
+        return TicketProcess::with('tickets')->whereIn('ticket_id', $ticketIds)->get();
     }
 }

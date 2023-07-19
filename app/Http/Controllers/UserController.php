@@ -82,7 +82,13 @@ class UserController extends Controller
         $this->User->role_id = $request->input('role');
         $this->User->remember_token = Str::random(10);
         $this->User->email_verified_at = now();
-        $this->User->save();
+        if($this->User->save()){
+            return response->json([
+                'status' => 'success'
+            ],201);
+        } else return response->json([
+            'message' => 'fail'
+        ],400);
 
     }
 

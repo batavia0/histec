@@ -1,12 +1,12 @@
 <div class="p2">
-    <form id="formTambahUser">
+    <form action="" id="formTambahUser">
         @csrf
         <div class="form-group">
             <label for="email">Tambah User</label>
             <input type="email" name="email" id="email" class="form-control" placeholder="Email">
             <span id="email_error" class="text-danger"></span>
         </div>
-        </div>
+
         <div class="form-group">
             <label for="name">Nama</label>
             <input type="text" name="name" id="name" class="form-control" placeholder="Nama User">
@@ -34,7 +34,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" onclick="storeBtn()">Simpan</button>
+            <button type="submit" class="btn btn-primary" onclick="storeBtnUser(event)">Simpan</button>
         </div>
     </form>
 </div>

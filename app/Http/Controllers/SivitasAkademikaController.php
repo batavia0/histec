@@ -110,7 +110,7 @@ class SivitasAkademikaController extends Controller
                 // $newFileName = $originalFileName . '_' . round(microtime(true) * 1000) . '.' . $extension;
                 // Store to public path
                 // $file->storeAs('public/image',$newFileName);
-                $this->Tickets->image = $file->store('public/image');
+                $this->Tickets->image = $file->store('image');
                 // $uploadedFile[] = $newFileName; //store filename to array
             }
         }
@@ -200,29 +200,21 @@ class SivitasAkademikaController extends Controller
         // Check if request is Ajax
         if($request->ajax()){
             $output = '';
-            $histori = $this->TicketProcess->getHistoryTicketById($request->search_id_tiket);
+            if(!empty($request->search_id_tiket)){
+                $histori = $this->TicketProcess->getHistoryTicketById($request->search_id_tiket);
             $query = $this->Tickets->getQueryByIdTiket($request->search_id_tiket)->get();
             // start search
             if ($query) {
                 foreach ($query as $data) {                
-                    $output .='<ul>
-                        <li><strong>Klien</strong>: '.$data->email.' </li>
-                        <li><strong>ID Tiket</strong>: '.$data->ticket_no.'</li>
-                        <li><strong>Keluhan</strong>: '.$data->name.'</li>
-                        <li><strong>Kategori</strong>: '.$data->category->name.'</li>
-                        <li><strong>Status Tiket</strong>: <span class="badge bg-info">'.$data->ticket_status->name.'</span></li>
-                        <li><strong>Lokasi</strong>: '.$data->locations->name.'</li>
-                        <li><strong>Tiket Dibuat</strong>: <div class="mx-auto">'.$data->created_at.'</div></li>
-                        <li><strong>Tiket Selesai</strong>: '.(isset($data->ticket_finished_at) ? $data->ticket_finished_at : "--|--").'</li>
-                    </ul>';
+                    $output .= $this->html($data, $output);
                 }
                 $output .= '<div class="form-group">
                         <label for="form-label">Histori Tiket</label>
                         <div class="list-group">';
                         $iteration = 0;
                         foreach ($histori as $data) {
-                            // $diff = Carbon::parse($data->tickets->ticket_finished_at)->diffForHumans($data->tickets->created_at);
-                            // $isActive = ($iteration === 0 ? 'active' : '');
+                            $diff = Carbon::parse($data->tickets->ticket_finished_at)->diffForHumans($data->tickets->created_at);
+                            $isActive = ($iteration === 0 ? 'active' : '');   //Get the latest iteration
                 $output .= '<a href="#" class="list-group-item list-group-item-action ' . $isActive . '">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">' . $data->name . '</h5>
@@ -237,11 +229,27 @@ class SivitasAkademikaController extends Controller
                         }
                         $output .= '</div>
                         </div>';
-
             }
+            }
+            
             return response()->json($output);
+            // return view('sivitas_akademika.cek_status_tiket');
         }
-        return view('sivitas_akademika.cek_status_tiket');
         
+    }
+
+    public function html($data,$output)
+    {
+        $output .='<ul>
+                        <li><strong>Klien</strong>: '.$data->email.' </li>
+                        <li><strong>ID Tiket</strong>: '.$data->ticket_no.'</li>
+                        <li><strong>Keluhan</strong>: '.$data->name.'</li>
+                        <li><strong>Kategori</strong>: '.$data->category->name.'</li>
+                        <li><strong>Status Tiket</strong>: <span class="badge bg-info">'.$data->ticket_status->name.'</span></li>
+                        <li><strong>Lokasi</strong>: '.$data->locations->name.'</li>
+                        <li><strong>Tiket Dibuat</strong>: <div class="mx-auto" id="userDateTime">'.$data->created_at->formatLocalized('%d %B %Y, %H:%M').'</div></li>
+                        <li id="userDateTime"><strong>Tiket Selesai</strong>: '.(isset($data->ticket_finished_at) ? Carbon::parse($data->ticket_finished_at)->formatLocalized('%d %B %Y, %H:%M') : "--|--").'</li>
+                    </ul>';
+                    return $output;
     }
 }

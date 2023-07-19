@@ -28,7 +28,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-8 mt-5">
+            <div class="col-md-12 mt-5">
                 <div class="card">
                     <div class="card-header">
                         <h4>Buat Tiket</h4>
@@ -161,7 +161,7 @@
                     </div>
                 </div>
             </div>
-            @include('sivitas_akademika.artikel_terkait')
+            {{-- @include('sivitas_akademika.artikel_terkait') --}}
         </div>
     </div>
 </section>
@@ -344,14 +344,15 @@ function updatePreviewList() {
 
     // Generate the list items based on the filtered FAQ data
     filtered_faq.forEach(function(faq) {
-        var listItem = '<a href="{{ url("faq") }}/' + faq.faq_id + '"  class="list-group-item list-group-item-action">' +
-            '<h5 class="mb-1">' + faq.title + '</h5>' +
-            '<p class="mb-1 overflow-hidden" style="max-height: 200px;">' + faq.answer + '</p>' +
-            '<p class="text text-muted">' + faq.category.name + '</p>' +
-            '</a>';
+    var listItem = '<a href="{{ url("faq") }}/' + faq.faq_id + '"  class="list-group-item list-group-item-action" style="max-height: 200px; overflow: hidden;">' +
+        '<h5 class="mb-1">' + faq.title + '</h5>' +
+        '<p class="mb-1">' + faq.answer + '</p>' +
+        '<p class="text text-muted">' + faq.category.name + '</p>' +
+        '</a>';
 
-        $('#previewList').append(listItem);
-    });
+    $('#previewList').append(listItem);
+});
+
 
     // Add event listener for hover effect
     $('#previewList').on('mouseenter', '.list-group-item', function() {

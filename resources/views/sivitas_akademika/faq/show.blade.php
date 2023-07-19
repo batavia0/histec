@@ -10,6 +10,10 @@
         <div class="section-title mt-5">
             <h2>FAQ</h2>
           </div>
+          <div class="section-title mt-1">
+            <h4>Apa yang bisa kami bantu?</h4>
+          </div>
+
       </div>
 </main>
 <div class="container">
@@ -17,7 +21,7 @@
     <div class="col md-12 mb-3">
       <form id="searchForm">
         <div class="form-group">
-            <input type="text" class="form-control form-control-lg" id="searchInput" placeholder="Cari FAQ Jawaban Masalah">
+            <input type="text" class="form-control form-control-lg" id="searchInput" placeholder="Cari bantuan atau masukkan kata kunci">
         </div>
     </form>
 
@@ -66,15 +70,21 @@ var faqPage = '';
 
 // Loop melalui data $detail_faq dan tambahkan ke variabel faqPage
 detail_faq.forEach(function(faq) {
-    var faqItem = '<h5 class="mb-1">' + faq.title + '</h5>' +
-        '<p class="mb-1 overflow-scroll" style="max-height: 500px;">' + faq.answer + '</p>' +
-        '<p class="text text-muted">' + faq.category.name + '</p>' +
-        '<div class="d-flex justify-content-end">' +
-        '<div class="btn-group" role+"group" aria-label="User next decision">' +
-          '<p class="text-secondary">' +
-          '<a href="{{ route('tickets.index') }}" class="text-secondary">Kembali buat tiket</a></p>' +
-          '</div>' +
-          '</div>';
+  var faqItem = '<h5 class="mb-1">' + faq.title + '</h5>' +
+  '<p class="mb-1 overflow-scroll" style="max-height: 500px;">' + faq.answer + '</p>' +
+  '<p class="text text-muted">' + faq.category.name + '</p>' +
+  '<div class="d-flex flex-column align-items-end">' +
+    '<p class="text-secondary">' +
+    '<a href="{{ route('tickets.index') }}" class="text-secondary">Apakah dapat membantu?</a></p>' +
+    '<div class="d-flex justify-content-between align-items-center mt-2">' +
+      '<button type="button" class="btn btn-primary">'+
+        '<a href="{{ route('tickets.index') }}" class="text text-light">Buat Tiket</a>'+
+        '</button>' +
+    '</div>' +
+  '</div>';
+
+
+
     faqPage += faqItem;
 });
 $('#faqPage').append(faqPage);

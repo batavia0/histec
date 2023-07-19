@@ -93,7 +93,7 @@
                                         <td>{!! $row->answer !!}</td>
                                         <td>{{ $row->category->name }}</td>
                                         <td>{{ $row->users->name }} | {{ $row->users->email }}</td>
-                                        <td>{{ $row->created_at }}</td>
+                                        <td id="userDateTime">{{ $row->created_at }}</td>
                                         <td><a href="#"
                                                 class="btn btn-sm btn-outline-primary"">Detail</a>
                                             <a href="#"
@@ -345,7 +345,7 @@ function destroy(id) {
 // }
 
 // function store() {
-//   fetch("{{ route('indexTambahUser') }}")
+//   fetch("")
 //     .then(response => response.text())
 //     .then(data => {
 //       document.getElementById("exampleModalLabel").innerHTML = 'Tambah User';

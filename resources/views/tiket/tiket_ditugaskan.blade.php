@@ -88,7 +88,7 @@
                                         <td>{{ trim($row->description) }}</td>
                                         <td>{{ $row->ticket_no }}</td>
                                         <td>{{ $row->email }}</td>
-                                        <td>{{ $row->created_at }}</td>
+                                        <td id="userDateTime">{{ $row->created_at }}</td>
                                         <td>{{ isset($row->ticket_finished_at)?($row->ticket_finished_at): '--|--' }}</td>
                                         <td>
                                             <div class="badge badge-success">{{ $row->ticket_status->name }}</div>
@@ -114,11 +114,18 @@
                                                 onclick="deleteConfirm({{ $row->ticket_id }})">Hapus</a> --}}
                                             </td>
                                         <td>
-                                            <img alt="image"
-                                                src="{{ $row->image }}"
-                                                width="200"
-                                                data-toggle="tooltip"
-                                                title="#">
+                                            <a href="{{ asset('storage/' . trim($row->image)) }}">Gambar</a>
+                                            <button class="btn btn-link" data-toggle="collapse" data-target="#imageCollapse{{ $row->ticket_id }}" aria-expanded="true" aria-controls="imageCollapse">
+                                                <i class="fas fa-compress-alt"></i>
+                                            </button>
+                                            <div id="imageCollapse{{ $row->ticket_id }}" class="collapse show">
+                                                <img alt="{{ isset($row->image) ? $row->image : 'No Image' }}"
+                                                    src="{{ isset($row->image) ? asset('storage/' . trim($row->image)) : 'No Image' }}"
+                                                    width="200"
+                                                    data-toggle="tooltip"
+                                                    title="{{ isset($row->image) ? $row->image : 'No Image' }}"
+                                                    loading="lazy">
+                                            </div>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -244,14 +251,14 @@ function updateBtn(id) {
             window.location.reload()
             iziToast.success({
                 title: 'Success',
-                message: response.message,
+                message: 'Berhasil',
                 position: 'topRight',
             });
         },
         error: function(xhr, status, error) {
             iziToast.error({
                 title: 'Error',
-                message: response.message,
+                message: error,
                 position: 'topRight',
             });
         }

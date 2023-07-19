@@ -14,11 +14,11 @@
         </div>
         <div class="form-group">
             <label for="form-label">Dari Tanggal</label>
-        <input type="text" id="ticket_date" class="form-control" value="{{ isset($detail_tiket->created_at) ? $detail_tiket->created_at : '' }}" readonly>
+        <input type="text" id="userDateTime" class="form-control" value="{{ isset($detail_tiket->created_at) ? $detail_tiket->created_at : '' }}" readonly>
         </div>
         <div class="form-group">
             <label for="form-label">Tanggal Selesai</label>
-        <input type="text" id="ticket_date" class="form-control" value="{{ isset($detail_tiket->ticket_finished_at) ? $detail_tiket->ticket_finished_at : '--|--' }}" readonly>
+        <input type="text" id="userDateTime" class="form-control" value="{{ isset($detail_tiket->ticket_finished_at) ? $detail_tiket->ticket_finished_at : '--|--' }}" readonly>
         </div>
         <div class="form-group">
             <label for="form-label">Description</label>
@@ -27,8 +27,8 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <img src="{{ $detail_tiket->image }}" class="card-img-top" alt="Image">
-                <h5 class="card-title">Image</h5>
+                <img src="{{ isset($detail_tiket->image) ? asset('storage/' . trim($detail_tiket->image)) : 'No Image' }}" class="card-img-top" alt="Image" loading="lazy">
+                <h5 class="card-title">{{ isset($detail_tiket->image) ? $detail_tiket->image : 'No Image' }}</h5>
             </div>
         </div>
         

@@ -88,7 +88,7 @@
                                         <td>{{ trim($row->tickets->description) }}</td>
                                         <td>{{ $row->tickets->ticket_no }}</td>
                                         <td>{{ $row->tickets->email }}</td>
-                                        <td>{{ $row->tickets->created_at }}</td>
+                                        <td id="userDateTime">{{ $row->tickets->created_at }}</td>
                                         <td>
                                             <div class="badge badge-success">{{ $row->tickets->ticket_status->name }}</div>
                                             <div class="badge">{{ $row->tickets->category->name }}</div>
@@ -112,11 +112,18 @@
                                                 onclick="deleteConfirm({{ $row->ticket_id }})">Hapus</a> --}}
                                             </td>
                                         <td>
-                                            <img alt="image"
-                                                src="{{ $row->image }}"
-                                                width="200"
-                                                data-toggle="tooltip"
-                                                title="#">
+                                            <a href="{{ asset('storage/' . trim($row->image)) }}">Gambar</a>
+                                            <button class="btn btn-link" data-toggle="collapse" data-target="#imageCollapse{{ $row->ticket_id }}" aria-expanded="true" aria-controls="imageCollapse">
+                                                <i class="fas fa-compress-alt"></i>
+                                            </button>
+                                            <div id="imageCollapse{{ $row->ticket_id }}" class="collapse show">
+                                                <img alt="{{ isset($row->image) ? $row->image : 'No Image' }}"
+                                                    src="{{ isset($row->image) ? asset('storage/' . trim($row->image)) : 'No Image' }}"
+                                                    width="200"
+                                                    data-toggle="tooltip"
+                                                    title="{{ isset($row->image) ? $row->image : 'No Image' }}"
+                                                    loading="lazy">
+                                            </div>
                                         </td>
                                     </tr>
                                     @endforeach

@@ -47,5 +47,12 @@
   
     <!-- Template Main JS File -->
     <script src="{{ asset('Resi/js/main.js') }}"></script>
+    <script>
+        // Mendapatkan waktu pengguna pada sisi klien (browser)
+  var userDateTime = new Date().toLocaleString(undefined, { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone });
+
+// Menampilkan waktu pengguna pada elemen HTML
+document.getElementById("userDateTime").textContent = userDateTime;
+    </script>
   </body>
 </html>

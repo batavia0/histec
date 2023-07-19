@@ -13,11 +13,11 @@
     </div>
     <div class="form-group">
         <label for="form-label">Dari Tanggal</label>
-    <input type="text" id="ticket_date" class="form-control" value="{{ isset($detail_tiket->created_at) ? $detail_tiket->created_at : '' }}" readonly>
+    <input type="text" id="userDateTime" class="form-control" value="{{ isset($detail_tiket->created_at) ? $detail_tiket->created_at : '' }}" readonly>
     </div>
     <div class="form-group">
         <label for="form-label">Tanggal Selesai</label>
-    <input type="text" id="ticket_date" class="form-control" value="{{ isset($detail_tiket->ticket_finished_at) ? $detail_tiket->ticket_finished_at : '--|--' }}" readonly>
+    <input type="text" id="userDateTime" class="form-control" value="{{ isset($detail_tiket->ticket_finished_at) ? $detail_tiket->ticket_finished_at : '--|--' }}" readonly>
     </div>
     <div class="form-group">
         <label for="form-label">Description</label>

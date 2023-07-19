@@ -34,7 +34,7 @@
                 $diff = \Carbon\Carbon::parse($item->tickets->ticket_finished_at)->diffForHumans($item->tickets->created_at);
             @endphp 
                 <a href="#" class="list-group-item list-group-item-action {{ $loop->first ? 'active' : '' }}">
-                  <div class="d-flex w-100 justify-cossntent-between">
+                  <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ $item->name }}</h5>
                     <small>{{ $diff }}</small>
                   </div>

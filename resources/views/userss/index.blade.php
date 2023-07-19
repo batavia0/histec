@@ -112,6 +112,9 @@
     <!-- jQuery validation plugin -->
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <!-- Page Specific JS File -->
+    {{-- <script type="text/javascript">
+        $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+    </script> --}}
 <script>
     function tambah() {
   fetch("{{ route('user.tambah') }}")
@@ -126,21 +129,22 @@
     });
 }
 
-function storeBtn() {
+function storeBtnUser(event) {
+    event.preventDefault(); // M
     const form = document.getElementById('formTambahUser');
     const formData = new FormData(form);
+    const url = "{{ url('user/store') }}";
 
-    fetch(form.action, {
+    fetch(url, {
             method: 'post',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            body: JSON.stringify(formData)
+            body: formData
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (data) {
                 $('#exampleModal').modal('hide');
                 window.location.reload();
                 iziToast.success({

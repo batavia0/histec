@@ -162,7 +162,7 @@
                             <div class="card">
                                 
                             </div>
-                            <div class="portfolio-info ticket-searchbar">
+                            <div class="portfolio-info ticket-searchbar" id="histori-tiket">
 
                             </div>
                     </div>
@@ -188,14 +188,17 @@
                     url: "{{ url('cek_status_tiket/find_tickets') }}",
                     data: {'search_id_tiket':value},
                     success: function (data) {
-                        console.log(data);
+                        // console.log(data);
                     $('.ticket-searchbar').html(data);
                     },
-                    error: function(xhr){
-                        console.log(xhr);
+                    error: function(xhr,error){
+                        // console.log(xhr);
                     }
                 });
             })
         });
+    </script>
+    <script>
+        var histori = @json(isset($histori)?$histori:'');
     </script>
 @endpush

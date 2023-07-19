@@ -75,6 +75,13 @@
     <!-- Template JS File -->
     <script src="{{ asset('stisla/js/scripts.js') }}"></script>
     <script src="{{ asset('stisla/js/custom.js') }}"></script>
+    <script>
+    // Mendapatkan waktu pengguna pada sisi klien (browser)
+  var userDateTime = new Date().toLocaleString(undefined, { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+
+// Menampilkan waktu pengguna pada elemen HTML
+document.getElementById("userDateTime").textContent = userDateTime;
+    </script>
 </body>
 
 </html>
