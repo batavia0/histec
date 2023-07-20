@@ -8,8 +8,7 @@ use NumberFormatter;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
-use Riskihajar\Terbilang\Terbilang;
-use Barryvdh\DomPDF\ServiceProvider;
+// use Riskihajar\Terbilang\Terbilang;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 
@@ -129,22 +128,47 @@ class WordController extends Controller
         
             $htmlFilePath = "Berita Acara Penyelesaian Pekerjaan '" . $request->input('gedung') . "'.html";
             $pdfFilePath = "Berita Acara Penyelesaian Pekerjaan '" . $request->input('gedung') . "'.pdf";
+
+            // $phpWord = new PhpWord();
         
-            $writer = IOFactory::createWriter($phpWord, 'HTML');
-            $writer->save($htmlFilePath);
+            // $phpWord = IOFactory::createWriter($phpWord, 'HTML');
+            $tempWordFilePath = "BeritaAcaraPenyelesaianPekerjaan(GedungAgroLantai2)_temp.docx";
+            $phpWord->saveAs($tempWordFilePath);
+
+            // Load the filled template as HTML content
+            $phpWord = \PhpOffice\PhpWord\IOFactory::load($tempWordFilePath, 'Word2007');
+            $htmlWriter = new \PhpOffice\PhpWord\Writer\HTML($phpWord);
+            $htmlWriter->save($htmlFilePath);
         
-            $dompdf = new Dompdf();
-            $dompdf->loadHtmlFile($htmlFilePath);
-            $dompdf->setPaper('A4', 'portrait');
-            $dompdf->render();
-            $output = $dompdf->output();
+          
+
+// Instantiate Dompdf
+$dompdf = new Dompdf();
+
+ // Load HTML content
+ $html = file_get_contents($htmlFilePath);
+
+// Load HTML into Dompdf
+$dompdf->loadHtml($html);
+
+// Set paper size and orientation
+$dompdf->setPaper('A4', 'portrait');
+
+// Render the HTML as PDF
+$dompdf->render();
+
+// Save PDF file
+file_put_contents($pdfFilePath, $dompdf->output());
+
+// Output the generated PDF to Browser
+$dompdf->stream();
         
-            file_put_contents(public_path($pdfFilePath), $output);
+            // file_put_contents(public_path($pdfFilePath), $output);
         
             // Remove the intermediate HTML file
-            if (file_exists($htmlFilePath)) {
-                unlink($htmlFilePath);
-            }
+            // if (file_exists($htmlFilePath)) {
+            //     unlink($htmlFilePath);
+            // }
         
             return response()->json([
                 'status' => 'success',

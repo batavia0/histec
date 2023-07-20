@@ -55,7 +55,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->getContent());
         $validator = Validator::make($request->all(),[
             'email' => 'required|email|unique:users,email',
             'name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
@@ -63,6 +62,7 @@ class UserController extends Controller
             'password' => 'required',
             'password_confirm' => 'required|same:password',
         ],[
+            // Custom message validation
             'email.required' => 'Kolom email wajib diisi.',
             'email.email' => 'Silakan masukkan email yang valid.',
             'name.required' => 'Kolom nama wajib diisi.',
@@ -76,6 +76,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->toArray()], 400);
         }
+        // Model constructed
         $this->User->email = $request->input('email');
         $this->User->name = trim($request->input('name'));
         $this->User->password = Hash::make($request->input('password'));
@@ -131,6 +132,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::where('id',$id)->delete();
+        if($user){
+            return response()->json(['success' => true, 'message' => 'User berhasil dihapus']);
+        }
+        return response()->json(['success' => false, 'message' => 'User gagal dihapus']);
     }
 }

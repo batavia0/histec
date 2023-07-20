@@ -75,7 +75,11 @@ class FAQController extends Controller
         $this->Faq->created_date = round(microtime(true) * 1000);
         $this->Faq->created_at = now();
         $this->Faq->updated_at = now();
-        $this->Faq->save();
+        if ($this->Faq->save()) {
+            return response()->json(['success' => true, 'message' => 'FAQ berhasil dipublikasikan']);
+            return redirect()->route('faq_admin_page_index');
+        } else return response()->json(['success' => false, 'message' => 'Ada kesalahan']);
+
     }
 
     /**

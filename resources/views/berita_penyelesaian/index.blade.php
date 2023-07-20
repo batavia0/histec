@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="" method="get" id="formBeritaPenyelesaian">
+                            <form action="{{ url('berita_penyelesaian/generate') }}" method="post" id="formBeritaPenyelesaian">
                                 @csrf
                                 <div class="form-group">
                                     <label>Nomor Surat</label>
@@ -199,7 +199,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary btn-lg" onclick="generate()">GENERATE</button>
+                                        <button class="btn btn-primary btn-lg" type="submit">GENERATE</button>
                                     </div>
                                 </div>
                                 
@@ -279,7 +279,7 @@
         success: function(response) {
             // if (response.success) {
             window.location.href = response.url;
-            window.location.href = response.file;
+            // window.location.href = response.file;
             // }
             // $('#exampleModal').modal('hide');
             // window.location.reload()

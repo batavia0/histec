@@ -256,19 +256,20 @@ function store() {
   fetch("{{ route('faq_admin_page.store') }}", {
     method: 'post',
     headers: {
-    'Content-Type': 'application/json',
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   },
+  body: formData
   })
     .then(response => response.json())
     .then(data => {
-          window.location.reload();
+        if(data.success){
+            window.location.reload();
         iziToast.success({
         title: 'Success',
         message: data.message,
         position: 'topRight'
       });
-        
+        }   
     })
     .catch(error => {
         iziToast.error({
@@ -276,7 +277,7 @@ function store() {
         message: 'Eror'+error,
         position: 'topRight'
       });
-        console.log(error);
+        // console.log(error);
     });
 }
 
