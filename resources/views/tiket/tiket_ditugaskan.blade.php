@@ -88,7 +88,7 @@
                                         <td>{{ trim($row->description) }}</td>
                                         <td>{{ $row->ticket_no }}</td>
                                         <td>{{ $row->email }}</td>
-                                        <td id="userDateTime">{{ $row->created_at }}</td>
+                                        <td class="userDateTime">{{ $row->created_at }}</td>
                                         <td>{{ isset($row->ticket_finished_at)?($row->ticket_finished_at): '--|--' }}</td>
                                         <td>
                                             <div class="badge badge-success">{{ $row->ticket_status->name }}</div>

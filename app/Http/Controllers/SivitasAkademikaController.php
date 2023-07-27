@@ -247,8 +247,8 @@ class SivitasAkademikaController extends Controller
                         <li><strong>Kategori</strong>: '.$data->category->name.'</li>
                         <li><strong>Status Tiket</strong>: <span class="badge bg-info">'.$data->ticket_status->name.'</span></li>
                         <li><strong>Lokasi</strong>: '.$data->locations->name.'</li>
-                        <li><strong>Tiket Dibuat</strong>: <div class="mx-auto" id="userDateTime">'.$data->created_at->formatLocalized('%d %B %Y, %H:%M').'</div></li>
-                        <li id="userDateTime"><strong>Tiket Selesai</strong>: '.(isset($data->ticket_finished_at) ? Carbon::parse($data->ticket_finished_at)->formatLocalized('%d %B %Y, %H:%M') : "--|--").'</li>
+                        <li><strong>Tiket Dibuat</strong>: <div class="mx-auto" class="userDateTime">'.$data->created_at->formatLocalized('%d %B %Y, %H:%M').'</div></li>
+                        <li class="userDateTime"><strong>Tiket Selesai</strong>: '.(isset($data->ticket_finished_at) ? Carbon::parse($data->ticket_finished_at)->formatLocalized('%d %B %Y, %H:%M') : "--|--").'</li>
                     </ul>';
                     return $output;
     }

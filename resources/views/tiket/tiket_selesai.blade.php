@@ -86,8 +86,8 @@
                                         <td>{{ trim($row->description) }}</td>
                                         <td>{{ $row->ticket_no }}</td>
                                         <td>{{ $row->email }}</td>
-                                        <td id="userDateTime">{{ $row->created_at }}</td>
-                                        <td>{{ isset($row->ticket_finished_at)?($row->ticket_finished_at): '--|--' }}</td>
+                                        <td class="userDateTime">{{ $row->created_at }}</td>
+                                        <td class="userDateTime">{{ isset($row->ticket_finished_at)?($row->ticket_finished_at): '--|--' }}</td>
                                         <td>
                                             <div class="badge badge-success">{{ $row->ticket_status->name }}</div>
                                             <div class="badge">{{ $row->category->name }}</div>
@@ -102,17 +102,24 @@
                                                 title="Hapus"
                                                 onclick="deleteConfirm({{ $row->ticket_id }})">Hapus</a> --}}
                                             </td>
-                                        <td>
-                                            <img alt="image"
-                                                src="{{ $row->image }}"
-                                                width="200"
-                                                data-toggle="tooltip"
-                                                title="#">
-                                        </td>
+                                            <td>
+                                                <a href="{{ asset('storage/' . trim($row->image)) }}">Gambar</a>
+                                                <button class="btn btn-link" data-toggle="collapse" data-target="#imageCollapse{{ $row->ticket_id }}" aria-expanded="true" aria-controls="imageCollapse">
+                                                    <i class="fas fa-compress-alt"></i>
+                                                </button>
+                                                <div id="imageCollapse{{ $row->ticket_id }}" class="collapse show">
+                                                    <img alt="{{ isset($row->image) ? $row->image : 'No Image' }}"
+                                                        src="{{ isset($row->image) ? asset('storage/' . trim($row->image)) : 'No Image' }}"
+                                                        width="200"
+                                                        data-toggle="tooltip"
+                                                        title="{{ isset($row->image) ? $row->image : 'No Image' }}"
+                                                        loading="lazy">
+                                                </div>   
+                                            </td>
                                     </tr>
                                     @endforeach
                                 </table>
-                                <p class="text-center">{{ !isset($all_finished_tickets_filtered) ? 'NO DATA' : '' }}</p>
+                                <p class="text-center">{{ $all_finished_tickets_filtered->isEmpty() ? 'NO DATA' : '' }}</p>
                             </div>
                         </div>
                         {{-- Pagination --}}

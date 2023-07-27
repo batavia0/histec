@@ -93,7 +93,7 @@
                                         <td>{!! $row->answer !!}</td>
                                         <td>{{ $row->category->name }}</td>
                                         <td>{{ $row->users->name }} | {{ $row->users->email }}</td>
-                                        <td id="userDateTime">{{ $row->created_at }}</td>
+                                        <td class="userDateTime">{{ $row->created_at }}</td>
                                         <td><a href="#"
                                                 class="btn btn-sm btn-outline-primary"">Detail</a>
                                             <a href="#"

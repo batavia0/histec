@@ -8,8 +8,12 @@ use App\Models\Category;
 use App\Models\TicketMutasi;
 use App\Models\TicketStatus;
 use Illuminate\Http\Request;
+use App\Jobs\ProcessMailSend;
 use App\Models\TicketProcess;
+use App\Mail\MailtoTicketReply;
+use App\Mail\MailtoTicketSender;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\CreateTicketRequest;
 
@@ -77,6 +81,14 @@ class TicketController extends Controller
         return view('tiket.tiket_selesai',$data);
     }
 
+    public function indexBalasanTiket()
+    {
+        $auth_id = Auth::user()->role_id;
+        $data['all_finished_tickets_filtered'] = $this->Tickets->getAllTicketsFinishedByRoleId($auth_id)->get();
+        $data['type_menu'] = 'balasan_tiket_nav';
+        return view('balasan_tiket.index',$data);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -130,6 +142,12 @@ class TicketController extends Controller
         return view('tiket.read_status_tiket',$data);
     }
 
+    public function showBalasanTiket($id)
+    {
+        $data['detail_tiket'] = $this->Tickets->getClosedTicketsByIdWithRoleId($id);
+        return view('balasan_tiket.show',$data);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -168,32 +186,32 @@ class TicketController extends Controller
      */
     public function updates(Request $request, $id)
     {
-            $request->except('ticket_no');
             $validator = Validator::make($request->only([
                 'status_name',
                 'ticket_name',
                 'description',
             ]), [
-                'status_name' => 'sometimes|required',
-                'ticket_name' => 'sometimes|required',
-                'description' => 'sometimes|required',
+                'status_name' => 'sometimes',
+                'ticket_name' => 'sometimes',
+                'description' => 'sometimes',
             ]);
             if ($validator->fails()) {
                 return response()->json(['error' => $validator->errors()], 422);
             }
     
             $ticket = Tickets::findOrFail($id);
+            $ticket->ticket_status_id = $request->input('status_name');
+            $ticket->name = $request->input('ticket_name');
+            $ticket->description = $request->input('description');
     
-            if ($ticket->isDirty(['status_name', 'ticket_name', 'description'])) {
-                // Ada perubahan pada data, maka simpan
-                $ticket->status_name = $request->input('status_name');
-                $ticket->ticket_name = $request->input('ticket_name');
-                $ticket->description = $request->input('description');
+            if ($ticket->isDirty(['ticket_status_id', 'name', 'description'])) {
+                // There are changes in the data
                 $ticket->save();
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Tiket berhasil diperbarui',
                 ],201);
+                // No changes were made
             } else return response()->json([
                 'status' => 'success',
                 'message' => 'Tidak ada yang diperbarui'
@@ -216,7 +234,7 @@ class TicketController extends Controller
         }
         $ticket = Tickets::findOrFail($id);
         $ticket->ticket_status_id = $request->input('status_name');
-        if($request->input('status_name') != '2'){
+        if($request->input('status_name') == '2'){
             $ticket->ticket_finished_at = now();
         }
         $ticket->save();
@@ -226,10 +244,8 @@ class TicketController extends Controller
         $this->TicketProcess->ticket_id = $id;
         $this->TicketProcess->ticket_process_status_id = $request->input('status_name');
         $this->TicketProcess->technician_id = Auth::user()->role_id;
-        $this->TicketProcess->created_at = now();
         $this->TicketProcess->updated_at = now();
         $this->TicketProcess->save();
-
     }
 
     public function updateMutasiProsesTiket(Request $request, $id)
@@ -265,8 +281,30 @@ class TicketController extends Controller
     {
         $tickets = Tickets::where('ticket_id',$id)->delete();
         return response()->json([
-        'status' => 'success',
+            'status' => 'success',
             'message' => 'Tiket dihapus'
         ],201);
+    }
+
+    public function sendMail()
+    {
+        Mail::to("testingmail@gmail.com")->send(new MailtoTicketSender());
+        return "Email telah dikirim";
+    }
+
+    public function mailBalasanTiket(Request $request,$email)
+    {
+        $validator = Validator::make($request->only([
+            'email_body',
+        ]),[
+            'email_body' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+        $message_body = $request->input('email_body');
+        // Mail::to($email)->send(new MailtoTicketReply($message_body));
+        ProcessMailSend::dispatch($message_body,$email);
+        return redirect()->route('indexBalasanTiket');
     }
 }

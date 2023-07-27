@@ -18,7 +18,7 @@
             <li class="nav-item dropdown {{ $type_menu === 'tiket_nav' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"
-                    data-toggle="dropdown"><i class="far fa-square"></i> <span>Tiket</span></a>
+                    data-toggle="dropdown"><i class="fas fa-list-ul"></i> <span>Tiket</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is('tiket/semua_tiket') ? 'active' : '' }}">
                         <a class="nav-link"
@@ -50,6 +50,18 @@
                     </li>
                 </ul>
             </li>
+            <li class="menu-header">Balasan Tiket</li>
+            <li class="nav-item dropdown {{ $type_menu === 'balasan_tiket_nav' ? 'active' : '' }}">
+                <a href="#"
+                    class="nav-link has-dropdown"
+                    data-toggle="dropdown"><i class="fas fa-list-ul"></i> <span>Balasan Tiket</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is('balasan_tiket') ? 'active' : '' }}">
+                        <a class="nav-link"
+                            href="{{ route('indexBalasanTiket') }}">Balasan Tiket</a>
+                    </li>
+                </ul>
+            <li class="menu-header">Blank Page</li>
             <li class="{{ Request::is('blank-page') ? 'active' : '' }}">
                 <a class="nav-link"
                     href="{{ url('blank-page') }}"><i class="far fa-square"></i> <span>Blank Page</span></a>

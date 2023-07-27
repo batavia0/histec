@@ -89,4 +89,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(TicketProcess::class, 'ticket_id');
     }
+    
 }

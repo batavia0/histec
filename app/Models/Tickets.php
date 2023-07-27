@@ -182,4 +182,9 @@ class Tickets extends Model
             'category_id' => $auth_id,
             ])->count('ticket_id');
         }
+
+        public function getClosedTicketsByIdWithRoleId($id)
+        {
+            return Tickets::with('category','locations','ticket_status')->where('ticket_id',$id)->first();
+        }
 }

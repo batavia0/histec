@@ -88,7 +88,7 @@
                                         <td>{{ trim($row->tickets->description) }}</td>
                                         <td>{{ $row->tickets->ticket_no }}</td>
                                         <td>{{ $row->tickets->email }}</td>
-                                        <td id="userDateTime">{{ $row->tickets->created_at }}</td>
+                                        <td class="userDateTime">{{ $row->tickets->created_at }}</td>
                                         <td>
                                             <div class="badge badge-success">{{ $row->tickets->ticket_status->name }}</div>
                                             <div class="badge">{{ $row->tickets->category->name }}</div>

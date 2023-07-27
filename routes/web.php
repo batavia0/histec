@@ -74,6 +74,13 @@ Route::middleware('auth')->group(function () {
 });
 
 //Routes for Balasan Tiket
+Route::middleware(['auth'])->group(function () {
+    Route::get('balasan_tiket', [TicketController::class, 'indexBalasanTiket'])->name('indexBalasanTiket');
+    Route::get('balasan_tiket/{id}', [TicketController::class, 'showBalasanTiket'])->name('BalasanTiket');
+    Route::post('balasan_tiket/send_mail/{email}', [TicketController::class, 'mailBalasanTiket'])->name('mailBalasanTiket');
+});
+//END Routes for Balasan Tiket
+
 //Routes for Laporan
 Route::middleware(['auth','kepalaupttikrole'])->group(function () {
     Route::controller(LaporanController::class)->group(function () {
@@ -102,7 +109,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('berita_penyelesaian', BeritaPenyelesaianController::class);
 Route::middleware('auth')->group(function () {
     Route::controller(BeritaPenyelesaianController::class)->group(function () {
-        Route::post('/berita_penyelesaian/generate', 'generate')->name('generate');
+        Route::post('/berita_penyelesaian/generate', 'convertPDF')->name('generate');
     });
 });
 //END Routes for Berita Penyelesaian
@@ -129,6 +136,10 @@ Route::middleware('auth')->group(function () {
     });
 });
 // END Routes for FAQController
-
-
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+
+
+Route::get('send-email', [TicketController::class,'sendMail']);
+Route::get('template_balasan_tiket', function () {
+    return view('emails.balasan_tiket');
+});

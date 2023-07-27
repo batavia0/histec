@@ -20,7 +20,7 @@
             <select name="status_name" id="status_name" class="form-control">
                 {{-- Cek apakah $status_id yang terpilih adalah pilihan dari $ts --}}
                 @foreach ($tiket_status as $ts)
-                <option value="{{ $ts->status_id}}" {{ $ts->id == $detail_id->ticket_status_id ? 'selected' : '' }}>{{ $ts->name }}
+                <option value="{{ $ts->status_id}}" {{ $ts->status_id == $detail_id->ticket_status_id ? 'selected' : '' }}>{{ $ts->name }}
                 </option>
                 @endforeach
             </select>
