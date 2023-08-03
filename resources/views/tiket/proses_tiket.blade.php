@@ -31,17 +31,17 @@
             <div class="list-group">
                 @foreach ($histori_tiket->sortByDesc('created_at') as $item)
                 @php
-                $diff = \Carbon\Carbon::parse($item->tickets->ticket_finished_at)->diffForHumans($item->tickets->created_at);
-            @endphp 
+                $diff = \Carbon\Carbon::parse(isset($item->tickets->ticket_finished_at) ? $item->tickets->ticket_finished_at : null)->diffForHumans(isset($item->tickets->created_at) ?? null);
+                @endphp 
                 <a href="#" class="list-group-item list-group-item-action {{ $loop->first ? 'active' : '' }}">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ $item->name }}</h5>
-                    <small>{{ $diff }}</small>
+                    <small>{{ $diff ?? '-' }}</small>
                   </div>
-                  <p class="mb-1">{{ $item->description }}</p>
-                  <small>{{ $item->tickets->locations->name }}</small>
+                  <p class="mb-1">{{ $item->description ?? '-' }}</p>
+                  <small>{{ $item->locations->name ?? '-' }}</small>
                   <span>-</span>
-                  <small>{{ $item->tickets->category->name }}</small>
+                  <small>{{ $item->name ?? '-' }}</small>
                 </a>
                 @endforeach
             </div>

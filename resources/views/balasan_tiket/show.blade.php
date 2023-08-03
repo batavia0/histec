@@ -33,10 +33,11 @@
     <div class="ticket-form">
         <form action="{{ route('mailBalasanTiket', ['email' => $detail_tiket->email]) }}" method="POST" id="formReply">
             <div class="d-inline-block">
-                <div class="btn badge badge-primary" onclick="copyText(this)">{{ $detail_tiket->email }}</div>
-                <div class="btn badge badge-primary" onclick="copyText(this)">{{ $detail_tiket->category->name }}</div>
-                <div class="btn badge badge-primary" onclick="copyText(this)">{{ $detail_tiket->name }}</div>
-                <div class="btn badge badge-primary" onclick="copyText(this)">{{ $detail_tiket->description }}</div>
+                <div class="btn badge badge-primary mb-1" onclick="copyText(this)">{{ $detail_tiket->email }}</div>
+                <div class="btn badge badge-primary mb-1" onclick="copyText(this)">{{ $detail_tiket->category->name }}</div>
+                <div class="btn badge badge-primary mb-1" onclick="copyText(this)">{{ $detail_tiket->name }}</div>
+                <div class="btn badge badge-primary mb-1" onclick="copyText(this)">{{ $detail_tiket->description }}</div>
+                <div class="btn badge badge-primary mb-1" onclick="copyText(this)">{{ $detail_tiket->ticket_no }}</div>
             </div>           
             <div class="form-group">
                 @csrf

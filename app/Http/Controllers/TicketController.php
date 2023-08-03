@@ -165,7 +165,7 @@ class TicketController extends Controller
     {
         $data['tiket_status'] = $this->TicketStatus->getAllTicketStatus();
         $data['detail_id'] = $this->Tickets->getDetailByticket_id($id);
-        $data['histori_tiket'] = $this->TicketProcess->getHistoryTicketById($id);
+        $data['histori_tiket'] = $this->Tickets->getHistoryTicketById($id);
  
         return view('tiket.proses_tiket',$data);
     }

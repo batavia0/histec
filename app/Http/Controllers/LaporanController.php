@@ -34,11 +34,40 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        $data['dataset'] = $this->Tickets->getAllFinishedTicketPerDay();
-        $data['dataset_open'] = $this->Tickets->getAllOpenTicketPerDay();
-        $data['labels'] = $this->weekName();
+        $data = Tickets::select('ticket_id','created_at')->get()->groupBy(function($data){
+            return Carbon::parse($data->created_at)->format('M');
+        });
+        $dataFinishedTicket = $this->data_ticket_finished();
+        $months = [];
+        $monthCount = [];
+        foreach($data as $month => $values){
+            $months[] = $month;
+            $monthCount[] = count($values);
+        }
+        $monthsFinished = [];
+        $monthCountFinished = [];
+        foreach($dataFinishedTicket as $month => $values)
+        {
+            $monthsFinished[] = $month;
+            $monthCountFinished[] = count($values);
+        }
+        // $data['dataset_finished'] = $this->Tickets->getAllFinishedTicketPerDay();
+        // $data['dataset_open'] = $this->Tickets->getAllOpenTicketPerDay();
+        // $data['labels'] = $this->weekName();
         $data['type_menu'] = 'laporan';
-        return view('laporan.index',$data);
+        return view('laporan.index',$data, 
+        ['month' => $months,
+        'monthCount' => $monthCount,
+        'monthsFinished' => $monthsFinished,
+        'monthCountFinished' => $monthCountFinished,
+    ]);
+    }
+
+    public function data_ticket_finished()
+    {
+        return Tickets::select('ticket_id','ticket_finished_at')->get()->groupBy(function($data){
+            return Carbon::parse($data->ticket_finished_at)->format('M');
+        });
     }
 
     public function weekName()

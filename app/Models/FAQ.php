@@ -20,6 +20,7 @@ class FAQ extends Model
     ];
 
     protected $table = 'faq';
+    protected $primaryKey = 'faq_id';
 
 
     public function category()

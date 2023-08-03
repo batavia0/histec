@@ -24,6 +24,7 @@
     <textarea id="description" class="form-control" readonly>{{ isset($detail_tiket->description) ? $detail_tiket->description : '--|--' }}
     </textarea>
     </div>
+
     <div class="card">
         <div class="card-body">
             <img src="{{ $detail_tiket->image }}" class="card-img-top" alt="Image">

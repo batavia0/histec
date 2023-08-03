@@ -25,6 +25,7 @@
     </textarea>
     </div>
     <div class="form-group">
+        <label for="form-label">Histori Tiket</label>
         <div class="list-group">
             @foreach ($histori_tiket->sortByDesc('created_at') as $item)
             @php
@@ -41,6 +42,7 @@
               <small>{{ $item->tickets->category->name }}</small>
             </a>
             @endforeach
+        </div>
     </div>
     <div class="card">
         <div class="card-body">

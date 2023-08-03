@@ -154,36 +154,34 @@ function copyText(element) {
     alert(tempInput.value+' Disalin')
 }
 
-function sendMail(event,email) {
-    event.preventDefault();
-    const form = document.getElementById('formReply');
-    const formData = new FormData(form);
-    const url = "{{ url('balasan_tiket/send_mail') }}/" + email;
-
-    fetch(url, {
-            method: 'post',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            },
-            body: formData
-        })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            window.location.reload();
-            iziToast.success({
-                title: 'Success',
-                message: data.message,
-                position: 'topRight'
-            });
-        }
+function sendMail(email) {
+  var formData = new FormData($('#formReply')[0]);
+  fetch("{{ url('balasan_tiket/send_mail') }}/" + email, {
+    method: 'POST',
+    headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    },
+    body: formData
+  })
+    .then(response => {
+      if (response.ok) {
+        $('#exampleModal').modal('hide');
+        window.location.reload();
+        iziToast.success({
+          title: 'Success',
+          message: 'Berhasil Mengirim Email',
+          position: 'topRight',
+        });
+      } else {
+        throw new Error('Error');
+      }
     })
     .catch(error => {
-        iziToast.error({
-            title: 'Error',
-            message: 'Terjadi kesalahan' + error,
-            position: 'topRight'
-        });
+      iziToast.error({
+        title: 'Error',
+        message: error.message,
+        position: 'topRight',
+      });
     });
 }
     </script>

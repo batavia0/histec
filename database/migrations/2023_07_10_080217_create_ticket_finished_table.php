@@ -19,6 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('technician_id');
             $table->foreign('technician_id')->references('id')->on('users')->onDelete('cascade');
             $table->datetime('date_finished');
+            $table->boolean('has_mailed')->default(false);
+            $table->datetime('mailed_at');
             $table->timestamps();
         });
     }

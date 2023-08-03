@@ -66,7 +66,6 @@
                                         </th>
                                         <th>#</th>
                                         <th>Judul</th>
-                                        <th>Jawaban</th>
                                         <th>Kategori</th>
                                         <th>Dibuat Oleh</th>
                                         <th>Tanggal dibuat</th>
@@ -90,15 +89,16 @@
                                         </td>
                                         <td>{{  $i++ }}</td>
                                         <td>{{ $row->title }}</td>
-                                        <td>{!! $row->answer !!}</td>
                                         <td>{{ $row->category->name }}</td>
                                         <td>{{ $row->users->name }} | {{ $row->users->email }}</td>
                                         <td class="userDateTime">{{ $row->created_at }}</td>
                                         <td><a href="#"
-                                                class="btn btn-sm btn-outline-primary"">Detail</a>
+                                                class="btn btn-sm btn-outline-primary"
+                                                onclick="read({{ $row->faq_id }})">Detail</a>
                                             <a href="#"
                                                 class="btn btn-sm btn-primary"
-                                                title="Edit">Edit</a>
+                                                title="Edit"
+                                                onclick="edit({{ $row->faq_id }})">Edit</a>
                                             <a href="#"
                                                 class="btn btn-sm btn-danger"
                                                 data-toggle="tooltip"
@@ -128,6 +128,8 @@
                     </div>
                 </div>
             </div>
+            <div id="pageShow"></div>
+            <div id="pageEdit"></div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                     <form
@@ -164,7 +166,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Content</label>
-                                    <textarea name="content" id="summernote" class="summernote-simple"></textarea>
+                                    <textarea name="content" id="summernote" class="summernote-simple"
+                                    required></textarea>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Isi Konten
                                 </div>
                             </div>
                             <div class="card-footer pt-0">
@@ -176,31 +182,6 @@
             </div>
         </section>
     </div>
-    <div class="modal fade"
-            tabindex="-1"
-            role="dialog"
-            id="exampleModal">
-            <div class="modal-dialog"
-                role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"></h5>
-                        <button type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="card-body">
-                            <div id="page"></div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
 @endsection
 
 @push('scripts')
@@ -234,6 +215,8 @@ $(document).ready(function() {
             $('.modal-backdrop').remove();
         });
     });
+    
+
 
 $('#summernote').summernote({
   toolbar: [
@@ -253,7 +236,7 @@ function store() {
   const form = document.getElementById('formTambahFaq');
   const formData = new FormData(form);
 
-  fetch("{{ route('faq_admin_page.store') }}", {
+  fetch("{{ url('faq_admin_page/store') }}", {
     method: 'post',
     headers: {
     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -281,10 +264,63 @@ function store() {
     });
 }
 
+function updateBtn(id) {
+    var formData = new FormData($('#formEditFaq')[0]);
+  fetch("{{ url('faq_admin_page/update') }}/" + id, {
+    method: 'POST',
+    headers: {
+    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  },
+  body: formData
+  })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success){
+            window.location.reload();
+        iziToast.success({
+        title: 'Success',
+        message: data.message,
+        position: 'topRight'
+      });
+        }
+        else{
+            iziToast.info({
+        title: 'Info',
+        message: data.message,
+        position: 'topRight'
+      });
+
+        }   
+    })
+    .catch(error => {
+    iziToast.error({
+        title: 'Error',
+        message: 'Error '+error,
+        position: 'topRight'
+    });
+    window.location.reload();
+});
+}
+
+function edit(id) {
+    $.get("{{ url('faq_admin_page/edit') }}/" + id, {}, function(data, status) {
+        $("#label").html('Edit FAQ ' + id);
+        $("#pageEdit").html(data);
+        // Scroll to the formEditFaq element
+        $('html, body').animate({
+            scrollTop: $("#formEditFaq").offset().top
+        }, 500);
+        $('#summernote').summernote();
+    });
+}
+
 function destroy(id) {
 
-  fetch("{{ url('faq_admin_page') }}/"+id, {
+  fetch("{{ url('faq_admin_page/destroy') }}/"+id, {
     method: 'post',
+    headers: {
+    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  },
   })
     .then(response => response.json())
     .then(data => {
@@ -302,62 +338,19 @@ function destroy(id) {
         message: 'Eror'+error,
         position: 'topRight'
       });
-        console.log(error);
     });
 }
 
-
-// function read(id) {
-//     $.get("{{ url('#') }}/" + id, {}, function(data, status) {
-//         // jQuery.noConflict();
-//         $("#exampleModalLabel").html('Detail Tiket ' + id)
-//         $("#page").html(data);
-//         $("#exampleModal").modal('show');
-//     });
-// }
-
-
-// function updateBtn(id) {
-//     var formData = new FormData($('#formTambahFaq')[0]);
-
-//     $.ajax({
-//     url: "{{ url('tiket/update_tiket_ditugaskan') }}/" + id,
-//         type: 'post',
-//         data: formData,
-//         processData: false,
-//         contentType: false,
-//         success: function(response) {
-//             $('#exampleModal').modal('hide');
-//             window.location.reload()
-//             iziToast.success({
-//                 title: 'Success',
-//                 message: response.message,
-//                 position: 'topRight',
-//             });
-//         },
-//         error: function(xhr, status, error) {
-//             iziToast.error({
-//                 title: 'Error',
-//                 message: response.message,
-//                 position: 'topRight',
-//             });
-//         }
-//     });
-// }
-
-// function store() {
-//   fetch("")
-//     .then(response => response.text())
-//     .then(data => {
-//       document.getElementById("exampleModalLabel").innerHTML = 'Tambah User';
-//       document.getElementById("page").innerHTML = data;
-//       $('#exampleModal').modal('show'); // Use jQuery to show the Bootstrap modal
-//     })
-//     .catch(error => {
-//       console.error('Error:', error);
-//     });
-// }
-
-
+function read(id) {
+    $.get("{{ url('faq_admin_page/show') }}/" + id, {}, function(data, status) {
+        // jQuery.noConflict();
+        $("#label2").html('Detail' + id)
+        $("#pageShow").html(data);
+        $('html, body').animate({
+            scrollTop: $("#detailShow").offset().top
+        }, 500);
+        $('#summernote').summernote();
+    });
+}
     </script>
 @endpush

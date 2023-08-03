@@ -211,7 +211,7 @@
 });
 
 function read(id) {
-    $.get("{{ url('tiket/read_tiket') }}/" + id, {}, function(data, status) {
+    $.get("{{ url('tiket/read_tiket_ditugaskan') }}/" + id, {}, function(data, status) {
         // jQuery.noConflict();
         $("#exampleModalLabel").html('Detail Tiket ' + id)
         $("#page").html(data);
@@ -238,30 +238,34 @@ function mutasiBtn(id) {
 }
 
 function updateBtn(id) {
-    var formData = new FormData($('#formProsesTiket')[0]);
+  var formData = new FormData($('#formProsesTiket')[0]);
 
-    $.ajax({
-    url: "{{ url('tiket/update_tiket_ditugaskan') }}/" + id,
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            $('#exampleModal').modal('hide');
-            window.location.reload()
-            iziToast.success({
-                title: 'Success',
-                message: 'Berhasil',
-                position: 'topRight',
-            });
-        },
-        error: function(xhr, status, error) {
-            iziToast.error({
-                title: 'Error',
-                message: error,
-                position: 'topRight',
-            });
-        }
+  fetch("{{ url('tiket/update_tiket_ditugaskan') }}/" + id, {
+    method: 'POST',
+    headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    },
+    body: formData
+  })
+    .then(response => {
+      if (response.ok) {
+        $('#exampleModal').modal('hide');
+        window.location.reload();
+        iziToast.success({
+          title: 'Success',
+          message: 'Berhasil',
+          position: 'topRight',
+        });
+      } else {
+        throw new Error('Error');
+      }
+    })
+    .catch(error => {
+      iziToast.error({
+        title: 'Error',
+        message: error.message,
+        position: 'topRight',
+      });
     });
 }
 

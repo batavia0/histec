@@ -8,6 +8,7 @@ use App\Models\Tickets;
 use App\Models\Category;
 use App\Rules\ReCaptcha;
 use App\Models\Locations;
+use App\Jobs\NewTicketJob;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\TicketProcess;
@@ -123,6 +124,11 @@ class SivitasAkademikaController extends Controller
             $this->Notifikasi->content = $this->Tickets->ticket_no;
             $this->Notifikasi->created_at = now();
             $this->Notifikasi->save();
+
+            $ticket_no = $this->Tickets->ticket_no;
+            $email = $this->Tickets->email;
+            NewTicketJob::dispatch($email, $ticket_no);
+
             return response()->json(
                 ['status' => 'success',
                 'message' => 'Tiket berhasil dibuat',

@@ -53,7 +53,7 @@ class FAQController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function stores(Request $request)
     {
         $validator = Validator::make($request->only([
             'title',
@@ -90,16 +90,16 @@ class FAQController extends Controller
      */
     public function show($id)
     {
-        //
+        $data['detail_faq'] = $this->Faq->getFaqById($id)->first();
+        return view('faq.show',$data);
     }
 
     public function showFaqById($id)
     {
-
+        // Sivitas Akademika's FAQ show
         $data['detail_faq'] = $this->Faq->getFaqById($id)->get();
         $data['all_faq'] = $this->Faq->getAllFaq()->get();
         return view('sivitas_akademika.faq.show',$data);
-
     }
 
     /**
@@ -110,7 +110,10 @@ class FAQController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['detail_faq'] = $this->Faq->getFaqById($id)->first();
+        $data['all_faq'] = $this->Faq->getAllFaq()->get();
+        $data['all_category'] = $this->Category->getAllCategory();
+        return view('faq.edit',$data);
     }
 
     /**
@@ -122,7 +125,41 @@ class FAQController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->only([
+            'title',
+            'category',
+            'content',
+        ]),[
+            'title' => 'required',
+            'category' => 'required',
+            'content' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+
+        $faq = FAQ::findOrFail($id);
+        $faq->update([
+            'title' => $request->input('title'),
+            'answer' => $request->input('content'),
+            'category_id' => $request->input('category'),
+            'technician_id' => Auth()->user()->id,
+            'updated_at' => now(),
+        ]);
+
+        if ($faq->wasChanged())
+        {
+             // There are changes in the data
+             $faq->save();
+             return response()->json([
+                'success' => true,
+                'message' => 'FAQ berhasil diperbarui'
+            ],200);
+            // No changes were made
+        }else return response()->json([
+            'success' => true,
+            'message' => 'Tidak ada yang diperbarui'
+        ],200); 
     }
 
     /**
@@ -134,6 +171,15 @@ class FAQController extends Controller
     public function destroy($id)
     {
         $faq = FAQ::findOrFail($id);
-        $faq = FAQ::where('faq_id',$id)->destroy();
+        $faq = FAQ::where('faq_id',$id)->delete();
+        if($faq){
+            return response()->json([
+                'success' => true,
+                'message' => 'FAQ telah dihapus'
+            ],200);
+        }else return response()->json([
+            'success' => false,
+            'message' => 'Ada kesalahan'
+        ],400);
     }
 }

@@ -45,6 +45,9 @@ Route::controller(SivitasAkademikaController::class)->group(function () {
     Route::post('/tickets/store', 'store')->name('tickets.store');
     Route::get('/tickets/{id}', 'showFaqById')->name('showFaqById');
 });
+Route::get('balasan_tiket2', function () {
+    return view('sivitas_akademika.emails.ticket_request');
+});
 //Routes for Tiket
 Route::middleware('auth')->group(function () {
     Route::controller(TicketController::class)->group(function () {
@@ -132,8 +135,12 @@ Route::middleware('auth')->group(function () {
     Route::controller(FAQController::class)->group(function () {
         // FAQ pada halaman dashboard admin
         Route::get('faq_admin_page', 'indexFaqAdmin')->name('indexFaqAdmin');
-        Route::post('faq_admin_page/{id}', 'destroy')->name('destroy_faq');
+        Route::get('faq_admin_page/edit/{id}', 'edit')->name('editFaqAdmin');
     });
+    Route::post('faq_admin_page/destroy/{id}', [FAQController::class,'destroy']);
+    Route::post('faq_admin_page/update/{id}', [FAQController::class,'update'])->name('updateFaqAdmin');
+    Route::post('faq_admin_page/store', [FAQController::class,'stores'])->name('storeFaqAdmin');
+    Route::get('faq_admin_page/show/{id}', [FAQController::class,'show'])->name('showFaqAdmin');
 });
 // END Routes for FAQController
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');

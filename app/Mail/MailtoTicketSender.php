@@ -14,14 +14,17 @@ class MailtoTicketSender extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $ticket_no;
+    public $email;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($email,$ticket_no)
     {
-        //
+        $this->email = $email;
+        $this->ticket_no = $ticket_no;
     }
 
     /**
@@ -32,8 +35,7 @@ class MailtoTicketSender extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('noreply@example.com','Nomor tiket anda'),
-            subject: 'Test Email',
+            subject: 'Pemberitahuan: Permintaan Tiket',
         );
     }
 
@@ -45,7 +47,11 @@ class MailtoTicketSender extends Mailable
     public function content()
     {
         return new Content(
-            view: 'emails.test_email',
+            view: 'sivitas_akademika.emails.ticket_request',
+            with: [
+                'ticket_no' => $this->ticket_no,
+                'email' => $this->email
+            ],
         );
     }
 
