@@ -37,6 +37,6 @@ class TicketProcess extends Model
     public function getHistoryTicketById($ticket_no)
     {
         $ticketIds = Tickets::where('ticket_no', $ticket_no)->pluck('ticket_id');
-        return TicketProcess::with('tickets')->whereIn('ticket_id', $ticketIds)->get();
+        return TicketProcess::with('tickets')->whereIn('ticket_id', $ticketIds)->orderBy('ticket_process_id','DESC')->get();
     }
 }

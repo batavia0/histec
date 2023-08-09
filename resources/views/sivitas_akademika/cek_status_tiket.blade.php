@@ -47,9 +47,7 @@
 {{--    </div>--}}
             <section id="portfolio-details" class="portfolio-details">
                 <div class="container">
-
                     <div class="row gy-4">
-
                         <div class="col-lg-8">
                             <div class="card">
                                 <div class="card-body">
@@ -58,6 +56,12 @@
                                             <div class="input-group">
                                                 <div class="input-group-text"><i class="fas fa-search"></i></div>
                                                 <input type="search" class="form-control" name="search_id_tiket" id="id_ticket" placeholder="Masukkan ID Tiket">
+                                            </div>
+                                        </div>
+                                        <h5 class="card-title">Histori Tiket</h5>
+                                        <div class="col mt-3">
+                                            <div class="portfolio-info ticket-searchbar" id="histori-tiket">
+
                                             </div>
                                         </div>
                                 </div>
@@ -162,7 +166,7 @@
                             <div class="card">
                                 
                             </div>
-                            <div class="portfolio-info ticket-searchbar" id="histori-tiket">
+                            <div class="portfolio-info ticket-searchbar" id="histori-tiket2">
 
                             </div>
                     </div>
@@ -188,17 +192,25 @@
                     url: "{{ url('cek_status_tiket/find_tickets') }}",
                     data: {'search_id_tiket':value},
                     success: function (data) {
-                        // console.log(data);
-                    $('.ticket-searchbar').html(data);
+                        // console.log(JSON.stringify(data));
+                    $('.ticket-searchbar').html(data.data.output);
+                    $('#histori-tiket').html(data.data.output2);
+
+                    // Mendapatkan semua elemen dengan kelas "userDateTime"
+                    var userDateTimeElements = document.getElementsByClassName("userDateTime");
+
+                    // Memformat tanggal untuk setiap elemen
+                    for (var i = 0; i < userDateTimeElements.length; i++) {
+                        var dateTimeString = userDateTimeElements[i].textContent.trim();
+                        var formattedDateTime = dateTimeString === '--|--' ? dateTimeString : formatDateTime(dateTimeString);
+                        userDateTimeElements[i].textContent = formattedDateTime;
+                    }
                     },
                     error: function(xhr,error){
-                        // console.log(xhr);
+                        alert("Ada kesalahan " + error);
                     }
                 });
             })
         });
-    </script>
-    <script>
-        var histori = @json(isset($histori)?$histori:'');
     </script>
 @endpush

@@ -206,25 +206,25 @@ class SivitasAkademikaController extends Controller
         // Check if request is Ajax
         if($request->ajax()){
             $output = '';
+            $output2 = '';
             if(!empty($request->search_id_tiket)){
                 $histori = $this->TicketProcess->getHistoryTicketById($request->search_id_tiket);
-            $query = $this->Tickets->getQueryByIdTiket($request->search_id_tiket)->get();
+                $query = $this->Tickets->getQueryByIdTiket($request->search_id_tiket)->get();
             // start search
             if ($query) {
                 foreach ($query as $data) {                
                     $output .= $this->html($data, $output);
                 }
-                $output .= '<div class="form-group">
-                        <label for="form-label">Histori Tiket</label>
+                $output2 .= '<div class="form-group">
                         <div class="list-group">';
                         $iteration = 0;
                         foreach ($histori as $data) {
-                            $diff = Carbon::parse($data->tickets->ticket_finished_at)->diffForHumans($data->tickets->created_at);
+                            // $diff = Carbon::parse($data->tickets->ticket_finished_at)->diffForHumans($data->tickets->created_at);
                             $isActive = ($iteration === 0 ? 'active' : '');   //Get the latest iteration
-                $output .= '<a href="#" class="list-group-item list-group-item-action ' . $isActive . '">
+                $output2 .= '<a href="#" class="list-group-item list-group-item-action ' . $isActive . '">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">' . $data->name . '</h5>
-                                    <small>' . $diff . '</small>
+                                    <small class="userDateTime">' . $data->created_at . '</small>
                                 </div>
                                 <p class="mb-1">' . $data->description . '</p>
                                 <small>' . $data->tickets->locations->name . '</small>
@@ -233,12 +233,14 @@ class SivitasAkademikaController extends Controller
                             </a>';
                             $iteration++;
                         }
-                        $output .= '</div>
+                        $output2 .= '</div>
                         </div>';
             }
             }
             
-            return response()->json($output);
+            return response()->json([
+                'data' => ['output' => $output, 'output2' => $output2]
+            ]);
             // return view('sivitas_akademika.cek_status_tiket');
         }
         
@@ -253,8 +255,8 @@ class SivitasAkademikaController extends Controller
                         <li><strong>Kategori</strong>: '.$data->category->name.'</li>
                         <li><strong>Status Tiket</strong>: <span class="badge bg-info">'.$data->ticket_status->name.'</span></li>
                         <li><strong>Lokasi</strong>: '.$data->locations->name.'</li>
-                        <li><strong>Tiket Dibuat</strong>: <div class="mx-auto" class="userDateTime">'.$data->created_at->formatLocalized('%d %B %Y, %H:%M').'</div></li>
-                        <li class="userDateTime"><strong>Tiket Selesai</strong>: '.(isset($data->ticket_finished_at) ? Carbon::parse($data->ticket_finished_at)->formatLocalized('%d %B %Y, %H:%M') : "--|--").'</li>
+                        <li><strong>Tiket Dibuat</strong>: <div class="mx-auto userDateTime">'.$data->created_at.'</div></li>
+                        <li><strong>Tiket Selesai</strong>: <div class="mx-auto userDateTime">'.($data->ticket_finished_at ?? "--|--").'</div></li>
                     </ul>';
                     return $output;
     }

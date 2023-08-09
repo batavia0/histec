@@ -48,11 +48,42 @@
     <!-- Template Main JS File -->
     <script src="{{ asset('Resi/js/main.js') }}"></script>
     <script>
-        // Mendapatkan waktu pengguna pada sisi klien (browser)
-  var userDateTime = new Date().toLocaleString(undefined, { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone });
+        // Mendapatkan semua elemen dengan kelas "userDateTime"
+var userDateTimeElements = document.getElementsByClassName("userDateTime");
 
-// Menampilkan waktu pengguna pada elemen HTML
-document.getElementById("userDateTime").textContent = userDateTime;
+// Memformat tanggal untuk setiap elemen
+for (var i = 0; i < userDateTimeElements.length; i++) {
+    var dateTimeString = userDateTimeElements[i].textContent.trim();
+    var formattedDateTime = dateTimeString === '--|--' ? dateTimeString : formatDateTime(dateTimeString);
+    userDateTimeElements[i].textContent = formattedDateTime;
+}
+
+function formatDateTime(dateTimeString) {
+    // Parse the date and time string as UTC
+    var dateObj = new Date(dateTimeString + ' UTC');
+
+    // Check if the dateObj is a valid Date object
+    if (isNaN(dateObj)) {
+        // Invalid date, return the original dateTimeString
+        return dateTimeString;
+    }
+
+    // Create a new Intl.DateTimeFormat object with the desired options
+    var options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    };
+    var formatter = new Intl.DateTimeFormat(undefined, options);
+
+    // Use the formatter to format the date and time in the user's time zone
+    return formatter.format(dateObj);
+}
+
     </script>
   </body>
 </html>
