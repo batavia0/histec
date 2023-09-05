@@ -13,14 +13,14 @@ use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use App\Models\TicketProcess;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
-
-
-// use App\Http\Requests\CreateTicketRequest;
 
 class SivitasAkademikaController extends Controller
 {
     private $Tickets;
+    private $validLocations;
+    private $validCategory;
     /**
      * Class constructor.
      */
@@ -32,6 +32,8 @@ class SivitasAkademikaController extends Controller
         $this->Locations = new Locations();
         $this->Faq = new FAQ();
         $this->Notifikasi = new Notifikasi();
+        $this->validLocations = Locations::pluck('location_id')->all();
+        $this->validCategory = Category::pluck('category_id')->all();
     }
     /**
      * Display a listing of the resource.
@@ -71,18 +73,30 @@ class SivitasAkademikaController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email'       => 'required|email',
-            'keluhan'     => 'required|string',
-            'kategori'    => 'required|string',
-            'lokasi'      => 'required|string',
+            'keluhan'     => 'required|string|min:20',
+            'kategori'    => 'required|string',Rule::in($this->validCategory),
+            'lokasi'      => 'required|string',Rule::in($this->validLocations),
             'filenames' => 'nullable|mimes:jpg,png,jpeg,gif|max:16384',
-            'deskripsi'   => 'nullable|string',
+            'deskripsi'   => 'required|string|min:20',
             'g-recaptcha-response' => ['required', new ReCaptcha]
         ],[
-            '*.required' => 'Kolom wajib diisi',
-            '*.string' => 'Kolom harus bertipe text',
-            'email.email' => 'Silakan masukkan email valid',
-            'filenames.mimes' => 'Gambar hanya menerima ekstensi .jpg, .png, .jpeg, .gif',
-            'filenames.max' => 'Ukuran gambar maksimal adalah 16MB',
+            'email.required' => 'Kolom email wajib diisi.',
+            'email.email' => 'Silakan masukkan alamat email yang valid.',
+            'keluhan.required' => 'Kolom keluhan wajib diisi.',
+            'keluhan.min' => 'Panjang karakter minimal 20 karakter.',
+            'keluhan.string' => 'Kolom keluhan harus berupa teks.',
+            'kategori.required' => 'Kolom kategori wajib diisi.',
+            'kategori.string' => 'Kolom kategori harus berupa teks.',
+            'lokasi.in' => 'Kolom lokasi harus diisi dengan salah satu dari: ' . implode(', ', $this->validCategory),
+            'lokasi.required' => 'Kolom lokasi wajib diisi.',
+            'lokasi.string' => 'Kolom lokasi harus berupa teks.',
+            'lokasi.in' => 'Kolom lokasi harus diisi dengan salah satu dari: ' . implode(', ', $this->validLocations),
+            'filenames.mimes' => 'Ekstensi gambar yang diizinkan adalah .jpg, .png, .jpeg, .gif.',
+            'filenames.max' => 'Ukuran gambar maksimal adalah 16MB.',
+            'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
+            'deskripsi.string' => 'Kolom deskripsi harus berupa teks.',
+            'deskripsi.string' => 'Kolom deskripsi minimal 20 karakter.',
+            'g-recaptcha-response.required' => 'Harap isi reCAPTCHA untuk verifikasi.',
         ]);
 
 
@@ -227,6 +241,7 @@ class SivitasAkademikaController extends Controller
                                     <small class="userDateTime">' . $data->created_at . '</small>
                                 </div>
                                 <p class="mb-1">' . $data->description . '</p>
+                                <img class="img-fluid" src="'.asset('storage/' . $data->image).'" width="400">
                                 <small>' . $data->tickets->locations->name . '</small>
                                 <span>-</span>
                                 <small>' . $data->tickets->category->name . '</small>

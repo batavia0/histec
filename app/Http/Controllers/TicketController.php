@@ -163,9 +163,10 @@ class TicketController extends Controller
 
     public function editTiketDitugaskan($id)
     {
+        $tickets = Tickets::where('ticket_id',$id)->where('ticket_no')->first();
         $data['tiket_status'] = $this->TicketStatus->getAllTicketStatus();
         $data['detail_id'] = $this->Tickets->getDetailByticket_id($id);
-        $data['histori_tiket'] = $this->Tickets->getHistoryTicketById($id);
+        $data['histori_tiket'] = $this->TicketProcess->getHistoryTicketById($tickets);
  
         return view('tiket.proses_tiket',$data);
     }
@@ -224,10 +225,12 @@ class TicketController extends Controller
             'status_name',
             'detail_pengerjaan',
             'deskripsi',
+            'image',
         ]),[
             'status_name' => 'required',
             'detail_pengerjaan' => 'string|required' ,
             'deskripsi' => 'sometimes',
+            'image' => 'nullable|mimes:jpg,png,jpeg,gif|max:4096',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
@@ -238,6 +241,11 @@ class TicketController extends Controller
             $ticket->ticket_finished_at = now();
         }
         $ticket->save();
+
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $this->TicketProcess->image = $image->store('image');
+        }
 
         $this->TicketProcess->name = $request->input('detail_pengerjaan');
         $this->TicketProcess->description = $request->input('deskripsi');
@@ -286,6 +294,7 @@ class TicketController extends Controller
         ],201);
     }
 
+    //Testing EMAIL
     public function sendMail()
     {
         Mail::to("testingmail@gmail.com")->send(new MailtoTicketSender());

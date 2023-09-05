@@ -1,5 +1,5 @@
 <div class="p2">
-    <form action="" method="post" id="formProsesTiket">
+    <form action="" method="post" id="formProsesTiket" enctype="multipart/form-data">
         <div class="form-group">
             <label for="form-label">ID Tiket</label>
             <input type="text" id="ticket_no" class="form-control" value="{{ isset($detail_id->ticket_no) ? $detail_id->ticket_no : '' }}" readonly>
@@ -11,9 +11,8 @@
         <div class="form-group">
             <label for="form-label">Status Tiket</label>
             <select name="status_name" id="status_name" class="form-control">
-                {{-- Cek apakah $status_id yang terpilih adalah pilihan dari $ts --}}
                 @foreach($tiket_status as $ts)
-                @if ($ts->status_id == 3  || $ts->status_id == 2 || $ts->status_id == $detail_id->ticket_status_id)
+                @if (($ts->status_id == 3  || $ts->status_id == 2) || $ts->status_id == $detail_id->ticket_status_id)
                 <option value="{{ $ts->status_id}}" {{ $ts->status_id == $detail_id->ticket_status_id ? 'selected' : '' }}>{{ $ts->name }}
                 </option>
                 @endif
@@ -25,6 +24,13 @@
                     <textarea class="form-control" name="deskripsi" placeholder="Deskripsi" id="deskripsi"></textarea>
                     <label for="floatingTextarea"></label>
                 </div>
+        </div>
+        <div class="form-group">
+            <div id="preview-img">
+                <img id="frame" src="" class="img-fluid" />
+              </div>
+            <label for="form-label">Gambar</label>
+            <input type="file" name="image" id="file-input" onchange="preview()">
         </div>
         <div class="form-group">
             <label for="form-label">Histori Tiket</label>

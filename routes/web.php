@@ -33,7 +33,6 @@ Route::get('dashboard', function () {
 Auth::routes();
 Route::get('/logout', function () {
     Auth::logout();
-
     // Redirect to the desired page
     return redirect()->route('tickets.index');
 })->name('logout');
@@ -99,6 +98,8 @@ Route::middleware('auth')->group(function () {
     Route::post('user/store', [UserController::class,'store'])->name('user.store');
     Route::get('user/tambah', [UserController::class,'indexTambahUser'])->name('user.tambah');
     Route::post('user/destroy/{id}', [UserController::class,'destroy'])->name('user.destroy');
+    Route::get('user/edit/{id?}', [UserController::class,'edit'])->name('user.edit');
+    Route::post('user/update/{id}', [UserController::class,'updates'])->name('user.update');
     // Route::controller(UserController::class)->group(function () {
     //     // Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
     //     // Route::post('user/name/{id}', 'name')->name('name');
@@ -106,7 +107,7 @@ Route::middleware('auth')->group(function () {
     //     // Route::get('user/name/{id}', 'name')->name('name');
     // });
 });
-//END Routes for Laporan
+//END Routes for User
 
 //Routes for Berita Penyelesaian
 Route::resource('berita_penyelesaian', BeritaPenyelesaianController::class);

@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="https://i.site.pictures/zFNWD.th.png">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>&mdash;</title>
+    <title>SISTEM INFORMASI HELPDESK TICKETING&mdash;POLSUB</title>
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('Resi/vendor/bootstrap/css/bootstrap.min.css') }}">

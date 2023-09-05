@@ -18,19 +18,21 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-primary">
-                            <i class="far fa-user"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Total Admin</h4>
+                    <a href="{{ route('user.index') }}">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-primary">
+                                <i class="far fa-user"></i>
                             </div>
-                            <div class="card-body">
-                                {{ isset($countAdmin) ? $countAdmin : '0' }}
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Admin</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{ $countAdmin ?? '0' }}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <a href="{{ route('indexSemuaTiket') }}">
@@ -43,7 +45,7 @@
                                 <h4>Semua Tiket</h4>
                             </div>
                             <div class="card-body">
-                                {{ isset($countTickets) ? $countTickets : '0' }}
+                                {{ $countTickets ?? '0' }}
                             </div>
                         </div>
                     </div>
@@ -60,7 +62,7 @@
                                 <h4>Tiket Baru</h4>
                             </div>
                             <div class="card-body">
-                                {{ isset($countNewTicket) ? $countNewTicket : '0' }}
+                                {{ $countNewTicket ?? '0' }}
                             </div>
                         </div>
                     </div>
@@ -77,7 +79,7 @@
                                 <h4>Tiket Selesai</h4>
                             </div>
                             <div class="card-body">
-                                {{ isset($countFinishedTicket) ? $countFinishedTicket : '0' }}
+                                {{ $countFinishedTicket ?? '0' }}
                             </div>
                         </div>
                     </div>

@@ -16,7 +16,8 @@ class TicketProcess extends Model
         'technician_id',
         'description',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'image'
     ];
     protected $table = 'ticket_process';
     protected $primaryKey = 'ticket_process_id';

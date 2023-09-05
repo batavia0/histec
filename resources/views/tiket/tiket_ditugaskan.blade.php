@@ -295,5 +295,13 @@ function updateMutasiBtn(id) {
 $(document).ready(function(){
   $('.table-responsive').doubleScroll();
 });
+
+function preview() {
+                frame.src = URL.createObjectURL(event.target.files[0]);
+            }
+            function clearImage() {
+                document.getElementById('file-input').value = null;
+                frame.src = "";
+            }
     </script>
 @endpush

@@ -61,7 +61,10 @@
                                         <td><a href="#"
                                                 class="btn btn-outline-primary">Detail</a>
                                             <a href="#"
-                                                class="btn btn-primary">Edit</a>
+                                                class="btn btn-primary"
+                                                data-toggle="tooltip"
+                                                title="Edit"
+                                                onclick="edit({{ $row->id }})">Edit</a>
                                             <a href="#"
                                                 class="btn btn-danger"
                                                 data-toggle="tooltip"
@@ -109,7 +112,7 @@
     <script src="{{ asset('stisla/library/izitoast/dist/js/iziToast.min.js') }}"></script>
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <!-- jQuery validation plugin -->
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script> --}}
     <!-- Page Specific JS File -->
     {{-- <script type="text/javascript">
         $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
@@ -128,8 +131,80 @@
     });
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    if (passwordInput) {
+        passwordInput.addEventListener('focus', function() {
+            passwordInput.setAttribute('value', '');
+            console.log('Focus event triggered')
+        });
+    }
+});
+
+function edit(id) {
+  fetch("{{ route('user.edit') }}/"+id)
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("exampleModalLabel").innerHTML = 'Edit User';
+      document.getElementById("page").innerHTML = data;
+      $('#exampleModal').modal('show'); // Use jQuery to show the Bootstrap modal
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+function updateBtnUser(event, id){
+    event.preventDefault();
+    const form = document.getElementById('formUpdateUser');
+    const formData = new FormData(form);
+    const url = "{{ url('user/update') }}/"+id;
+
+    fetch(url, {
+            method: 'post',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                $('#exampleModal').modal('hide');
+                window.location.reload();
+                iziToast.success({
+                    title: 'Success',
+                    message: data.message,
+                    position: 'topRight'
+                });
+                form.reset();
+                form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
+            }
+            else {
+                form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
+
+                $.each(data.errors, function(index, message) {
+                    var errorElement = $("#" + index + "_error");
+                    errorElement.html(message);
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'Eror '+message,
+                        position: 'topRight'
+                    });
+                });
+            }
+        })
+        .catch(error => {
+            iziToast.error({
+                title: 'Error',
+                message: 'Eror gagal menambahkan user',
+                position: 'topRight'
+            });
+        });
+
+}
+
 function storeBtnUser(event) {
-    event.preventDefault(); // M
+    event.preventDefault();
     const form = document.getElementById('formTambahUser');
     const formData = new FormData(form);
     const url = "{{ url('user/store') }}";
@@ -231,46 +306,5 @@ function deleteConfirmUser(id) {
 }
 </script>
 
-<script>
-//     function read(id) {
-//     $.get("{{ url('tiket/read_status_tiket') }}/" + id, {}, function(data, status) {
-//         $("#exampleModalLabel").html('Detail Tiket ' + id)
-//         $("#page").html(data);
-//         $("#exampleModal").modal('show');
-//     });
-// }
 
-// function updateBtn(id) {
-//     var formData = new FormData($('#formEditTiket')[0]);
-
-//     $.ajax({
-//         url: "{{ url('tiket/update_tiket') }}/" + id,
-//         type: 'post',
-//         data: formData,
-//         processData: false,
-//         contentType: false,
-//         success: function(response) {
-//             $('#exampleModal').modal('hide');
-//             window.location.reload()
-//             iziToast.success({
-//                 title: 'Success',
-//                 message: response.message,
-//                 position: 'topRight',
-//             });
-//         },
-//         error: function(xhr, status, error) {
-//             console.log(error);
-//         }
-//     });
-// }
-
-
-// var errors = @json($errors->all());
-
-//   // Menampilkan pesan error pada setiap "_error"
-//   $.each(errors, function(index, message) {
-//     var errorElement = $("#" + index + "_error");
-//     errorElement.html(message);
-//   });
-</script>
 @endpush

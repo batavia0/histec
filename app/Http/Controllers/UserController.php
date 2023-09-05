@@ -6,11 +6,13 @@ use App\Models\User;
 use App\Models\Roles;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    private $validRoles;
      /**
      * Class constructor.
      */
@@ -18,6 +20,7 @@ class UserController extends Controller
     {
         $this->User = new User();
         $this->Roles = new Roles();
+        $this->validRoles = Roles::pluck('id')->all();
     }
     /**
      * Display a listing of the resource.
@@ -27,13 +30,13 @@ class UserController extends Controller
     public function index()
     {
         $data['type_menu'] = 'user';
-        $data['all_users'] = $this->User->getAllAdminWithRoles();
+        $data['all_users'] = $this->User->getAllAdminWithRolesIsNotLogged();
         return view('userss.index', $data);
     }
 
-    public function indexTambahUser()
+    public function indexTambahUser(Roles $roles)
     {
-        $data['role_name'] = $this->Roles->getRoleName();
+        $data['role_name'] = $roles->getRoleName();
         return view('userss.tambah',$data); 
     }
 
@@ -55,19 +58,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $user = $request->email;
         $validator = Validator::make($request->all(),[
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email,'.$user,
             'name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
-            'role' => 'required',
+            'role' => 'required',Rule::in($this->validRoles),
             'password' => 'required',
             'password_confirm' => 'required|same:password',
         ],[
             // Custom message validation
             'email.required' => 'Kolom email wajib diisi.',
             'email.email' => 'Silakan masukkan email yang valid.',
+            'email.unique' => 'Email tersebut telah terdaftar.',
             'name.required' => 'Kolom nama wajib diisi.',
             'name.regex' => 'Format nama tidak valid. Nama hanya boleh terdiri dari huruf dan spasi.',
             'role.required' => 'Kolom divisi wajib diisi.',
+            'role.in' => 'Kolom divisi harus diisi dengan salah satu dari: ' . implode(', ', $this->validRoles),
             'password.required' => 'Kolom password wajib diisi.',
             'password.confirmed' => 'Konfirmasi password tidak sesuai dengan password.',
             'password_confirm.required' => 'Kolom konfirmasi password wajib diisi.',
@@ -107,9 +113,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Roles $roles, $id)
     {
-        //
+        $data['role_name'] = $roles->getRoleName();
+        $data['user_data'] = User::where('id', $id)->first();
+        return view('userss.edit', $data);
     }
 
     /**
@@ -119,10 +127,57 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function updates(Request $request, $id) {
+        $user = User::findOrFail($id);
+        $loggedInUser = auth()->user();
+    
+        if ($user->id !== $loggedInUser->id) {
+            // Ini adalah pengguna yang berbeda, izinkan pembaruan
+            $validator = Validator::make($request->only([
+                'email',
+                'name',
+                'password',
+                'role',
+            ]), [
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
+                'password' => 'required',
+                'role' => 'required|in:' . implode(',', $this->validRoles),
+            ], [
+                // Pesan validasi kustom
+                'email.required' => 'Kolom email wajib diisi.',
+                'email.email' => 'Silakan masukkan email yang valid.',
+                'email.unique' => 'Email tersebut telah terdaftar.',
+                'name.required' => 'Kolom nama wajib diisi.',
+                'name.regex' => 'Format nama tidak valid. Nama hanya boleh terdiri dari huruf dan spasi.',
+                'role.required' => 'Kolom divisi wajib diisi.',
+                'role.in' => 'Kolom divisi harus diisi dengan salah satu dari: ' . implode(', ', $this->validRoles),
+                'password.required' => 'Kolom password wajib diisi.',
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()->toArray()], 400);
+            }
+            // Periksa apakah ada perubahan data
+            $user->email = $request->input('email');
+            $user->name = $request->input('name');
+            $user->password = Hash::make($request->input('password'));
+            $user->role_id = $request->input('role');
+            $user->updated_at = now();
+            if ($user->isDirty(['email', 'name', 'password', 'role_id'])) {
+                $user->save();  
+                return response()->json(['success' => true, 'message' => 'Pengguna berhasil diperbarui.'], 200);
+            }
+            if ($user->isClean(['email', 'name', 'password', 'role_id'])) {
+                return response()->json(['success' => false, 'message' => 'Tidak ada data yang diperbarui.'], 200);
+            }
+        } else {
+            // Jika pengguna yang sedang login adalah pengguna yang akan diperbarui, kirim pesan kesalahan
+            return response()->json(['message' => 'Anda tidak memiliki izin untuk memperbarui pengguna ini.'], 403);
+        }
     }
+    
+
 
     /**
      * Remove the specified resource from storage.

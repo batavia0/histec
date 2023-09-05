@@ -82,7 +82,12 @@ class User extends Authenticatable
     public function getAllAdminWithRoles()
     {
         //Function to return all admin with their roles
-        return User::with('roles')->get();
+        return User::with('roles')->whereNot('id', Auth()->id())->get();
+    }
+
+    public function getAllAdminWithRolesIsNotLogged()
+    {
+        return User::with('roles')->whereNot('id', Auth()->id())->get();
     }
 
     public function assignedTickets()

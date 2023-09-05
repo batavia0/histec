@@ -32,15 +32,19 @@
                         <div class="card-header">
                             <h4>Buat Tiket</h4>
                         </div>
-                        {{--                    Alert Message Success --}}
+                        {{-- Alert Message Success --}}
                         <div class="alert alert-success alert-dismissible fade" role="alert" style="display: none; ">
                             <strong>Berhasil</strong> ID Tiket <a href="{{ route('indexCekStatusTiket') }}"
                                 class="alert-link"><span id="ticket_id"></span></a> <i
                                 class="text text-link fas fa-paperclip" id="icon_clip" onclick="copyToClipboard()"></i>
-                            Silakan cek Status Tiket anda.
+                            Silakan cek status tiket anda.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                        {{--                    Alert Message Error --}}
+                        <div class="alert alert-success alert-dismissible fade" role="alert" style="display: none; ">
+                            <strong>Silakan cek Email anda</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {{-- Alert Message Error --}}
                         <div class="alert alert-danger alert-dismissible fade" role="alert" style="display: none; ">
                             <span id="ticket_id"></span>
                             <strong>Gagal</strong> Silakan coba kembali .
@@ -52,7 +56,9 @@
                                 <!-- start form -->
                                 @csrf
                                 <div class="row mb-3">
-                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Email<span
+                                            class="text text-danger">*</span>
+                                    </label>
                                     <div class="col-sm-8">
                                         <input type="email" name="email" class="form-control" id="inputEmail3">
                                         {{-- Error message --}}
@@ -64,7 +70,8 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label for="inputKeluhan" class="col-sm-2 col-form-label">Keluhan</label>
+                                    <label for="inputKeluhan" class="col-sm-2 col-form-label">Keluhan<span
+                                            class="text text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <input type="text" name="keluhan"
                                             class="form-control @error('keluhan') is-invalid @enderror" id="inputKeluhan">
@@ -99,7 +106,8 @@
                                     </div>
                                 </fieldset>
                                 <div class="row mb-3">
-                                    <label for="inputLokasi" class="col-sm-2 col-form-label">Lokasi</label>
+                                    <label for="inputLokasi" class="col-sm-2 col-form-label">Lokasi<span
+                                            class="text text-danger">*</span></label>
                                     <div class="col-lg-4 col-md-4">
                                         <select id="lokasi" name="lokasi"
                                             class="form-select @error('lokasi') is-invalid @enderror">
@@ -121,11 +129,11 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label for="deskripsi" class="col-sm-2 col-form-label">Deskripsi</label>
+                                    <label for="deskripsi" class="col-sm-2 col-form-label">Deskripsi<span
+                                        class="text text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <textarea name="deskripsi" id="inputDeskripsi" cols="30" class="form-control" placeholder="..."></textarea>
-                                        <div class="valid-feedback">
-                                            Opsional</div>
+                                        <span class="text-error text-danger deskripsi_error"></span>
                                     </div>
                                 </div>
                                 <div class="container col-md-6 mb-3">
@@ -160,9 +168,8 @@
                                     </div>
 
                                 </div>
-                                <button type="submit" onclick="store(event)" class="btn btn-primary"
-                                    id="btnSubmit">Submit</button>
-                                <button type="reset" class="btn btn-danger">Reset</button>
+                                <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
+                                <button type="reset" id="btnReset" class="btn btn-danger">Reset</button>
                             </form> <!-- End form -->
                         </div>
                     </div>
@@ -223,6 +230,7 @@
             }
         }
 
+
         function deletePreview() {
             const imageContainer = document.getElementById('imageContainer');
             const images = imageContainer.getElementsByTagName('img');
@@ -241,9 +249,16 @@
             addImageButton.style.display = ''; //keep display as it was.
         }
 
-        function store(event) {
-            event.preventDefault()
+        document.getElementById('formTiket').addEventListener('submit', function(event) {
+            event.preventDefault();
+            $("#btnSubmit").prop("disabled", true);
+            $("#btnReset").prop("disabled", true);
 
+            // change button with spinner
+            $("#btnSubmit").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+            store();
+        });
+        function store() {
             var formData = new FormData($('#formTiket')[0]);
             $.ajax({
                 url: "{{ url('tickets/store') }}",
@@ -258,9 +273,7 @@
                 success: function(response) {
                     console.log(response);
                     const {
-                        data,
-                        message,
-                        url
+                        data,message,url
                     } = response
                     const {
                         ticket_number
@@ -280,6 +293,9 @@
                             // window.location.href = "{{ url('tickets') }}";
                         }
                     });
+                    $("#btnSubmit").prop("disabled", false);
+                    $("#btnReset").prop("disabled", true);
+                    $("#btnSubmit").html("Submit");
                 },
                 error: function(xhr, status, error) {
                     $.each(xhr.responseJSON.errors, (prefix, val) => {
@@ -301,24 +317,26 @@
 
                         }
                     });
+                    $("#btnSubmit").prop("disabled", false);
+                    $("#btnReset").prop("disabled", false);
+                    $("#btnSubmit").html("Submit");
                 }
             });
         }
     </script>
     <script>
-        // Tambahkan event listener untuk menangani submit form
-        document.getElementById('formTiket').addEventListener('submit', function(event) {
-            if (!event.target.checkValidity()) {
-                // Jika form tidak valid, hentikan pengiriman form dan tampilkan pesan error
-                event.preventDefault();
-                event.stopPropagation();
-            }
+        // // Tambahkan event listener untuk menangani submit form
+        // document.getElementById('formTiket').addEventListener('submit', function(event) {
+        //     if (!event.target.checkValidity()) {
+        //         // Jika form tidak valid, hentikan pengiriman form dan tampilkan pesan error
+        //         event.preventDefault();
+        //         event.stopPropagation();
+        //     }
 
-            // Tambahkan class "was-validated" untuk menunjukkan bahwa form telah divalidasi
-            event.target.classList.add('was-validated');
-        });
+        //     // Tambahkan class "was-validated" untuk menunjukkan bahwa form telah divalidasi
+        //     event.target.classList.add('was-validated');
+        // });
     </script>
-    <!-- JavaScript code to copy the text to the clipboard -->
     <script>
         function copyToClipboard() {
             var copyText = document.getElementById("ticket_id");
