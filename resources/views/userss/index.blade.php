@@ -212,7 +212,6 @@ function updateBtnUser(event, id){
                 position: 'topRight'
             });
         });
-
 }
 
 function storeBtnUser(event) {

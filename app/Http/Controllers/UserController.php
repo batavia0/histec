@@ -133,51 +133,53 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $loggedInUser = auth()->user();
     
-        if ($user->id !== $loggedInUser->id) {
-            // Ini adalah pengguna yang berbeda, izinkan pembaruan
-            $validator = Validator::make($request->only([
-                'email',
-                'name',
-                'password',
-                'role',
-            ]), [
-                'email' => 'required|email|unique:users,email,' . $user->id,
-                'name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
-                'password' => 'required',
-                'role' => 'required|in:' . implode(',', $this->validRoles),
-            ], [
-                // Pesan validasi kustom
-                'email.required' => 'Kolom email wajib diisi.',
-                'email.email' => 'Silakan masukkan email yang valid.',
-                'email.unique' => 'Email tersebut telah terdaftar.',
-                'name.required' => 'Kolom nama wajib diisi.',
-                'name.regex' => 'Format nama tidak valid. Nama hanya boleh terdiri dari huruf dan spasi.',
-                'role.required' => 'Kolom divisi wajib diisi.',
-                'role.in' => 'Kolom divisi harus diisi dengan salah satu dari: ' . implode(', ', $this->validRoles),
-                'password.required' => 'Kolom password wajib diisi.',
-            ]);
-    
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()->toArray()], 400);
-            }
-            // Periksa apakah ada perubahan data
-            $user->email = $request->input('email');
-            $user->name = $request->input('name');
-            $user->password = Hash::make($request->input('password'));
-            $user->role_id = $request->input('role');
-            $user->updated_at = now();
-            if ($user->isDirty(['email', 'name', 'password', 'role_id'])) {
-                $user->save();  
-                return response()->json(['success' => true, 'message' => 'Pengguna berhasil diperbarui.'], 200);
-            }
-            if ($user->isClean(['email', 'name', 'password', 'role_id'])) {
-                return response()->json(['success' => false, 'message' => 'Tidak ada data yang diperbarui.'], 200);
-            }
-        } else {
+        // Validasi jika pengguna yang sedang login adalah pengguna yang akan diperbarui
+        if ($user->id === $loggedInUser->id) {
             // Jika pengguna yang sedang login adalah pengguna yang akan diperbarui, kirim pesan kesalahan
             return response()->json(['message' => 'Anda tidak memiliki izin untuk memperbarui pengguna ini.'], 403);
         }
+    
+        $validator = Validator::make($request->only([
+            'email',
+            'name',
+            'password',
+            'role',
+        ]), [
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'name' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
+            'password' => 'required',
+            'role' => 'required|in:' . implode(',', $this->validRoles),
+        ], [
+            // Pesan validasi kustom
+            'email.required' => 'Kolom email wajib diisi.',
+            'email.email' => 'Silakan masukkan email yang valid.',
+            'email.unique' => 'Email tersebut telah terdaftar.',
+            'name.required' => 'Kolom nama wajib diisi.',
+            'name.regex' => 'Format nama tidak valid. Nama hanya boleh terdiri dari huruf dan spasi.',
+            'role.required' => 'Kolom divisi wajib diisi.',
+            'role.in' => 'Kolom divisi harus diisi dengan salah satu dari: ' . implode(', ', $this->validRoles),
+            'password.required' => 'Kolom password wajib diisi.',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->toArray()], 400);
+        }
+    
+        // Periksa apakah ada perubahan data
+        $user->email = $request->input('email');
+        $user->name = $request->input('name');
+        $user->password = Hash::make($request->input('password'));
+        $user->role_id = $request->input('role');
+        $user->updated_at = now();
+    
+        if ($user->isDirty(['email', 'name', 'password', 'role_id'])) {
+            $user->save();
+            return response()->json(['success' => true, 'message' => 'Pengguna berhasil diperbarui.'], 200);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'Tidak ada data yang diperbarui.'], 200);
     }
+    
     
 
 
