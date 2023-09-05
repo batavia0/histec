@@ -27,4 +27,9 @@ class Roles extends Model
     {
         return Roles::all();
     }
+
+    public function getUserRoleById($id)
+    {
+        return Roles::where('id',$id);
+    }
 }

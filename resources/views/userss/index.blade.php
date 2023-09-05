@@ -59,7 +59,8 @@
                                         <td>{{ $row->name }}</td>
                                         <td>{{ $row->roles->name }}</td>
                                         <td><a href="#"
-                                                class="btn btn-outline-primary">Detail</a>
+                                                class="btn btn-outline-primary"
+                                                data-id="{{ $row->id }}">Detail</a>
                                             <a href="#"
                                                 class="btn btn-primary"
                                                 data-toggle="tooltip"
@@ -114,9 +115,7 @@
     <!-- jQuery validation plugin -->
 {{-- <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script> --}}
     <!-- Page Specific JS File -->
-    {{-- <script type="text/javascript">
-        $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-    </script> --}}
+
 <script>
     function tambah() {
   fetch("{{ route('user.tambah') }}")
@@ -131,15 +130,27 @@
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const passwordInput = document.getElementById('password');
-    if (passwordInput) {
-        passwordInput.addEventListener('focus', function() {
-            passwordInput.setAttribute('value', '');
-            console.log('Focus event triggered')
-        });
-    }
+const btnReadElements = document.querySelectorAll('[data-id]');
+btnReadElements.forEach(btn => {
+    btn.addEventListener('click', function() {
+        // Get the 'id' value from the 'data-id' attribute
+        const id = this.getAttribute('data-id');
+        read(id)
+    });
 });
+
+function read(id) {
+  fetch("{{ url('user') }}/"+id)
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("exampleModalLabel").innerHTML = 'Detail User';
+      document.getElementById("page").innerHTML = data;
+      $('#exampleModal').modal('show'); // Use jQuery to show the Bootstrap modal
+    })
+    .catch(error => {
+    alert('Terjadi kesalahan, '+error)
+    });
+}
 
 function edit(id) {
   fetch("{{ route('user.edit') }}/"+id)
@@ -153,6 +164,7 @@ function edit(id) {
       console.error('Error:', error);
     });
 }
+
 function updateBtnUser(event, id){
     event.preventDefault();
     const form = document.getElementById('formUpdateUser');

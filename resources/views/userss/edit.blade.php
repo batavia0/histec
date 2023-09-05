@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" placeholder="Password" value="{{ $user_data->password }}">
+            <input type="password" name="password" id="password" class="form-control" placeholder="Password" value="{{ $user_data->password }}" data-id="{{ $user_data->id }}">
             <span id="password_error" class="text-danger"></span>
         </div>
         <div class="form-group">

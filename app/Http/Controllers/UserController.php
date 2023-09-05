@@ -102,9 +102,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Roles $roles)
     {
-        //
+        $data['role_name'] = $roles->getUserRoleById($id)->first();
+        $data['user_data'] = User::where('id', $id)->first();
+        return view('userss.read',$data);
     }
 
     /**
@@ -113,7 +115,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Roles $roles, $id)
+    public function edit($id, Roles $roles)
     {
         $data['role_name'] = $roles->getRoleName();
         $data['user_data'] = User::where('id', $id)->first();

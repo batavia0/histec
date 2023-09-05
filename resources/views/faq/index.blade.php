@@ -103,7 +103,7 @@
                                                 class="btn btn-sm btn-danger"
                                                 data-toggle="tooltip"
                                                 title="Hapus"
-                                                onclick="destroy({{ $row->faq_id }})">Hapus</a>
+                                                onclick="deleteConfirmFAQ({{ $row->faq_id }})">Hapus</a>
                                             </td>
                                     </tr>
                                     @endforeach
@@ -303,6 +303,7 @@ function updateBtn(id) {
 }
 
 function edit(id) {
+    // document.getElementById("detailShow").style.display = "none";
     $.get("{{ url('faq_admin_page/edit') }}/" + id, {}, function(data, status) {
         $("#label").html('Edit FAQ ' + id);
         $("#pageEdit").html(data);
@@ -351,6 +352,25 @@ function read(id) {
         }, 500);
         $('#summernote').summernote();
     });
+}
+
+function deleteConfirmFAQ(id) {
+    swal({
+        title: 'Apakah Anda Yakin?',
+        text: "Anda Ingin Menghapus FAQ?",
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+    }).then((result) => {
+        if (result) {
+            destroy(id)
+            swal({
+                title: 'Terhapus',
+                text: "Berhasil menghapus FAQ",
+                type: 'success'
+            })
+        }
+    })
 }
     </script>
 @endpush

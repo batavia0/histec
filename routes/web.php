@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function () {
     Route::get('user/tambah', [UserController::class,'indexTambahUser'])->name('user.tambah');
     Route::post('user/destroy/{id}', [UserController::class,'destroy'])->name('user.destroy');
     Route::get('user/edit/{id?}', [UserController::class,'edit'])->name('user.edit');
+    Route::get('user/{id}', [UserController::class,'show'])->name('user.show');
     Route::post('user/update/{id}', [UserController::class,'updates'])->name('user.update');
     // Route::controller(UserController::class)->group(function () {
     //     // Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
