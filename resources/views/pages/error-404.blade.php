@@ -1,4 +1,4 @@
-@extends('layouts.error')
+@extends('layouts.error-stisla')
 
 @section('title', '404')
 
@@ -16,7 +16,7 @@
             <div class="page-search">
                 <form>
                     <div class="form-group floating-addon floating-addon-not-append">
-                        <div class="input-group">
+                        {{-- <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
                                     <i class="fas fa-search"></i>
@@ -30,11 +30,11 @@
                                     Search
                                 </button>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </form>
                 <div class="mt-3">
-                    <a href="index.html">Back to Home</a>
+                    <a href="{{ route('dashboard') }}">Back</a>
                 </div>
             </div>
         </div>

@@ -100,6 +100,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  \App\Models\Roles  $roles
      * @return \Illuminate\Http\Response
      */
     public function show($id, Roles $roles)
@@ -113,6 +114,7 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     * @param  \App\Models\Roles  $roles
      * @return \Illuminate\Http\Response
      */
     public function edit($id, Roles $roles)
@@ -180,9 +182,6 @@ class UserController extends Controller
         return response()->json(['success' => false, 'message' => 'Tidak ada data yang diperbarui.'], 200);
     }
     
-    
-
-
     /**
      * Remove the specified resource from storage.
      *

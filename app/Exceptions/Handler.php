@@ -43,8 +43,20 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        // $this->reportable(function (Throwable $e) {
+        //     //
+        // });
+        $this->renderable(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, $request) {
+            // return response()->view('pages.error-404', [], 404);
+            if ($e->getStatusCode() == 403) {
+                return response()->view('pages.error-403', [], 403);
+            } elseif ($e->getStatusCode() == 404) {
+                return response()->view('pages.error-404', [], 404);
+            } elseif ($e->getStatusCode() == 500) {
+                return response()->view('pages.error-500', [], 500);
+            } elseif ($e->getStatusCode() == 503) {
+                return response()->view('pages.error-503', [], 503);
+            }
         });
     }
 }
