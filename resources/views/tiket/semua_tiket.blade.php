@@ -42,17 +42,7 @@
                         <div class="table-responsive">
                             <table class="table-striped table">
                                 <tr>
-                                    <th>
-                                        <div class="custom-checkbox custom-control">
-                                            <input type="checkbox"
-                                                data-checkboxes="mygroup"
-                                                data-checkbox-role="dad"
-                                                class="custom-control-input"
-                                                id="checkbox-all">
-                                            <label for="checkbox-all"
-                                                class="custom-control-label">&nbsp;</label>
-                                        </div>
-                                    </th>
+                                    
                                     <th>#</th>
                                     <th>Judul</th>
                                     <th>Deskripsi</th>
@@ -69,16 +59,7 @@
                                 @endphp
                                     @foreach ($all_tickets as $row)
                                 <tr>
-                                    <td class="p-0 text-center">
-                                        <div class="custom-checkbox custom-control">
-                                            <input type="checkbox"
-                                                data-checkboxes="mygroup"
-                                                class="custom-control-input"
-                                                id="checkbox-{{ $row->ticket_id }}">
-                                            <label for="checkbox-{{ $row->ticket_id }}"
-                                                class="custom-control-label">&nbsp;</label>
-                                        </div>
-                                    </td>
+                                    
                                     <td>{{  $i++ }}</td>
                                     <td>{{ trim($row->name) }}</td>
                                     <td>{{ trim($row->description) }}</td>
