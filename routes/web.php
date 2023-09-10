@@ -26,7 +26,6 @@ Route::get('/', function () {
 });
 
 
-
 Route::get('dashboard', function () {
     return view('dashboard');
 })->middleware('auth');
@@ -74,6 +73,7 @@ Route::middleware('auth')->group(function () {
     });
     
 });
+//END Routes for Tiket
 
 //Routes for Balasan Tiket
 Route::middleware(['auth'])->group(function () {

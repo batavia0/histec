@@ -42,38 +42,41 @@ class TicketController extends Controller
         $category = $this->Category->getAllCategory();
         return view('sivitas_akademika.buat_tiket', ['category' => $category]);
     }
-    public function indexSemuaTiket()
+    public function indexSemuaTiket(User $user)
     {
+        $this->authorize('view-technician',$user);
         $all_tickets = $this->Tickets->getAllTickets()->paginate(20);
         $data['type_menu'] = 'tiket_nav';
         return view('tiket.semua_tiket',$data, ['all_tickets' => $all_tickets]);
         
     }
 
-    public function indexTiketDitugaskan()
+    public function indexTiketDitugaskan(User $user)
     {
+        $this->authorize('view-technician',$user);
         $auth_id = Auth::user()->role_id;
         $data['all_tickets'] = $this->Tickets->getAllTicketsByRoleIdNotFinished($auth_id)->paginate(20);
         $data['type_menu'] = 'tiket_nav';
         return view('tiket.tiket_ditugaskan',$data);
     }
 
-    public function indexMutasiTiket()
+    public function indexMutasiTiket(User $user)
     {
+        $this->authorize('view-technician',$user);
         $auth_id = Auth::user()->role_id;
         $data['all_tickets'] = $this->TicketMutasi->getMutasiTiketByRoleId($auth_id)->paginate(20);
         $data['type_menu'] = 'tiket_nav';
         return view('tiket.mutasi_tiket',$data);
     }
 
-    public function indexStatusTiket()
+    public function indexStatusTiket(User $user)
     {
         $data['all_ticket_status'] = $this->TicketStatus->getAllTicketStatus();
         $data['type_menu'] = 'tiket_nav';
         return view('tiket.status_tiket',$data);
     }
 
-    public function indexTiketSelesai()
+    public function indexTiketSelesai(User $user)
     {
         $auth_id = Auth::user()->role_id;
         $data['all_finished_tickets_filtered'] = $this->Tickets->getAllTicketsFinishedByRoleId($auth_id)->paginate(20);
@@ -81,7 +84,7 @@ class TicketController extends Controller
         return view('tiket.tiket_selesai',$data);
     }
 
-    public function indexBalasanTiket()
+    public function indexBalasanTiket(User $user)
     {
         $auth_id = Auth::user()->role_id;
         $data['all_finished_tickets_filtered'] = $this->Tickets->getAllTicketsFinishedByRoleId($auth_id)->get();
@@ -292,13 +295,6 @@ class TicketController extends Controller
             'status' => 'success',
             'message' => 'Tiket dihapus'
         ],201);
-    }
-
-    //Testing EMAIL
-    public function sendMail()
-    {
-        Mail::to("testingmail@gmail.com")->send(new MailtoTicketSender());
-        return "Email telah dikirim";
     }
 
     public function mailBalasanTiket(Request $request,$email)
