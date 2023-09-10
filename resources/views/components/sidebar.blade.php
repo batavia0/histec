@@ -14,6 +14,7 @@
                 <ul class="dropdown-menu">  
                 </ul>
             </li>
+            @can('view-technician')
             <li class="menu-header">Tiket</li>
             <li class="nav-item dropdown {{ $type_menu === 'tiket_nav' ? 'active' : '' }}">
                 <a href="#"
@@ -55,12 +56,11 @@
                 <a class="nav-link"
                     href="{{ route('indexBalasanTiket') }}"><i class="fas fa-reply-all"></i> <span>Balasan Tiket</span></a>
             </li>
-            <li class="menu-header">Blank Page</li>
+            {{-- <li class="menu-header">Blank Page</li>
             <li class="{{ Request::is('blank-page') ? 'active' : '' }}">
                 <a class="nav-link"
                     href="{{ url('blank-page') }}"><i class="far fa-square"></i> <span>Blank Page</span></a>
-            </li>
-            
+            </li> --}}
             <li class="menu-header">Kategori</li>
             <li class="nav-item dropdown {{ $type_menu === 'tiket_nav' ? 'active' : '' }}">
                 <a href="#"
@@ -85,6 +85,7 @@
                     </li>
                 </ul>
             </li>
+            @endcan
             @can('view-kepala-upttik')
             <li class="menu-header">User</li>
             <li class="nav-item dropdown {{ $type_menu === 'user' ? 'active' : '' }}">
@@ -98,6 +99,7 @@
                 </ul>
             </li>
             @endcan
+            @can('view-technician')
             <li class="menu-header">Berita Penyelesaian</li>
             <li class="nav-item dropdown {{ $type_menu === 'berita_penyelesaian' ? 'active' : '' }}">
                 <a href="#"
@@ -110,6 +112,7 @@
                     </li>
                 </ul>
             </li>
+            @endcan
             @can('view-kepala-upttik')
             <li class="menu-header">Laporan</li>
             <li class="nav-item dropdown {{ $type_menu === 'laporan' ? 'active' : '' }}">
