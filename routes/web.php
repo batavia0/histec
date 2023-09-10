@@ -86,7 +86,7 @@ Route::middleware(['auth'])->group(function () {
 //Routes for Laporan
 Route::middleware(['auth','kepalaupttikrole'])->group(function () {
     Route::controller(LaporanController::class)->group(function () {
-        Route::get('/laporan/index', 'index')->name('indexLaporan');
+        Route::get('/laporan', 'index')->name('indexLaporan');
     });
 });
 //END Routes for Laporan

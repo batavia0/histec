@@ -1,4 +1,4 @@
-@extends('layouts.error')
+@extends('layouts.error-stisla')
 
 @section('title', '403')
 

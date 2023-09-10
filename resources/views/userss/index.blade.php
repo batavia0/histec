@@ -1,10 +1,10 @@
 @extends('layouts.appstisla')
 
-@section('title', 'General Dashboard')
+@section('title', 'User')
 
 @push('style')
     <!-- CSS Libraries -->
-        <link rel="stylesheet" href="{{ asset('stisla/library/izitoast/dist/css/iziToast.min.css') }}">
+<link rel="stylesheet" href="{{ asset('stisla/library/izitoast/dist/css/iziToast.min.css') }}">
 @endpush
 
 @section('main')
@@ -110,14 +110,14 @@
 
 @push('scripts')
     <!-- JS Libraies -->
-    <script src="{{ asset('stisla/library/izitoast/dist/js/iziToast.min.js') }}"></script>
-    <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
+<script src="{{ asset('stisla/library/izitoast/dist/js/iziToast.min.js') }}"></script>
+<script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <!-- jQuery validation plugin -->
 {{-- <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script> --}}
     <!-- Page Specific JS File -->
 
 <script>
-    function tambah() {
+function tambah() {
   fetch("{{ route('user.tambah') }}")
     .then(response => response.text())
     .then(data => {
@@ -189,10 +189,10 @@ function updateBtnUser(event, id){
                     position: 'topRight'
                 });
                 form.reset();
-                form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
+                form.querySelector('.text-danger').textContent = '';
             }
             else {
-                form.querySelector('.text-danger').textContent = ''; // Menghapus pesan error
+                form.querySelector('.text-danger').textContent = '';
 
                 $.each(data.errors, function(index, message) {
                     var errorElement = $("#" + index + "_error");
@@ -316,6 +316,4 @@ function deleteConfirmUser(id) {
     })
 }
 </script>
-
-
 @endpush

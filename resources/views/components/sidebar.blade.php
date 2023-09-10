@@ -3,9 +3,9 @@
         <div class="sidebar-brand">
             <a href="{{ route('dashboard') }}">HISTEC</a>
         </div>
-        <div class="sidebar-brand sidebar-brand-sm">
+        {{-- <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">St</a>
-        </div>
+        </div> --}}
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
             <li class="nav-item dropdown {{ $type_menu === 'dashboard' ? 'active' : '' }}">
@@ -51,16 +51,10 @@
                 </ul>
             </li>
             <li class="menu-header">Balasan Tiket</li>
-            <li class="nav-item dropdown {{ $type_menu === 'balasan_tiket_nav' ? 'active' : '' }}">
-                <a href="#"
-                    class="nav-link has-dropdown"
-                    data-toggle="dropdown"><i class="fas fa-list-ul"></i> <span>Balasan Tiket</span></a>
-                <ul class="dropdown-menu">
-                    <li class="{{ Request::is('balasan_tiket') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ route('indexBalasanTiket') }}">Balasan Tiket</a>
-                    </li>
-                </ul>
+            <li class="{{ Request::is('balasan_tiket') ? 'active' : '' }}">
+                <a class="nav-link"
+                    href="{{ route('indexBalasanTiket') }}"><i class="fas fa-reply-all"></i> <span>Balasan Tiket</span></a>
+            </li>
             <li class="menu-header">Blank Page</li>
             <li class="{{ Request::is('blank-page') ? 'active' : '' }}">
                 <a class="nav-link"
@@ -91,6 +85,7 @@
                     </li>
                 </ul>
             </li>
+            @can('view-kepala-upttik')
             <li class="menu-header">User</li>
             <li class="nav-item dropdown {{ $type_menu === 'user' ? 'active' : '' }}">
                 <a href="#"
@@ -102,6 +97,7 @@
                     
                 </ul>
             </li>
+            @endcan
             <li class="menu-header">Berita Penyelesaian</li>
             <li class="nav-item dropdown {{ $type_menu === 'berita_penyelesaian' ? 'active' : '' }}">
                 <a href="#"
@@ -114,7 +110,7 @@
                     </li>
                 </ul>
             </li>
-            @kepalaupttikrole
+            @can('view-kepala-upttik')
             <li class="menu-header">Laporan</li>
             <li class="nav-item dropdown {{ $type_menu === 'laporan' ? 'active' : '' }}">
                 <a href="#"
@@ -126,7 +122,7 @@
                     </li>
                 </ul>
             </li>
-            @endkepalaupttikrole
+            @endcan
             <li class="{{ Request::is('credits') ? 'active' : '' }}">
                 <a class="nav-link"
                     href="{{ url('credits') }}"><i class="fas fa-pencil-ruler">
@@ -134,7 +130,6 @@
                 </a>
             </li>
         </ul>
-
         <div class="hide-sidebar-mini mt-4 mb-4 p-3">
             <a href="https://getstisla.com/docs"
                 class="btn btn-primary btn-lg btn-block btn-icon-split">
