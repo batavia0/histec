@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class KepalaUPTIKPolicy
+class UserSettingsPolicy
 {
     use HandlesAuthorization;
 
@@ -18,9 +18,7 @@ class KepalaUPTIKPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->role_id === 4
-        ? Response::allow()
-        : Response::deny('Anda tidak diizinkan mengakses halaman ini.');
+        //
     }
 
     /**
@@ -30,23 +28,9 @@ class KepalaUPTIKPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user)
+    public function view(User $user, User $model)
     {
-        return $user->role_id === 4
-        ? Response::allow()
-        : Response::deny('Anda tidak diizinkan mengakses halaman ini.');
-    }
-
-    public function viewRead(User $user)
-    {
-        return $user->role_id === 4
-        ? Response::allow()
-        : Response::deny('Anda tidak diizinkan mengakses halaman ini.');
-    }
-
-    public function viewEdit(User $user)
-    {
-        return $user->role_id === 4
+        return $user->id === $user->id
         ? Response::allow()
         : Response::deny('Anda tidak diizinkan mengakses halaman ini.');
     }
@@ -107,8 +91,6 @@ class KepalaUPTIKPolicy
      */
     public function forceDelete(User $user, User $model)
     {
-        return $user->role_id === 4
-        ? Response::allow()
-        : Response::deny('Aksi ini tidak diizinkan.');
+        //
     }
 }

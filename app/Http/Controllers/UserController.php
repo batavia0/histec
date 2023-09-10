@@ -27,8 +27,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
+        $this->authorize('viewAny', $user);
         $data['type_menu'] = 'user';
         $data['all_users'] = $this->User->getAllAdminWithRolesIsNotLogged();
         return view('userss.index', $data);
@@ -100,12 +101,14 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @param  \App\Models\Roles  $roles
+     * @param  \App\Models\Roles $roles
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Roles $roles)
+    public function show($id)
     {
-        $data['role_name'] = $roles->getUserRoleById($id)->first();
+        $user = auth()->user();
+        $this->authorize('view-read-kepala-upttik',$user);
+        $data['role_name'] = $this->Roles->getUserRoleById($id)->first();
         $data['user_data'] = User::where('id', $id)->first();
         return view('userss.read',$data);
     }
@@ -117,11 +120,22 @@ class UserController extends Controller
      * @param  \App\Models\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, Roles $roles)
+    public function edit($id, Roles $roles, User $user)
     {
+        $this->authorize('view-read-kepala-upttik',$user);
         $data['role_name'] = $roles->getRoleName();
         $data['user_data'] = User::where('id', $id)->first();
         return view('userss.edit', $data);
+    }
+
+    public function editCurrentUser($id)
+    {
+        return view('user_profile.index');
+    }
+
+    public function updateCurrentUser(Request $request, User $user)
+    {
+        
     }
 
     /**
@@ -189,7 +203,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {        
+        $user = auth()->user();
+        $this->authorize('ability-kepala-upttik',$user);
         $user = User::where('id',$id)->delete();
         if($user){
             return response()->json(['success' => true, 'message' => 'User berhasil dihapus']);
