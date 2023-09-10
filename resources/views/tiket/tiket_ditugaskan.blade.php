@@ -1,6 +1,6 @@
 @extends('layouts.appstisla')
 
-@section('title', 'General Dashboard')
+@section('title', 'Tiket Ditugaskan')
 
 @push('style')
     <!-- CSS Libraries -->

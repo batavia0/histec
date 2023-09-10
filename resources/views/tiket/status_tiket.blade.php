@@ -1,6 +1,6 @@
 @extends('layouts.appstisla')
 
-@section('title', 'General Dashboard')
+@section('title', 'Status Tiket')
 
 @push('style')
     <!-- CSS Libraries -->
