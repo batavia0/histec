@@ -35,6 +35,7 @@ Route::get('/logout', function () {
     // Redirect to the desired page
     return redirect()->route('tickets.index');
 })->name('logout');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 //Routes for Sivitas Akademika
 Route::resource('tickets', SivitasAkademikaController::class);
 Route::controller(SivitasAkademikaController::class)->group(function () {
@@ -47,7 +48,7 @@ Route::get('balasan_tiket2', function () {
     return view('sivitas_akademika.emails.ticket_request');
 });
 //Routes for Tiket
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'technicianrole:1,2,3'])->group(function () {
     Route::controller(TicketController::class)->group(function () {
         Route::get('tiket/semua_tiket', 'indexSemuaTiket')->name('indexSemuaTiket');
         Route::get('tiket/tiket_ditugaskan', 'indexTiketDitugaskan')->name('indexTiketDitugaskan');
@@ -76,7 +77,7 @@ Route::middleware('auth')->group(function () {
 //END Routes for Tiket
 
 //Routes for Balasan Tiket
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'technicianrole:1,2,3'])->group(function () {
     Route::get('balasan_tiket', [TicketController::class, 'indexBalasanTiket'])->name('indexBalasanTiket');
     Route::get('balasan_tiket/{id}', [TicketController::class, 'showBalasanTiket'])->name('BalasanTiket');
     Route::post('balasan_tiket/send_mail/{email}', [TicketController::class, 'mailBalasanTiket'])->name('mailBalasanTiket');
@@ -93,7 +94,7 @@ Route::middleware(['auth','kepalaupttikrole'])->group(function () {
 
 //Routes for User
 Route::get('user/tambah', [UserController::class,'indexTambahUser'])->name('indexTambahUser');
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','kepalaupttikrole')->group(function () {
     Route::resource('user', UserController::class);
     Route::post('user/store', [UserController::class,'store'])->name('user.store');
     Route::get('user/tambah', [UserController::class,'indexTambahUser'])->name('user.tambah');
@@ -101,25 +102,19 @@ Route::middleware('auth')->group(function () {
     Route::get('user/edit/{id?}', [UserController::class,'edit'])->name('user.edit');
     Route::get('user/{id}', [UserController::class,'show'])->name('user.show');
     Route::post('user/update/{id}', [UserController::class,'updates'])->name('user.update');
-    // Route::controller(UserController::class)->group(function () {
-    //     // Route::get('user/tambah', 'indexTambahUser')->name('indexTambahUser');
-    //     // Route::post('user/name/{id}', 'name')->name('name');
-    //     // Route::post('user/name/{id}', 'name')->name('name');
-    //     // Route::get('user/name/{id}', 'name')->name('name');
-    // });
 });
 //END Routes for User
 
 //Routes for Berita Penyelesaian
-Route::resource('berita_penyelesaian', BeritaPenyelesaianController::class);
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','technicianrole:1,2,3')->group(function () {
+    Route::resource('berita_penyelesaian', BeritaPenyelesaianController::class);
     Route::controller(BeritaPenyelesaianController::class)->group(function () {
         Route::post('/berita_penyelesaian/generate', 'convertPDF')->name('generate');
     });
 });
 //END Routes for Berita Penyelesaian
 // Routes for WordController
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','technicianrole:1,2,3')->group(function () {
     Route::post('berita_penyelesaian/generate', [WordController::class,'generate'])->name('word.generate');
     Route::get('indexword', function () {
         return view('berita_penyelesaian.word');
@@ -132,7 +127,10 @@ Route::controller(FAQController::class)->group(function () {
     Route::get('faq', 'index')->name('faq_admin_page_index'); //Routes for Sivitas Akademika FAQ's
     Route::get('faq/{id}', 'showFaqById'); //Routes for show
 });
-Route::middleware('auth')->group(function () {
+Route::get('faq', [FAQController::class,'index'])->name('faq_admin_page_index'); //Routes for Sivitas Akademika
+// END Routes for FAQController
+// Routes for FAQController
+Route::middleware('auth','technicianrole:1,2,3')->group(function () {
     Route::resource('faq_admin_page', FAQController::class);
     Route::controller(FAQController::class)->group(function () {
         // FAQ pada halaman dashboard admin
@@ -145,10 +143,3 @@ Route::middleware('auth')->group(function () {
     Route::get('faq_admin_page/show/{id}', [FAQController::class,'show'])->name('showFaqAdmin');
 });
 // END Routes for FAQController
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
-
-
-Route::get('send-email', [TicketController::class,'sendMail']);
-Route::get('template_balasan_tiket', function () {
-    return view('emails.balasan_tiket');
-});
