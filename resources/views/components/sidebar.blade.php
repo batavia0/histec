@@ -62,14 +62,14 @@
                     href="{{ url('blank-page') }}"><i class="far fa-square"></i> <span>Blank Page</span></a>
             </li> --}}
             <li class="menu-header">Kategori</li>
-            <li class="nav-item dropdown {{ $type_menu === 'tiket_nav' ? 'active' : '' }}">
+            <li class="nav-item dropdown {{ $type_menu === 'kategori_nav' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"
                     data-toggle="dropdown"><i class="far fa-square"></i> <span>Kategori</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('tiket/semua_tiket') ? 'active' : '' }}">
+                    <li class="{{ Request::is('kategori') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ route('indexSemuaTiket') }}">Kategori</a>
+                            href="{{ route('index.kategori') }}">Kategori</a>
                     </li>
                 </ul>
             </li>

@@ -4,11 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WordController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\SivitasAkademikaController;
 use App\Http\Controllers\BeritaPenyelesaianController;
+use Illuminate\Support\Facades\Artisan;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -109,7 +112,7 @@ Route::middleware('auth','kepalaupttikrole')->group(function () {
 Route::middleware('auth','technicianrole:1,2,3')->group(function () {
     Route::resource('berita_penyelesaian', BeritaPenyelesaianController::class);
     Route::controller(BeritaPenyelesaianController::class)->group(function () {
-        Route::post('/berita_penyelesaian/generate', 'convertPDF')->name('generate');
+        Route::post('/berita_penyelesaian/generate', 'generate')->name('generate');
     });
 });
 //END Routes for Berita Penyelesaian
@@ -121,6 +124,14 @@ Route::middleware('auth','technicianrole:1,2,3')->group(function () {
     });    
 });
 // END Routes for WordController
+//Routes for Category Controller
+Route::middleware('auth','technicianrole:1,2,3')->group(function () {
+    Route::get('kategori', [CategoryController::class,'index'])->name('index.kategori');
+    Route::get('kategori/{id}', [CategoryController::class,'show'])->name('show.kategori');
+
+});
+
+// END Routes for CategoryController
 
 // Routes for FAQController
 Route::controller(FAQController::class)->group(function () {
@@ -142,4 +153,12 @@ Route::middleware('auth','technicianrole:1,2,3')->group(function () {
     Route::post('faq_admin_page/store', [FAQController::class,'stores'])->name('storeFaqAdmin');
     Route::get('faq_admin_page/show/{id}', [FAQController::class,'show'])->name('showFaqAdmin');
 });
+Route::get('/inspire', function () {
+    $output = Artisan::call('inspire');
+    return $output == 0 ? 'command berhasil dijalankan' : 'command tidak ditemukan';
+});
 // END Routes for FAQController
+
+Route::get('/testview', function () {
+    return view('sivitas_akademika.landing_hero');
+});

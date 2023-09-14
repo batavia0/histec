@@ -193,7 +193,6 @@
                                         <div class="form-group">
                                             <label for="format">Format</label>
                                             <select name="format" id="format" class="form-control">
-                                                <option value="pdf">PDF</option>
                                                 <option value="docx">DOCX</option>
                                             </select>
                                         </div>
