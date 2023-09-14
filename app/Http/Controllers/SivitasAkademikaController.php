@@ -95,6 +95,7 @@ class SivitasAkademikaController extends Controller
             'filenames.max' => 'Ukuran gambar maksimal adalah 16MB.',
             'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
             'deskripsi.string' => 'Kolom deskripsi harus berupa teks.',
+            'deskripsi.min' => 'Panjang karakter minimal 20 karakter.',
             'deskripsi.string' => 'Kolom deskripsi minimal 20 karakter.',
             'g-recaptcha-response.required' => 'Harap isi reCAPTCHA untuk verifikasi.',
         ]);

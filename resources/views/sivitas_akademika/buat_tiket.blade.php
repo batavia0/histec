@@ -185,8 +185,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script>
-        // let imageCount = 0;
-
         function addImageInput(event) {
             event.preventDefault();
             const imageContainer = document.getElementById('imageContainer');
@@ -229,7 +227,6 @@
                 reader.readAsDataURL(inputFile.files[0]);
             }
         }
-
 
         function deletePreview() {
             const imageContainer = document.getElementById('imageContainer');
@@ -302,12 +299,16 @@
                         // console.log(prefix,val);
                         $("span." + prefix + "_error").text(val[0]);
                         grecaptcha.reset();
-
                     })
+                    var validationErrors = xhr.responseJSON.errors;
+                    var errorMessages = [];
+                    $.each(validationErrors, function(prefix, val) {
+                        errorMessages.push(val[0]);
+                    });
                     swal({
                         icon: "error",
                         title: "Gagal",
-                        text: "Terjadi kesalahan saat mengirim data: " + error,
+                        text: 'Terjadi kesalahan saat mengirim data: ' + errorMessages,
                         button: true
                     }).then((result) => {
                         if (result) {

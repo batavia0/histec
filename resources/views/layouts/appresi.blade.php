@@ -33,7 +33,7 @@
     <section class="main">
         @yield('content')
     </section>
-
+    @include('layouts.footer')
 
     <!-- General JS Scripts -->
     <script src="{{ asset('Resi/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
