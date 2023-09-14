@@ -25,14 +25,14 @@ use Illuminate\Support\Facades\Artisan;
 */
 
 Route::get('/', function () {
-    return redirect()->route('tickets.index');
+    return view('sivitas_akademika.landing_hero');
 });
 
 
 Route::get('dashboard', function () {
     return view('dashboard');
 })->middleware('auth');
-Auth::routes();
+Auth::routes(['register' => false]);
 Route::get('/logout', function () {
     Auth::logout();
     // Redirect to the desired page
@@ -158,7 +158,3 @@ Route::get('/inspire', function () {
     return $output == 0 ? 'command berhasil dijalankan' : 'command tidak ditemukan';
 });
 // END Routes for FAQController
-
-Route::get('/testview', function () {
-    return view('sivitas_akademika.landing_hero');
-});

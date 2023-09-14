@@ -42,7 +42,7 @@
                 <li><i class="ri-check-line"></i> Mandiri</li>
               </ul>
               <div class="mt-3">
-                <a href="/" class="btn-get-started scrollto">Minta bantuan</a>
+                <a href="{{ route('tickets.index') }}" class="btn-get-started scrollto">Minta bantuan</a>
                 {{-- <a href="" class="btn-get-quote">Request a Quote</a> --}}
               </div>
             </div>

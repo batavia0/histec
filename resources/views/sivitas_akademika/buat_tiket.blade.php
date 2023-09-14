@@ -140,9 +140,10 @@
                                     <div class="mb-5 text-center">
                                         <label for="formFile" class="form-label lead">Upload Gambar</label>
                                         <div id="imageContainer"></div>
-                                        <button onclick="addImageInput(event)" id="addImageButton"
-                                            class="btn btn-primary mt-3">Tambah Gambar</button>
+                                        <button onclick="addImageInput(event)" id="addImageButton" class="btn btn-primary mt-3">Tambah Gambar</button>
+                                        <span class="text-error text-danger filenames_error"></span>
                                     </div>
+
                                 </div>
                                 {{-- <div class="row mb-3">
                       <div class="col-sm-10 offset-sm-2">
