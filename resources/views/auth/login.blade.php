@@ -11,7 +11,13 @@
         <div class="card-header">
             <h4>Login</h4>
         </div>
-
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        </div>
+        @endif
         <div class="card-body">
             <form method="POST"
                 action="{{ route('login') }}"
@@ -54,6 +60,11 @@
                     <div class="invalid-feedback">
                         Masukkan password
                     </div>
+                    @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                 </div>
 
                 <div class="form-group">
