@@ -2,15 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FAQController;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WordController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\SivitasAkademikaController;
 use App\Http\Controllers\BeritaPenyelesaianController;
-use Illuminate\Support\Facades\Artisan;
 
 
 /*
@@ -158,3 +159,14 @@ Route::get('/inspire', function () {
     return $output == 0 ? 'command berhasil dijalankan' : 'command tidak ditemukan';
 });
 // END Routes for FAQController
+// Routes for LocationController
+Route::middleware('auth','technicianrole:1,2,3')->group(function () {
+    Route::resource('lokasi', LocationController::class);
+    Route::get('lokasi/{id}', [LocationController::class,'show'])->name('lokasi.show');
+    Route::get('lokasi/edit/{id}', [LocationController::class,'edit'])->name('lokasi.edit');
+    Route::get('lokasi/create', [LocationController::class,'create'])->name('lokasi.create');
+    Route::post('lokasi/{id}', [LocationController::class,'update'])->name('lokasi.update');
+    Route::post('lokasi/delete/{locations}', [LocationController::class,'destroy'])->name('lokasi.destroy');
+});
+// END Routes for LocationController
+

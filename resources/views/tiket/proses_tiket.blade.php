@@ -34,24 +34,27 @@
         </div>
         <div class="form-group">
             <label for="form-label">Histori Tiket</label>
-            <div class="list-group">
+            <div class="list-group" style="max-height: 300px; overflow-y: auto;">
                 @foreach ($histori_tiket->sortByDesc('created_at') as $item)
                 @php
-                $diff = \Carbon\Carbon::parse(isset($item->tickets->ticket_finished_at) ? $item->tickets->ticket_finished_at : null)->diffForHumans(isset($item->tickets->created_at) ?? null);
-                @endphp 
+                    $ticketFinishedAt = isset($item->tickets->ticket_finished_at) ? \Carbon\Carbon::parse($item->tickets->ticket_finished_at) : null;
+                    $ticketCreatedAt = isset($item->tickets->created_at) ? \Carbon\Carbon::parse($item->tickets->created_at) : null;
+                    $diff = $ticketFinishedAt ? $ticketFinishedAt->diffForHumans($ticketCreatedAt) : '-';
+                @endphp
                 <a href="#" class="list-group-item list-group-item-action {{ $loop->first ? 'active' : '' }}">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ $item->name }}</h5>
-                    <small>{{ $diff ?? '-' }}</small>
-                  </div>
-                  <p class="mb-1">{{ $item->description ?? '-' }}</p>
-                  <small>{{ $item->locations->name ?? '-' }}</small>
-                  <span>-</span>
-                  <small>{{ $item->name ?? '-' }}</small>
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ $item->name }}</h5>
+                    </div>
+                    <img class="img-fluid" src="{{ !empty(trim($item->image)) ? asset('storage/' . trim($item->image)) : 'https://i.site.pictures/zN7Jb.th.png' }}" alt="">
+                    <p class="mb-1">{{ $item->description ?? '-' }}</p>
+                    <small>{{ $item->tickets->locations->name ?? '-' }}</small>
+                    <small class="formatDateTime">{{ $item->created_at ?? '-' }}</small>
+                    <small>{{ $item->name ?? '-' }}</small>
                 </a>
                 @endforeach
             </div>
         </div>
+        
         <div class="modal-footer">
             <button type="button"
                 class="btn btn-secondary"
@@ -62,3 +65,9 @@
         </div>
     </form>
 </div>
+@push('scripts')
+<script>
+
+</script>
+
+@endpush

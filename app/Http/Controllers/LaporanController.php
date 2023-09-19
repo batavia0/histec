@@ -34,7 +34,7 @@ class LaporanController extends Controller
      */
     public function index(User $user)
     {
-        $this->authorize('viewAny', $user);
+        $this->authorize('view-kepala-upttik', $user);
         $data = Tickets::select('ticket_id','created_at')->get()->groupBy(function($data){
             return Carbon::parse($data->created_at)->format('M');
         });

@@ -11,6 +11,7 @@
 @endpush
 
 @section('main')
+@can('view-kepala-upttik')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
@@ -63,6 +64,7 @@
             </div>
         </section>
     </div>
+    @endcan
 @endsection
 
 @push('scripts')

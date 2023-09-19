@@ -11,6 +11,7 @@ class Locations extends Model
     protected $fillable = [
         'name'
     ];
+    protected $primaryKey = 'location_id';
 
     /**
      * Get the Tickets associated with the Locations
@@ -27,6 +28,8 @@ class Locations extends Model
         return Locations::orderBy('name','desc')->get();
     }
 
-    
-
+    public function getLocationById($id)
+    {
+        return Locations::where('location_id',$id);
+    }
 }

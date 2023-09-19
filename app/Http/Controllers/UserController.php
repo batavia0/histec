@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function index(User $user)
     {
-        $this->authorize('viewAny', $user);
+        $this->authorize('view-kepala-upttik', $user);
         $data['type_menu'] = 'user';
         $data['all_users'] = $this->User->getAllAdminWithRolesIsNotLogged();
         return view('userss.index', $data);

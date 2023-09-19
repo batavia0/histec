@@ -56,6 +56,11 @@
                 <a class="nav-link"
                     href="{{ route('indexBalasanTiket') }}"><i class="fas fa-reply-all"></i> <span>Balasan Tiket</span></a>
             </li>
+            <li class="menu-header">Lokasi</li>
+            <li class="{{ Request::is('lokasi') ? 'active' : '' }}">
+                <a class="nav-link"
+                    href="{{ route('lokasi.index') }}"><i class="fas fa-building"></i> <span>Lokasi</span></a>
+            </li>
             {{-- <li class="menu-header">Blank Page</li>
             <li class="{{ Request::is('blank-page') ? 'active' : '' }}">
                 <a class="nav-link"

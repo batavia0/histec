@@ -166,12 +166,13 @@ class TicketController extends Controller
 
     public function editTiketDitugaskan($id)
     {
-        $tickets = Tickets::where('ticket_id',$id)->where('ticket_no')->first();
+        $tickets = Tickets::where('ticket_id',$id)->first();
         $data['tiket_status'] = $this->TicketStatus->getAllTicketStatus();
         $data['detail_id'] = $this->Tickets->getDetailByticket_id($id);
-        $data['histori_tiket'] = $this->TicketProcess->getHistoryTicketById($tickets);
- 
+        $data['histori_tiket'] = $this->TicketProcess->getTicketProcessByTicketId($id)->get();
+        // return response()->json($data);
         return view('tiket.proses_tiket',$data);
+ 
     }
     public function mutasiProsesTiket($id)
     {

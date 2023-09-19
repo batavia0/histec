@@ -37,7 +37,14 @@ class TicketProcess extends Model
     }
     public function getHistoryTicketById($ticket_no)
     {
+        // return ticket process history to cek_status_tiket view
         $ticketIds = Tickets::where('ticket_no', $ticket_no)->pluck('ticket_id');
         return TicketProcess::with('tickets')->whereIn('ticket_id', $ticketIds)->orderBy('ticket_process_id','DESC')->get();
+    }
+
+    public function getTicketProcessByTicketId($ticket_id)
+    {
+        // return ticket_process_id to proses_tiket view
+        return TicketProcess::with('tickets')->where('ticket_id', $ticket_id)->orderBy('ticket_process_id','DESC');
     }
 }
