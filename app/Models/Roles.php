@@ -32,4 +32,9 @@ class Roles extends Model
     {
         return Roles::where('id',$id);
     }
+
+    public function getRoleIsNotCurrent($role_id)
+    {
+        return Roles::where('id', '<>', $role_id)->where('id', '<>', 4);
+    }
 }

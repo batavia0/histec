@@ -1,6 +1,5 @@
 <div class="p2">
-    <form action="" id="formMutasiTiket">
-        @csrf
+    <form action="" method="post" id="formMutasiTiket">
         <div class="form-group">
             <label for="form-label">ID Tiket</label>
             <input type="text" id="ticket_no" class="form-control" value="{{ isset($detail_id->ticket_no) ? $detail_id->ticket_no : '' }}" readonly>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Roles;
 use App\Models\Tickets;
 use App\Models\Category;
 use App\Models\TicketMutasi;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Jobs\ProcessMailSend;
 use App\Models\TicketProcess;
 use App\Mail\MailtoTicketReply;
+use Illuminate\Validation\Rule;
 use App\Mail\MailtoTicketSender;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -20,6 +22,7 @@ use App\Http\Requests\CreateTicketRequest;
 
 class TicketController extends Controller
 {
+    private $validRoles;
     /**
      * Class constructor.
      */
@@ -31,6 +34,8 @@ class TicketController extends Controller
         $this->TicketProcess = new TicketProcess();
         $this->TicketMutasi = new TicketMutasi();
         $this->User = new User();
+        $this->Roles = new Roles();
+        $this->validRoles = Roles::pluck('id')->all();
     }
     /**
      * Display a listing of the resource.
@@ -63,9 +68,11 @@ class TicketController extends Controller
     public function indexMutasiTiket(User $user)
     {
         $this->authorize('view-technician',$user);
-        $auth_id = Auth::user()->role_id;
-        $data['all_tickets'] = $this->TicketMutasi->getMutasiTiketByRoleId($auth_id)->paginate(20);
-        $data['type_menu'] = 'tiket_nav';
+        $role_id = Auth::user()->role_id;
+        $user_id = Auth::user()->id;
+        $data['all_tickets'] = $this->TicketMutasi->getMutasiTiketByRoleId($role_id,$user_id)->paginate(20);
+        $data['type_menu'] = 'tiket_nav';   
+        // return response()->json($data['all_tickets']);
         return view('tiket.mutasi_tiket',$data);
     }
 
@@ -176,10 +183,18 @@ class TicketController extends Controller
     }
     public function mutasiProsesTiket($id)
     {
-        $auth_id = Auth::user()->role_id;
-        $data['all_admin'] = $this->User->getAllAdmin($auth_id);
+        $role_id = Auth::user()->role_id;
+        $data['all_admin'] = $this->Roles->getRoleIsNotCurrent($role_id)->get();
         $data['detail_id'] = $this->Tickets->getDetailByticket_id($id);       
         return view('tiket.mutasi_proses_tiket',$data);
+    }
+
+    public function mutasiTiketInIndexMutasiTiket($id)
+    {
+        $role_id = Auth::user()->role_id;
+        $data['all_admin'] = $this->Roles->getRoleIsNotCurrent($role_id)->get();
+        $data['detail_id'] = $this->Tickets->getDetailByticket_id($id);
+        return view('tiket.mutasi_mutasi_tiket',$data);
     }
 
     /**
@@ -260,6 +275,43 @@ class TicketController extends Controller
         $this->TicketProcess->save();
     }
 
+    public function updateMutasiTiket(Request $request, $id)
+    {
+        //Update and store Mutasi Tiket
+        $validator = Validator::make($request->only([
+            'technician',
+        ]),[
+            'technician' => 'required',Rule::in($this->validRoles),
+        ],[
+            'technician.in' => 'Kolom Teknisi harus diisi dengan salah satu dari: ' . implode(', ', $this->validRoles),
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+        try {
+            // Simpan data $ticket
+            $ticket = Tickets::findOrFail($id);
+            $ticket->category_id = $request->input('technician');
+            $ticket->updated_at = now();
+            $ticket->save();
+        
+            // Simpan data $this->TicketMutasi
+            $this->TicketMutasi->ticket_id = $id;
+            $this->TicketMutasi->role_id = $request->input('technician');
+            $this->TicketMutasi->created_at = now();
+            $this->TicketMutasi->updated_at = now();
+            $this->TicketMutasi->from_technician_id = Auth::user()->role_id;
+            $this->TicketMutasi->save();
+        
+            // Jika kedua penyimpanan berhasil
+            return response()->json(['success' => true, 'message' => 'Tiket berhasil di pindahkan.'], 200);
+        } catch (\Exception $e) {
+            // Jika ada kesalahan, tangkap pengecualian
+            return response()->json(['success' => false, 'message' => 'Tiket gagal dipindahkan '.$e], 400);
+        }
+        
+    }
+
     public function updateMutasiProsesTiket(Request $request, $id)
     {
         $validator = Validator::make($request->only([
@@ -270,17 +322,21 @@ class TicketController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
-        $ticket = Tickets::findOrFail($id);            
-        $ticket->category_id = $request->input('technician');
-        $ticket->save();
-        
-
-        $this->TicketMutasi->ticket_id = $id;
-        $this->TicketMutasi->technician_id = $request->input('technician');
-        $this->TicketMutasi->created_at = now();
-        $this->TicketMutasi->updated_at = now();
-        $this->TicketMutasi->save();
-        return response()->json(['message' => 'Mutasi Tiket Berhasil'], 201);
+        try {
+            $ticket = Tickets::findOrFail($id);            
+            $ticket->category_id = $request->input('technician');
+            $ticket->save();
+            
+            $this->TicketMutasi->ticket_id = $id;
+            $this->TicketMutasi->role_id = $request->input('technician');
+            $this->TicketMutasi->created_at = now();
+            $this->TicketMutasi->updated_at = now();
+            $this->TicketMutasi->from_technician_id = Auth::user()->role_id;
+            $this->TicketMutasi->save();
+            return response()->json(['message' => 'Mutasi Tiket Berhasil'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Tiket gagal dipindahkan.'], 400);
+        }
     }
 
     /**

@@ -79,7 +79,9 @@
                                             <a href="#"
                                                 class="btn btn-sm btn-info"
                                                 data-toggle="tooltip"
-                                                title="Mutasi Tiket"><i class="fas fa-handshake-alt"></i></a>
+                                                title="Mutasi Tiket"
+                                                data-mutasi-id="{{ $row->ticket_id }}"
+                                                ><i class="fas fa-handshake-alt"></i></a>
                                             <a href="#"
                                                 class="btn btn-sm btn-primary"
                                                 title="Update"
@@ -97,7 +99,7 @@
                                             </button>
                                             <div id="imageCollapse{{ $row->ticket_id }}" class="collapse show">
                                                 <img alt="{{ isset($row->image) ? $row->image : 'No Image' }}"
-                                                    src="{{ isset($row->image) ? asset('storage/' . trim($row->image)) : 'No Image' }}"
+                                                    src="{{ isset($row->tickets->image) ? asset('storage/' . trim($row->tickets->image)) : 'No Image' }}"
                                                     width="200"
                                                     data-toggle="tooltip"
                                                     title="{{ isset($row->image) ? $row->image : 'No Image' }}"
@@ -206,29 +208,85 @@ function edit(id) {
     });
 }
 
-function updateBtn(id) {
-    var formData = new FormData($('#formMutasiTiket')[0]);
+const btnMutasiElements = document.querySelectorAll('[data-mutasi-id]');
+btnMutasiElements.forEach(btn => {
+    btn.addEventListener('click', function() {
+        // Get the 'id' value from the 'data-mutasi-id' attribute
+        const id = this.getAttribute('data-mutasi-id');
+        mutasiTiket(id);
+    });
+});
 
-    $.ajax({
-        url: "{{ url('tiket/update_tiket_mutasi') }}/" + id,
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            $('#exampleModal').modal('hide');
-            window.location.reload()
-            iziToast.success({
-                title: 'Success',
-                message: 'Mutasi Tiket berhasil ',
-                position: 'topRight',
-            });
-        },
-        error: function(xhr, status, error) {
-            console.log(xhr, error);
-        }
+function mutasiTiket(id) {
+  fetch("{{ url('tiket/mutasi_tiket_edit') }}/"+id)
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("exampleModalLabel").innerHTML = 'Mutasi Tiket';
+      document.getElementById("page").innerHTML = data;
+      $('#exampleModal').modal('show'); // Use jQuery to show the Bootstrap modal
+    })
+    .catch(error => {
+      console.error('Error:', error);
     });
 }
+
+function updateMutasiBtn(id) {
+    const form = document.getElementById('formMutasiTiket');
+    const formData = new FormData(form);
+
+    fetch(`{{ url('tiket/mutasi_tiket_update') }}/${id}`, {
+        method: 'POST',
+        headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+            if (data.success) {
+                $('#exampleModal').modal('hide');
+                window.location.reload();
+                iziToast.success({
+                    title: 'Success',
+                    message: data.message,
+                    position: 'topRight'
+                });
+                form.reset();
+                form.querySelector('.text-danger').textContent = '';
+            }
+            if (data.success === false) {
+                $('#exampleModal').modal('hide');
+                iziToast.success({
+                    title: 'Success',
+                    message: data.message,
+                    position: 'topRight'
+                });
+                form.reset();
+                form.querySelector('.text-danger').textContent = '';
+            }
+            if (data.errors) {
+                form.querySelector('.text-danger').textContent = '';
+
+                $.each(data.errors, function(index, message) {
+                    var errorElement = $("#" + index + "_error");
+                    errorElement.html(message);
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'Eror '+message,
+                        position: 'topRight'
+                    });
+                });
+            }
+        })
+        .catch(error => {
+            iziToast.error({
+                title: 'Error',
+                message: 'Terjadi Kesalahan',
+                position: 'topRight'
+            });
+        });
+}
+
 
 $(document).ready(function(){
   $('.table-responsive').doubleScroll();

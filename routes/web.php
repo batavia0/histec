@@ -53,6 +53,8 @@ Route::get('balasan_tiket2', function () {
 });
 //Routes for Tiket
 Route::middleware(['auth', 'technicianrole:1,2,3'])->group(function () {
+    Route::get('tiket/mutasi_tiket_edit/{id}',[TicketController::class,'mutasiTiketInIndexMutasiTiket'])->name('mutasi_tiket_mutasi_edit');
+    Route::post('tiket/mutasi_tiket_update/{id}',[TicketController::class,'updateMutasiTiket'])->name('mutasi_tiket_mutasi_update');
     Route::controller(TicketController::class)->group(function () {
         Route::get('tiket/semua_tiket', 'indexSemuaTiket')->name('indexSemuaTiket');
         Route::get('tiket/tiket_ditugaskan', 'indexTiketDitugaskan')->name('indexTiketDitugaskan');
