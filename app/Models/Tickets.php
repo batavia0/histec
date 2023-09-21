@@ -187,4 +187,9 @@ class Tickets extends Model
         {
             return Tickets::with('category','locations','ticket_status')->where('ticket_id',$id)->first();
         }
+
+        public static function dataCountOpenedTickets($role_id)
+        {
+            return self::where('category_id',$role_id)->count();
+        }
 }

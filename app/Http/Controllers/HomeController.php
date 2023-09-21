@@ -19,6 +19,7 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
         $this->Notifikasi = new Notifikasi();
+        $this->Tickets = new Tickets();
     }
 
     /**
@@ -28,12 +29,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $auth_id = Auth::user()->role_id;
+        $role_id = Auth::user()->role_id;
         $data['countTickets'] = Tickets::countTickets();
-        $data['countNewTicket'] = Tickets::countNewTicket($auth_id);
+        $data['countNewTicket'] = Tickets::countNewTicket($role_id);
         $data['countAdmin'] = User::countAdmin();
         $data['userNotification'] = $this->Notifikasi->getUserNotification()->get();
-        $data['countFinishedTicket'] = Tickets::countFinishedTickets($auth_id);
+        $data['countFinishedTicket'] = Tickets::countFinishedTickets($role_id);
+        $data['countOpenedTicket'] = Tickets::dataCountOpenedTickets($role_id);
+        $data['all_ticket_by_role'] = $this->Tickets->getAllTicketsByRoleIdNotFinished($role_id)->get();
         return view('dashboard',$data,['type_menu' => 'dashboard']);
+    }
+
+    public function dataTicketLocation()
+    {
+     //   
     }
 }

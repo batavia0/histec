@@ -4,10 +4,11 @@
 
 @push('style')
     <!-- CSS Libraries -->
-    {{-- <link rel="stylesheet"
-        href="{{ asset('stisla/library/jqvmap/dist/jqvmap.min.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('stisla/library/summernote/dist/summernote-bs4.min.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('stisla/library/jqvmap/dist/jqvmap.min.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('stisla/library/summernote/dist/summernote-bs4.min.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('stisla/library/owl.carousel/dist/assets/owl.carousel.min.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('stisla/library/owl.carousel/dist/assets/owl.theme.default.min.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('stisla/library/flag-icon-css/css/flag-icon.min.css') }}"> --}}
 @endpush
 
 @section('main')
@@ -132,8 +133,8 @@
                         </div>
                     </div>
                 </div> --}}
-                <div class="col-lg-4 col-md-12 col-12 col-sm-12">
-                    {{-- <div class="card">
+                {{-- <div class="col-lg-4 col-md-12 col-12 col-sm-12">
+                    <div class="card">
                         <div class="card-header">
                             <h4>Recent Activities</h4>
                         </div>
@@ -195,11 +196,11 @@
                                 </a>
                             </div>
                         </div>
-                    </div> --}}
-                </div>
+                    </div>
+                </div> --}}
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-12 col-12 col-sm-12">
+                {{-- <div class="col-lg-6 col-md-12 col-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>Admin</h4>
@@ -257,7 +258,81 @@
                             </div>
                         </div>
                     </div>
+                </div> --}}
+                {{-- card-hero --}}
+                <div class="col-lg-7 col-md-12 col-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Balasan Cepat</h4>
+                            <div class="card-header-action">
+                                <a href="#"
+                                    class="btn btn-primary">View All</a>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table-striped mb-0 table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Title
+                                                <div class="table-links">
+                                                    in <a href="#">Web Development</a>
+                                                    <div class="bullet"></div>
+                                                    <a href="#">View</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary btn-action mr-1"
+                                                    data-toggle="tooltip"
+                                                    title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="card card-hero">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fa-solid fa-ticket-simple fa-xs"></i>
+                            </div>
+                            <h4>{{ $countOpenedTicket ?? '0' }}</h4>
+                            <div class="card-description">Tiket Baru</div>
+                        </div>
+                        @foreach ($all_ticket_by_role as $list)
+                        <div class="card-body p-0">
+                            <div class="tickets-list">
+                                <a href=""
+                                    class="ticket-item">
+                                    <div class="ticket-title">
+                                        <h4>{{ $list->name }}</h4>
+                                    </div>
+                                    <div class="ticket-info">
+                                        <div>{{ $list->description }}</div>
+                                        <div class="bullet"></div>
+                                        <div class="userDateTime">{{ $list->created_at }}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        @endforeach
+                        <a href=""
+                                    class="ticket-item ticket-more">
+                                    View All <i class="fas fa-chevron-right"></i>
+                                </a>
+                    </div>
+                </div>
+                {{-- END card-hero --}}
             </div>
         </section>
     </div>
@@ -265,11 +340,11 @@
 
 @push('scripts')
     <!-- JS Libraies -->
-    <script src="{{ asset('stisla/library/simpleweather/jquery.simpleWeather.min.js') }}"></script>
+    {{-- <script src="{{ asset('stisla/library/simpleweather/jquery.simpleWeather.min.js') }}"></script> --}}
     <script src="{{ asset('stisla/library/chart.js/dist/Chart.min.js') }}"></script>
-    <script src="{{ asset('stisla/library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('stisla/library/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
-    <script src="{{ asset('stisla/library/summernote/dist/summernote-bs4.min.js') }}"></script>
+    {{-- <script src="{{ asset('stisla/library/jqvmap/dist/jquery.vmap.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('stisla/library/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script> --}}
+    {{-- <script src="{{ asset('stisla/library/summernote/dist/summernote-bs4.min.js') }}"></script> --}}
     <script src="{{ asset('stisla/library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
     <!-- Page Specific JS File -->
@@ -333,6 +408,7 @@ markAsReadLinks.forEach(link => {
         });
     });
 });
+
 
     </script>
 @endpush
