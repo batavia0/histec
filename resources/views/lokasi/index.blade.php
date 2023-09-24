@@ -5,7 +5,8 @@
 @push('style')
     <!-- CSS Libraries -->
 <link rel="stylesheet" href="{{ asset('stisla/library/izitoast/dist/css/iziToast.min.css') }}">
-<link href="https://cdn.datatables.net/v/bs4/dt-1.13.6/b-2.4.2/b-colvis-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.10.0/r-2.5.0/rg-1.4.0/rr-1.4.1/sc-2.2.0/sb-1.5.0/sp-2.2.0/sl-1.7.0/sr-1.3.0/datatables.min.css" rel="stylesheet">
+{{-- <link href="https://cdn.datatables.net/v/bs4/dt-1.13.6/b-2.4.2/b-colvis-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.10.0/r-2.5.0/rg-1.4.0/rr-1.4.1/sc-2.2.0/sb-1.5.0/sp-2.2.0/sl-1.7.0/sr-1.3.0/datatables.min.css" rel="stylesheet"> --}}
+<link href="https://cdn.datatables.net/v/bs4/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/date-1.5.1/fc-4.3.0/fh-3.4.0/r-2.5.0/rg-1.4.0/sc-2.2.0/sp-2.2.0/sr-1.3.0/datatables.min.css" rel="stylesheet">
 @endpush
 
 @section('main')
@@ -37,7 +38,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Nama Lokasi</th>
-                                        <th>Action</th>
+                                        <th class="no-export">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -102,17 +103,61 @@
 
     <script src="{{ asset('stisla/js/page/modules-datatables.js') }}"></script>
  
-    <script src="https://cdn.datatables.net/v/bs4/dt-1.13.6/b-2.4.2/b-colvis-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.10.0/r-2.5.0/rg-1.4.0/rr-1.4.1/sc-2.2.0/sb-1.5.0/sp-2.2.0/sl-1.7.0/sr-1.3.0/datatables.min.js"></script>
+    {{-- Datatables --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/date-1.5.1/fc-4.3.0/fh-3.4.0/r-2.5.0/rg-1.4.0/sc-2.2.0/sp-2.2.0/sr-1.3.0/datatables.min.js"></script>
 
     <!-- Page Specific JS File -->
     <script>
-        $('#locations-table').DataTable({
+$('#locations-table').DataTable({
     "paging": true, // Menampilkan paging
     "searching": true, // Menampilkan fitur pencarian
     "ordering": true, // Mengizinkan pengurutan kolom
     "info": true, // Menampilkan informasi jumlah data
     "pageLength": 10, // Menampilkan 10 data per halaman
-    "lengthMenu": [[3, 10, 50, 100, -1], [3, 10, 50, 100, "All"]], // Opsi jumlah data per halaman
+    dom: 'Blfrtip',
+    buttons: [{
+            extend: 'copy',
+            text: '<i class="fa fa-copy"></i> Copy',
+            //   className: 'btn btn-primary',
+            exportOptions: {
+                columns: ':not(.no-export)'
+            }
+        },
+        {
+            extend: 'csv',
+            text: '<i class="fa fa-file-csv"></i> CSV',
+            exportOptions: {
+                columns: ':not(.no-export)'
+            }
+        },
+        {
+            extend: 'excel',
+            text: '<i class="fa fa-file-excel"></i> Excel',
+            exportOptions: {
+                columns: ':not(.no-export)'
+            }
+        },
+        {
+            extend: 'pdf',
+            text: '<i class="fa fa-file-pdf"></i> PDF',
+            exportOptions: {
+                columns: ':not(.no-export)'
+            }
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> Print',
+            exportOptions: {
+                columns: ':not(.no-export)'
+            }
+        }
+    ],
+    "lengthMenu": [
+        [3, 10, 50, 100, -1],
+        [3, 10, 50, 100, "All"]
+    ], // Opsi jumlah data per halaman
     language: {
         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json',
     }
