@@ -36,7 +36,7 @@ class HomeController extends Controller
         $data['userNotification'] = $this->Notifikasi->getUserNotification()->get();
         $data['countFinishedTicket'] = Tickets::countFinishedTickets($role_id);
         $data['countOpenedTicket'] = Tickets::dataCountOpenedTickets($role_id);
-        $data['all_ticket_by_role'] = $this->Tickets->getAllTicketsByRoleIdNotFinished($role_id)->get();
+        $data['all_ticket_by_role'] = $this->Tickets->getAllTicketsByRoleIdOpen($role_id)->get();
         return view('dashboard',$data,['type_menu' => 'dashboard']);
     }
 

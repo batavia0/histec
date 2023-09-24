@@ -159,6 +159,12 @@ class Tickets extends Model
             return Tickets::with('category','locations','ticket_status')->where('category_id',$auth_id)->whereNot('ticket_status_id','2')->orderBy('created_at','desc');
         }
 
+        public function getAllTicketsByRoleIdOpen($role_id)
+        {
+            return Tickets::with('category','locations','ticket_status')->where('category_id',$role_id)->whereNot('ticket_status_id','1')->orderBy('created_at','desc');
+        }
+
+
         public function getAllTicketsFinishedByRoleId($auth_id)
         {
             return Tickets::with('category','locations','ticket_status')->where(['category_id' => $auth_id,'ticket_status_id' => '2',
