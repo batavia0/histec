@@ -1158,6 +1158,10 @@ select.form-control:not([size]):not([multiple]) {
   color: #666;
 }
 
+.table-text p {
+  color: #666;
+}
+
 table tr:hover .table-links {
   opacity: 1;
 }

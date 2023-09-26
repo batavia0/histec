@@ -264,39 +264,34 @@
                     <div class="card">
                         <div class="card-header">
                             <h4>Balasan Cepat</h4>
-                            <div class="card-header-action">
-                                <a href="#"
-                                    class="btn btn-primary">View All</a>
-                            </div>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table class="table-striped mb-0 table">
                                     <thead>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Action</th>
+                                            <th>Tiket Selesai</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($all_finished_tickets_filtered as $row)
                                         <tr>
                                             <td>
-                                                Title
-                                                <div class="table-links">
-                                                    in <a href="#">Web Development</a>
-                                                    <div class="bullet"></div>
-                                                    <a href="#">View</a>
+                                                {{ $row->name }}
+                                                <div class="table-text">
+                                                    <p>{{ $row->ticket_no }}</p>
+                                                    <a href="" data-balasan-id="{{ $row->ticket_id }}">Kirim Balasan Sekarang</a>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <a class="btn btn-primary btn-action mr-1"
-                                                    data-toggle="tooltip"
-                                                    title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                            </td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ route('indexBalasanTiket') }}"
+                            class="btn btn-primary">View All</a>
                         </div>
                     </div>
                 </div>
@@ -409,6 +404,36 @@ markAsReadLinks.forEach(link => {
     });
 });
 
+function sendMail(email) {
+  var formData = new FormData($('#formReply')[0]);
+  fetch("{{ url('balasan_tiket/send_mail') }}/" + email, {
+    method: 'POST',
+    headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    },
+    body: formData
+  })
+    .then(response => {
+      if (response.ok) {
+        $('#exampleModal').modal('hide');
+        window.location.reload();
+        iziToast.success({
+          title: 'Success',
+          message: 'Berhasil Mengirim Email',
+          position: 'topRight',
+        });
+      } else {
+        throw new Error('Error');
+      }
+    })
+    .catch(error => {
+      iziToast.error({
+        title: 'Error',
+        message: error.message,
+        position: 'topRight',
+      });
+    });
+}
 
     </script>
 @endpush

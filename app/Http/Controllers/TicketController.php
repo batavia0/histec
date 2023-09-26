@@ -93,9 +93,9 @@ class TicketController extends Controller
 
     public function indexBalasanTiket(User $user)
     {
-        $auth_id = Auth::user()->role_id;
-        $data['all_finished_tickets_filtered'] = $this->Tickets->getAllTicketsFinishedByRoleId($auth_id)->get();
+        $data['all_finished_tickets_filtered'] = $this->Tickets->getAllTicketsFinishedByRoleId(auth()->user()->role_id)->get();
         $data['type_menu'] = 'balasan_tiket_nav';
+        // return response()->json($data);
         return view('balasan_tiket.index',$data);
     }
 
