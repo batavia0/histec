@@ -54,7 +54,7 @@ var all_faq = @json($all_faq);
 
 // Function untuk mengupdate daftar FAQ
 function updateFAQList() {
-    var searchText = $('#searchInput').val().toLowerCase();
+    var searchText = $('#searchInput').val().toLowerCase().trim();
 
     // Filter FAQ berdasarkan teks pencarian
     var filteredFAQ = all_faq.filter(function(faq) {
@@ -69,8 +69,7 @@ function updateFAQList() {
         var cardItem = '<div class="col mx-auto py-2">' + '<div class="card-body">' +
           '<h5 class="card-title"><a href="{{url('faq')}}/' + faq.faq_id + '">' + faq.title + ' <i class="fas fa-external-link-square-alt"></i></a></h5>' +
             '<h6 class="card-subtitle mb-2 text-body-secondary">Kategori: ' + faq.category.name + '</h6>' +
-            '<div class="card-text overflow-auto" style="max-height: 200px;">' + faq.answer + 
-            '</div>' + '</div>';
+            '</div>';
         $('#faq-list').append(cardItem);
     });
 }
