@@ -4,8 +4,8 @@
 
 @push('style')
     <!-- CSS Libraries -->
-        <link rel="stylesheet"
-        href="{{ asset('stisla/library/izitoast/dist/css/iziToast.min.css') }}">
+<link rel="stylesheet" href="{{ asset('stisla/library/izitoast/dist/css/iziToast.min.css') }}">
+<link href="https://cdn.datatables.net/v/bs4/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/date-1.5.1/fc-4.3.0/fh-3.4.0/r-2.5.0/rg-1.4.0/sc-2.2.0/sp-2.2.0/sr-1.3.0/datatables.min.css" rel="stylesheet">
 @endpush
 
 @section('main')
@@ -24,42 +24,30 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>Semua Tiket</h4>
-                        <div class="card-header-form">
-                            <form>
-                                <div class="input-group">
-                                    <input type="text"
-                                        class="form-control"
-                                        id="search-input"
-                                        placeholder="Search">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table-striped table">
-                                <tr>
-                                    
-                                    <th>#</th>
-                                    <th>Judul</th>
-                                    <th>Deskripsi</th>
-                                    <th>ID Tiket</th>
-                                    <th>Email</th>
-                                    <th>Dari Tanggal</th>
-                                    <th>Tanggal Selesai</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                    <th>Gambar</th>
-                                </tr>
-                                @php
-                                $i = ($all_tickets->currentPage() - 1) * $all_tickets->perPage() + 1;
+                            <table id="all_tickets" class="table-striped table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Judul</th>
+                                        <th>Deskripsi</th>
+                                        <th>ID Tiket</th>
+                                        <th>Email</th>
+                                        <th>Dari Tanggal</th>
+                                        <th>Tanggal Selesai</th>
+                                        <th>Status</th>
+                                        <th class="no-export">Action</th>
+                                        <th class="no-export">Gambar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                $i = 1;
                                 @endphp
-                                    @foreach ($all_tickets as $row)
+                                @foreach ($all_tickets as $row)
                                 <tr>
-                                    
                                     <td>{{  $i++ }}</td>
                                     <td>{{ trim($row->name) }}</td>
                                     <td>{{ trim($row->description) }}</td>
@@ -72,13 +60,10 @@
                                         <div class="badge">{{ $row->category->name }}</div>
                                         <div class="badge">{{ $row->locations->name }}</div>
                                     </td>
-                                    <td><a href="#"
+                                    <td>
+                                        <a href="#"
                                             class="btn btn-sm btn-outline-primary"
                                             onclick="read({{ $row->ticket_id }})">Detail</a>
-                                        {{-- <a href="#"
-                                            class="btn btn-sm btn-info"
-                                            data-toggle="tooltip"
-                                            title="Mutasi Tiket"><i class="fas fa-handshake-alt"></i></a> --}}
                                         <a href="#"
                                             class="btn btn-sm btn-primary"
                                             title="Update"
@@ -89,7 +74,7 @@
                                             data-toggle="tooltip"
                                             title="Hapus"
                                             onclick="deleteConfirm({{ $row->ticket_id }})">Hapus</a>
-                                        </td>
+                                    </td>
                                     <td>
                                         <a href="{{ asset('storage/' . trim($row->image)) }}">Gambar</a>
                                         <button class="btn btn-link" data-toggle="collapse" data-target="#imageCollapse{{ $row->ticket_id }}" aria-expanded="true" aria-controls="imageCollapse">
@@ -104,181 +89,17 @@
                                                 loading="lazy">
                                         </div>   
                                     </td>
-                                    </div>
                                 </tr>
                                 @endforeach
+                                </tbody>
                             </table>
                         </div>
-                    </div>
-                    {{-- Pagination --}}
-                    <div class="card-footer text-right">
-                        {{ $all_tickets->links() }}
-                        @if ($all_tickets['links'])
-                        <nav class="d-inline-block">
-                            <ul class="pagination mb-0">
-                                @foreach ($all_tickets['links'] as $item)
-                                <li class="page-item {{ $item['active']?'active':'' }}"><a class="page-link"
-                                    href="{{ $item['url'] }}">{!! $item['label'] !!}</a></li>
-                                @endforeach                                        
-                            </ul>
-                        </nav>
-                        @endif
                     </div>
                 </div>
             </div>
         </div>
-        {{-- <div class="row">
-            <div class="col-lg-7 col-md-12 col-12 col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Latest Posts</h4>
-                        <div class="card-header-action">
-                            <a href="#"
-                                class="btn btn-primary">View All</a>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table-striped mb-0 table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Author</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            Introduction Laravel 5
-                                            <div class="table-links">
-                                                in <a href="#">Web Development</a>
-                                                <div class="bullet"></div>
-                                                <a href="#">View</a>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <a href="#"
-                                                class="font-weight-600"><img
-                                                    src="{{ asset('stisla/img/avatar/avatar-1.png') }}"
-                                                    alt="avatar"
-                                                    width="30"
-                                                    class="rounded-circle mr-1"> Bagus Dwi Cahya</a>
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-primary btn-action mr-1"
-                                                data-toggle="tooltip"
-                                                title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                            <a class="btn btn-danger btn-action"
-                                                data-toggle="tooltip"
-                                                title="Delete"
-                                                data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?"
-                                                data-confirm-yes="alert('Deleted')"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p class="text-center">{{ $all_tickets->isEmpty() ? 'NO DATA' : '' }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-        {{-- <div class="row">
-            <div class="col-lg-6 col-md-6 col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="d-inline">Tasks</h4>
-                        <div class="card-header-action">
-                            <a href="#"
-                                class="btn btn-primary">View All</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-unstyled list-unstyled-border">
-                            <li class="media">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox"
-                                        class="custom-control-input"
-                                        id="cbx-1">
-                                    <label class="custom-control-label"
-                                        for="cbx-1"></label>
-                                </div>
-                                <img class="rounded-circle mr-3"
-                                    width="50"
-                                    src="{{ asset('stisla/img/avatar/avatar-4.png') }}"
-                                    alt="avatar">
-                                <div class="media-body">
-                                    <div class="badge badge-pill badge-danger float-right mb-1">Not Finished</div>
-                                    <h6 class="media-title"><a href="#">Redesign header</a></h6>
-                                    <div class="text-small text-muted">Alfa Zulkarnain <div class="bullet"></div>
-                                        <span class="text-primary">Now</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox"
-                                        class="custom-control-input"
-                                        id="cbx-2"
-                                        checked="">
-                                    <label class="custom-control-label"
-                                        for="cbx-2"></label>
-                                </div>
-                                <img class="rounded-circle mr-3"
-                                    width="50"
-                                    src="{{ asset('stisla/img/avatar/avatar-5.png') }}"
-                                    alt="avatar">
-                                <div class="media-body">
-                                    <div class="badge badge-pill badge-primary float-right mb-1">Completed</div>
-                                    <h6 class="media-title"><a href="#">Add a new component</a></h6>
-                                    <div class="text-small text-muted">Serj Tankian <div class="bullet"></div> 4 Min
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox"
-                                        class="custom-control-input"
-                                        id="cbx-3">
-                                    <label class="custom-control-label"
-                                        for="cbx-3"></label>
-                                </div>
-                                <img class="rounded-circle mr-3"
-                                    width="50"
-                                    src="{{ asset('stisla/img/avatar/avatar-2.png') }}"
-                                    alt="avatar">
-                                <div class="media-body">
-                                    <div class="badge badge-pill badge-warning float-right mb-1">Progress</div>
-                                    <h6 class="media-title"><a href="#">Fix modal window</a></h6>
-                                    <div class="text-small text-muted">Ujang Maman <div class="bullet"></div> 8 Min
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox"
-                                        class="custom-control-input"
-                                        id="cbx-4">
-                                    <label class="custom-control-label"
-                                        for="cbx-4"></label>
-                                </div>
-                                <img class="rounded-circle mr-3"
-                                    width="50"
-                                    src="{{ asset('stisla/img/avatar/avatar-1.png') }}"
-                                    alt="avatar">
-                                <div class="media-body">
-                                    <div class="badge badge-pill badge-danger float-right mb-1">Not Finished</div>
-                                    <h6 class="media-title"><a href="#">Remove unwanted classes</a></h6>
-                                    <div class="text-small text-muted">Farhan A Mujib <div class="bullet"></div> 21
-                                        Min</div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
+        {{--  --}}
+        {{--  --}}
         </section>
     </div>
         <div class="modal fade"
@@ -311,39 +132,77 @@
 @push('scripts')
     <!-- JS Libraies -->
      {{-- <script src="{{ asset('stisla/library/prismjs/prism.js') }}"></script> --}}
-         <!-- JS Libraies -->
     <script src="{{ asset('js/jquery.doubleScroll.js') }}"></script>
     <script src="{{ asset('stisla/library/izitoast/dist/js/iziToast.min.js') }}"></script>
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('stisla/library/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('stisla/js/page/modules-datatables.js') }}"></script>
 
-
+    {{-- Datatable --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/jszip-3.10.1/dt-1.13.6/b-2.4.2/b-html5-2.4.2/b-print-2.4.2/date-1.5.1/fc-4.3.0/fh-3.4.0/r-2.5.0/rg-1.4.0/sc-2.2.0/sp-2.2.0/sr-1.3.0/datatables.min.js"></script>
      <!-- Page Specific JS File -->
      <script src="{{ asset('stisla/js/page/bootstrap-modal.js') }}"></script>
-     <script>
-        $.ajaxSetup({
-   headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-   }
-});
-     </script>
     <script>
-        $(document).ready(function() {
-            $('#search-input').on('keyup', function() {
-        var searchValue = $(this).val().toLowerCase(); // Ambil nilai teks pencarian dan ubah ke huruf kecil
-
-        // Saring baris tabel berdasarkan teks pencarian
-        $('table tr').each(function() {
-            var rowText = $(this).text().toLowerCase();
-            if (rowText.includes(searchValue)) {
-                $(this).show(); // Tampilkan baris jika cocok dengan pencarian
-            } else {
-                $(this).hide(); // Sembunyikan baris jika tidak cocok dengan pencarian
+        $('#all_tickets').DataTable({
+    "paging": true,
+    "searching": true,
+    "ordering": true,
+    "info": true,
+    "pageLength": 10,
+    "scrollY": true,
+    dom: 'Blfrtip',
+    buttons: [{
+            extend: 'copy',
+            text: '<i class="fa fa-copy"></i> Copy',
+            //   className: 'btn btn-primary',
+            exportOptions: {
+                columns: ':not(.no-export)'
             }
-                });
-            });
-        });
-        
-        function edit(id) {
+        },
+        {
+            extend: 'csv',
+            text: '<i class="fa fa-file-csv"></i> CSV',
+            exportOptions: {
+                columns: ':not(.no-export)'
+            }
+        },
+        {
+            extend: 'excel',
+            text: '<i class="fa fa-file-excel"></i> Excel',
+            exportOptions: {
+                columns: ':not(.no-export)'
+            }
+        },
+        {
+            extend: 'pdf',
+            text: '<i class="fa fa-file-pdf"></i> PDF',
+            exportOptions: {
+                columns: ':not(.no-export)'
+            },
+            pageSize: 'A4',
+            orientation: 'landscape'
+        },
+        {
+            extend: 'print',
+            text: '<i class="fa fa-print"></i> Print',
+            exportOptions: {
+                columns: ':not(.no-export)'
+            }
+        }
+    ],
+    "lengthMenu": [
+        [3, 10, 50, 100, -1],
+        [3, 10, 50, 100, "All"]
+    ],
+    "lengthChange": true,
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json',
+    }
+});
+
+function edit(id) {
     $.get("{{ url('tiket/edit_tiket') }}/" + id, {}, function(data, status) {
         // jQuery.noConflict();
         $("#exampleModalLabel").html('Edit Tiket ' + id)
@@ -360,59 +219,64 @@ function updateMutasiTiket(id) {
         $("#exampleModal").modal('show');
     });
 }
-    </script>
-    <script>
     function updateBtn(id) {
-    var formData = new FormData($('#formEditTiket')[0]);
+        var formData = new FormData($('#formEditTiket')[0]);
 
-    $.ajax({
-        url: "{{ url('tiket/update_tiket') }}/" + id,
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            $('#exampleModal').modal('hide');
-            window.location.reload()
-            iziToast.success({
-                title: 'Success',
-                message: response.message,
-                position: 'topRight',
-            });
-        },
-        error: function(xhr, status, error) {
-            console.log(error);
-        }
-    });
-}
-    
-        function read(id){
-            $.get("{{ url('tiket/read_tiket') }}/" + id, {}, function(data, status) {
-                    // jQuery.noConflict();
-                    $("#exampleModalLabel").html('Detail Tiket '+ id)
-                    $("#page").html(data);
-                    $("#exampleModal").modal('show');
-                });
-        }
-        function destroy(id){
-            $.ajax({
-                url: "{{ url('tiket/delete_tiket') }}/"+id,
-                type: "post",
-                success: function(response) {
+        $.ajax({
+            url: "{{ url('tiket/update_tiket') }}/" + id,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'post',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $('#exampleModal').modal('hide');
                 window.location.reload()
                 iziToast.success({
+                    title: 'Success',
+                    message: response.message,
+                    position: 'topRight',
+                });
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
+function read(id) {
+    $.get("{{ url('tiket/read_tiket') }}/" + id, {}, function(data, status) {
+        // jQuery.noConflict();
+        $("#exampleModalLabel").html('Detail Tiket ' + id)
+        $("#page").html(data);
+        $("#exampleModal").modal('show');
+    });
+}
+
+function destroy(id) {
+    $.ajax({
+        url: "{{ url('tiket/delete_tiket') }}/" + id,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "post",
+        success: function(response) {
+            window.location.reload()
+            iziToast.success({
                 title: 'Success',
                 message: 'Berhasil dihapus',
                 position: 'topRight'
             });
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr,error);
-            }
-            });
+        },
+        error: function(xhr, status, error) {
+            console.log(xhr, error);
         }
+    });
+}
 
-        function deleteConfirm(id) {
+function deleteConfirm(id) {
     swal({
         title: 'Apakah Anda Yakin?',
         text: "Anda Ingin Menghapus Tiket ",
@@ -430,9 +294,5 @@ function updateMutasiTiket(id) {
         }
     })
 }
-$(document).ready(function(){
-  $('.table-responsive').doubleScroll();
-});
-
     </script>
 @endpush
