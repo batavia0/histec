@@ -64,6 +64,7 @@
                                         {{-- Error message --}}
                                         {{-- <span id="inputEmail3" class="error-message"></span> --}}
                                         <span class=" text-error text-danger email_error"></span>
+                                        <span></span>
                                         <div class="valid-feedback">
                                             Benar
                                         </div>
@@ -77,6 +78,7 @@
                                             class="form-control @error('keluhan') is-invalid @enderror" id="inputKeluhan">
                                         {{-- Message Validation --}}
                                         <span class="text-error text-danger keluhan_error"></span>
+                                        <span></span>
                                         <div class="valid-feedback">
                                             Benar</div>
                                     </div>
@@ -99,7 +101,7 @@
                                             <p class="text text-muted">Tidak ada kategori yang tersedia.</p>
                                         @endif
                                         <span class="text-error text-danger kategori_error"></span>
-
+                                        <span></span>
                                         <div class="valid-feedback">
                                             Benar
                                         </div>
@@ -124,6 +126,8 @@
                                         @endif
                                         {{-- Message Validation --}}
                                         <span class="text-error text-danger lokasi_error"></span>
+                                        <span></span>
+
                                         <div class="valid-feedback">
                                             Benar</div>
                                     </div>
@@ -184,6 +188,8 @@
     <!-- JS Libraies -->
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script>
         function addImageInput(event) {
@@ -246,7 +252,6 @@
             const addImageButton = document.getElementById('addImageButton');
             addImageButton.style.display = ''; //keep display as it was.
         }
-
         document.getElementById('formTiket').addEventListener('submit', function(event) {
             event.preventDefault();
             $("#btnSubmit").prop("disabled", true);
@@ -256,6 +261,61 @@
             $("#btnSubmit").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
             store();
         });
+        //Rules Validation
+        $(document).ready(function() {
+        $("#formTiket").validate({
+        rules: {
+            email: {
+                required: true,
+                email: true
+            },
+            keluhan: {
+                required: true,
+                minlength: 20
+            },
+            kategori: {
+                required: true
+            },
+            lokasi: {
+                required: true
+            },
+            deskripsi: {
+                required: true,
+                minlength: 20
+            }
+        },
+        messages: {
+            email: {
+                required: "Kolom Email wajib diisi",
+                email: "Masukkan Email valid"
+            },
+            keluhan: {
+                required: "Kolom Keluhan wajib diisi",
+                minlength: "Isi Keluhan minimal 20 karakter",
+                noSpace: "Keluhan tidak valid"
+            },
+            kategori: {
+                required: "Kolom Kategori wajib diisi"
+            },
+            lokasi: {
+                required: "Kolom Lokasi wajib diisi"
+            },
+            deskripsi: {
+                required: "Kolom Deskripsi wajib diisi",
+                minlength: "Isi Deskripsi minimal 20 karakter",
+                noSpace: "Deskripsi valid"
+            }
+        },
+        errorElement: "span",
+        errorPlacement: function(error, element) {
+            error.appendTo(element.next());
+        }
+    });
+    // Menambahkan metode kustom "noSpace" ke validator
+    $.validator.addMethod("noSpace", function(value, element) {
+        return value.trim().length > 0; // Memeriksa apakah input mengandung karakter selain spasi
+    }, "Tidak boleh hanya berisi spasi");
+});
         function store() {
             var formData = new FormData($('#formTiket')[0]);
             $.ajax({
@@ -327,7 +387,7 @@
         }
     </script>
     <script>
-        // // Tambahkan event listener untuk menangani submit form
+        // Tambahkan event listener untuk menangani submit form
         // document.getElementById('formTiket').addEventListener('submit', function(event) {
         //     if (!event.target.checkValidity()) {
         //         // Jika form tidak valid, hentikan pengiriman form dan tampilkan pesan error
