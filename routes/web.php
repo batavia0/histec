@@ -10,6 +10,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\KepalaUPTTIKController;
 use App\Http\Controllers\SivitasAkademikaController;
 use App\Http\Controllers\BeritaPenyelesaianController;
 
@@ -90,14 +91,6 @@ Route::middleware(['auth', 'technicianrole:1,2,3'])->group(function () {
 });
 //END Routes for Balasan Tiket
 
-//Routes for Laporan
-Route::middleware(['auth','kepalaupttikrole'])->group(function () {
-    Route::controller(LaporanController::class)->group(function () {
-        Route::get('/laporan', 'index')->name('indexLaporan');
-    });
-});
-//END Routes for Laporan
-
 //Routes for User
 Route::get('user/tambah', [UserController::class,'indexTambahUser'])->name('indexTambahUser');
 Route::middleware('auth','kepalaupttikrole')->group(function () {
@@ -171,4 +164,12 @@ Route::middleware('auth','technicianrole:1,2,3')->group(function () {
     Route::post('lokasi/delete/{locations}', [LocationController::class,'destroy'])->name('lokasi.destroy');
 });
 // END Routes for LocationController
+
+// Routes for KepalaUPTTIKController
+Route::middleware(['auth','kepalaupttikrole'])->group(function () {
+    Route::get('laporan', [KepalaUPTTIKController::class, 'index'])->name('indexLaporan');
+    Route::post('laporan/filter', [KepalaUPTTIKController::class, 'filterLaporan'])->name('laporan.filter');
+    Route::post('laporan/filter_tiket_selesai', [KepalaUPTTIKController::class, 'filterLaporanTiketSelesai'])->name('laporan.filter_tiket_selesai');
+});
+// END Routes for KepalaUPTTIKController
 
