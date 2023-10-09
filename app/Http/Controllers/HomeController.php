@@ -27,8 +27,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(User $user)
     {
+        // $this->authorize('view-technician',$user);
         $role_id = Auth::user()->role_id;
         $data['countTickets'] = Tickets::countTickets();
         $data['countNewTicket'] = Tickets::countNewTicket($role_id);
