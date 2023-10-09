@@ -50,10 +50,9 @@ class TicketController extends Controller
     public function indexSemuaTiket(User $user)
     {
         $this->authorize('view-technician',$user);
-        $all_tickets = $this->Tickets->getAllTickets()->paginate(20);
+        $all_tickets = $this->Tickets->getAllTickets()->get();
         $data['type_menu'] = 'tiket_nav';
         return view('tiket.semua_tiket',$data, ['all_tickets' => $all_tickets]);
-        
     }
 
     public function indexTiketDitugaskan(User $user)
