@@ -10,9 +10,7 @@
             <li class="menu-header">Dashboard</li>
             <li class="nav-item dropdown {{ $type_menu === 'dashboard' ? 'active' : '' }}">
                 <a href="{{ route('dashboard') }}"
-                    class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-                <ul class="dropdown-menu">  
-                </ul>
+                    class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
             @can('view-technician')
             <li class="menu-header">Tiket</li>
@@ -66,7 +64,7 @@
                 <a class="nav-link"
                     href="{{ url('blank-page') }}"><i class="far fa-square"></i> <span>Blank Page</span></a>
             </li> --}}
-            <li class="menu-header">Kategori</li>
+            {{-- <li class="menu-header">Kategori</li>
             <li class="nav-item dropdown {{ $type_menu === 'kategori_nav' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"
@@ -77,7 +75,7 @@
                             href="{{ route('index.kategori') }}">Kategori</a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <li class="menu-header">FAQ</li>
             <li class="nav-item dropdown {{ $type_menu === 'faq_nav' ? 'active' : '' }}">
                 <a href="#"
@@ -131,12 +129,12 @@
                 </ul>
             </li>
             @endcan
-            <li class="{{ Request::is('credits') ? 'active' : '' }}">
+            {{-- <li class="{{ Request::is('credits') ? 'active' : '' }}">
                 <a class="nav-link"
                     href="{{ url('credits') }}"><i class="fas fa-pencil-ruler">
                     </i> <span>Credits</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
         
     </aside>
