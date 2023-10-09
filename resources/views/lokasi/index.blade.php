@@ -99,7 +99,6 @@
     <script src="{{ asset('stisla/library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <script src="{{ asset('stisla/library/datatables/media/js/jquery.dataTables.min.js') }}"></script>
     {{-- <script src="{{ asset('stisla/library/jquery-ui-dist/jquery-ui.min.js') }}"></script> --}}
-
     <script src="{{ asset('stisla/js/page/modules-datatables.js') }}"></script>
 
     {{-- Datatables --}}
